@@ -1,14 +1,16 @@
-import { useFocusEffect } from 'expo-router';
-import React, { useState, useEffect } from "react";import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import { useFocusEffect } from "expo-router";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
 import { LocalDevices } from "@/types/localDevices";
 import { fetchDevices, deleteDevice } from "../../hooks/dispositivos";
 import { DeletarDispositivo } from "../../components/DeletarDispositivo";
-import { Link, router } from "expo-router";
+import { Link, useRouter } from "expo-router";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] = useState<LocalDevices[]>();
   const [handleDeviceID, setHandleDeviceID] = useState("");
   const [handleDeviceName, setHandleDeviceName] = useState("");
   const [showModalDelete, setShowModalDelete] = useState(false);
+  const router = useRouter()
   useFocusEffect(() => {
     fetchDevices().then((res) => {
       setLocalDevices(res);
@@ -21,10 +23,10 @@ export const DispositivosSalvos = () => {
     return (
       <View style={styles.centeredView}>
         <Text>Não existem dispositivos adicionados.</Text>
-        <Link href={"/EscanearDispositivos"} asChild><Text>Voltar</Text></Link>
-        <Link href={{pathname:'/EscanearDispositivos'}} asChild>
-          <Button title="Escanear Dispositivos"/>
+        <Link href={"/EscanearDispositivos"} asChild>
+          <Text>Voltar</Text>
         </Link>
+          <Button title="Escanear Dispositivos" onPress={()=> router.push('/EscanearDispositivos')}/>
       </View>
     );
   }
@@ -53,7 +55,7 @@ export const DispositivosSalvos = () => {
                     title={`${devices.name} - ${devices.ID}`}
                     onPress={() => {
                       setHandleDeviceID(devices.ID);
-                      setHandleDeviceName(devices.name)
+                      setHandleDeviceName(devices.name);
                       handleShowModal();
                     }}
                   />
@@ -66,7 +68,7 @@ export const DispositivosSalvos = () => {
                   title={`${devices.name} - ${devices.ID}`}
                   onPress={() => {
                     setHandleDeviceID(devices.ID);
-                    setHandleDeviceName(devices.name)
+                    setHandleDeviceName(devices.name);
                     handleShowModal();
                   }}
                 />
@@ -76,9 +78,9 @@ export const DispositivosSalvos = () => {
           <Text>
             ----------------------------------------------------------------------------
           </Text>
-          <Link href={{pathname:'/EscanearDispositivos'}} asChild>
-          <Button title="escanear"/>
-        </Link>
+          <Link href={{ pathname: "/EscanearDispositivos" }} asChild>
+            <Button title="escanear" />
+          </Link>
         </View>
       </ScrollView>
     </>
