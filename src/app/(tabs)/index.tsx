@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { View, Pressable, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { carregarArquivo, deleteFile } from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
