@@ -6,6 +6,7 @@ export const deleteFile = async () => {
     return ''
   } catch (error) {
     console.log(error)
+    return ''
   }
   
 }

@@ -1,23 +1,31 @@
 import React from 'react';
 import {Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-
-const deletarModal = ({handleShowModal, deleteDevice, text}) => {
+type AdiconarDispositivoProps = {
+  handleShowAlert : (device:string,name:string) => any
+  text : string
+  adicionarDispositivo : () => any
+}
+const AdiconarDispositivo = ({handleShowAlert, text, adicionarDispositivo}:AdiconarDispositivoProps) => {
   return (
     <View style={styles.centeredView}>
       <Modal
         animationType="slide"
         transparent={true}
         onRequestClose={() => {
-          handleShowModal();
+          handleShowAlert('','');
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{text}</Text>
-            <Pressable style={styles.button} onPress={() => deleteDevice()}>
-              <Text style={styles.textStyle}>DELETAR DISPOSITIVO</Text>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                adicionarDispositivo();
+              }}>
+              <Text style={styles.textStyle}>ADICIONAR NA LISTA</Text>
             </Pressable>
-            <Pressable style={styles.button} onPress={() => handleShowModal()}>
-              <Text style={styles.textStyle}>FECHAR</Text>
+            <Pressable style={styles.fechar} onPress={() => handleShowAlert('','')}>
+              <Text style={styles.textStyle}>X</Text>
             </Pressable>
           </View>
         </View>
@@ -27,24 +35,33 @@ const deletarModal = ({handleShowModal, deleteDevice, text}) => {
 };
 const styles = StyleSheet.create({
   centeredView: {
+    position: 'absolute',
     width: '100%',
-    flex: 1,
-    justifyContent: 'center',
+    top: '35%',
     alignItems: 'center',
     marginTop: 22,
   },
+  fechar: {
+    width: 'auto',
+    borderRadius: 50,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: '#2196F3',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
   modalView: {
-    width: '70%',
-    margin: 20,
+    width: '80%',
     backgroundColor: 'white',
     borderRadius: 20,
     paddingHorizontal: 35,
-    paddingTop: 35,
+    paddingTop: 55,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 20,
     },
     shadowOpacity: 1,
     shadowRadius: 4,
@@ -52,14 +69,11 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '130%',
-    borderRadius: 25,
+    borderRadius: 50,
     marginTop: 10,
     backgroundColor: '#2196F3',
-    paddingVertical: 15,
+    paddingVertical: 5,
     paddingHorizontal: 10,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
   },
   textStyle: {
     color: 'white',
@@ -72,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default deletarModal;
+export default AdiconarDispositivo;
