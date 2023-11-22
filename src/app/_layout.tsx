@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { requestAccessFineLocationPermission, isBluetoothEnable } from "../hooks/bluetooth";
-import { Slot } from "expo-router";
+import { Slot, Tabs,ExpoRoot } from "expo-router";
+import TabRoutes from "./(tabs)/_layout";
 
 export const RootLayout = () => {
   const [bluetooth,setBluetooth] = useState(false)

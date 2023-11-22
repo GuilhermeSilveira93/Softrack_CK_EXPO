@@ -4,13 +4,12 @@ import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
 import { LocalDevices } from "@/types/localDevices";
 import { fetchDevices, deleteDevice } from "../../hooks/dispositivos";
 import { DeletarDispositivo } from "../../components/DeletarDispositivo";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] = useState<LocalDevices[]>();
   const [handleDeviceID, setHandleDeviceID] = useState("");
   const [handleDeviceName, setHandleDeviceName] = useState("");
   const [showModalDelete, setShowModalDelete] = useState(false);
-  const router = useRouter()
   useFocusEffect(() => {
     fetchDevices().then((res) => {
       setLocalDevices(res);
@@ -26,7 +25,9 @@ export const DispositivosSalvos = () => {
         <Link href={"/EscanearDispositivos"} asChild>
           <Text>Voltar</Text>
         </Link>
-          <Button title="Escanear Dispositivos" onPress={()=> router.push('/EscanearDispositivos')}/>
+        <Link href={{ pathname: "/EscanearDispositivos" }} asChild>
+          <Button title="Escanear Dispositivos" />
+        </Link>
       </View>
     );
   }

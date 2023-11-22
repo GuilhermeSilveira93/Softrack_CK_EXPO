@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-export const TabRoutes = () => {
+export const StackRouter = () => {
   return (
     <Stack
       screenOptions={{
@@ -27,4 +27,4 @@ export const TabRoutes = () => {
     </Stack>
   );
 };
-export default TabRoutes;
+export default StackRouter;
