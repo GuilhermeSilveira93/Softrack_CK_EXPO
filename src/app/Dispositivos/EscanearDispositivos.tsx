@@ -133,15 +133,8 @@ export const EscanearDispositivos = () => {
           {!scanning && (
             <Pressable
               onPress={startScan}
-              style={styles.botao}
               disabled={scanning}>
-              <Text style={styles.textWhite}>
-                {`${
-                  dispositivosEscaneados?.length === 0
-                    ? "Escanear"
-                    : "Escanear Novamente"
-                }`}
-              </Text>
+              <Text>Escanear</Text>
             </Pressable>
           )}
         </View>

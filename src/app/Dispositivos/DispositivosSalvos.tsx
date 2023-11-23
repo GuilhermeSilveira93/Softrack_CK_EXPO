@@ -20,13 +20,10 @@ export const DispositivosSalvos = () => {
   };
   if (!localDevices || localDevices?.length === 0) {
     return (
-      <View style={styles.centeredView}>
+      <View style={styles.ScrollView}>
         <Text>Não existem dispositivos adicionados.</Text>
-        <Link href={"/EscanearDispositivos"} asChild>
-          <Text>Voltar</Text>
-        </Link>
-        <Link href={{ pathname: "/EscanearDispositivos" }} asChild>
-          <Button title="Escanear Dispositivos" />
+        <Link href={"/Dispositivos/EscanearDispositivos"} asChild>
+          <Text>Escanear</Text>
         </Link>
       </View>
     );
@@ -79,7 +76,7 @@ export const DispositivosSalvos = () => {
           <Text>
             ----------------------------------------------------------------------------
           </Text>
-          <Link href={{ pathname: "/EscanearDispositivos" }} asChild>
+          <Link href={{ pathname: "/Dispositivos/EscanearDispositivos" }} asChild>
             <Button title="escanear" />
           </Link>
         </View>

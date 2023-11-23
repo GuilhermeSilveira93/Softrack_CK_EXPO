@@ -37,6 +37,9 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
+    "experiments": {
+      "typedRoutes": true
+    },
     "plugins": [
       [
         "with-rn-bluetooth-classic",
