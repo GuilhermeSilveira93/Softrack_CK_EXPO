@@ -1,4 +1,4 @@
-package com.anonymous.testeBlue;
+package com.anonymous.softrack;
 
 import android.app.Application;
 import android.content.res.Configuration;

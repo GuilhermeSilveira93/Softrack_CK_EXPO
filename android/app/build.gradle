@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.testeBlue'
+    namespace 'com.anonymous.softrack'
     defaultConfig {
-        applicationId 'com.anonymous.testeBlue'
+        applicationId 'com.anonymous.softrack'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

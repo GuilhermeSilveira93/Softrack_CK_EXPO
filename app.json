@@ -31,7 +31,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.BLUETOOTH_ADVERTISE"
       ],
-      "package": "com.anonymous.testeBlue"
+      "package": "com.anonymous.softrack"
     },
     "web": {
       "favicon": "./assets/favicon.png",

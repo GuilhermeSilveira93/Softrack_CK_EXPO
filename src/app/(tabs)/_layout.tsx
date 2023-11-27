@@ -1,6 +1,9 @@
 import { Tabs } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-export const TabRoutes = () => {
+export const unstable_settings = {
+  initialRouteName: 'index',
+};
+export const Layout = () => {
   return (
     <Tabs screenOptions={{ headerShown: false, tabBarShowLabel: false }}>
       <Tabs.Screen
@@ -13,7 +16,7 @@ export const TabRoutes = () => {
         }}
       />
       <Tabs.Screen
-        name="devices"
+        name="dispositivos"
         options={{
           title: "Dispositivos",
           tabBarIcon: ({ size, color }) => (
@@ -22,9 +25,9 @@ export const TabRoutes = () => {
         }}
       />
       <Tabs.Screen
-        name="enviarCK"
+        name="envioAutomatico"
         options={{
-          title: "EnviarCK",
+          title: "Enviar Checklist",
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="ios-send" size={size} color={color} />
           ),
@@ -33,4 +36,4 @@ export const TabRoutes = () => {
     </Tabs>
   );
 };
-export default TabRoutes;
+export default Layout;
