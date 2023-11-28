@@ -22,10 +22,3 @@ export const carregarArquivo = async () => {
     }
   }
 }
-
-// operadores
-// glp nao esta la
-// tela de posição atual jogando pra fora
-// parametros cliente
-// cartão lider
-// api banco de dados
