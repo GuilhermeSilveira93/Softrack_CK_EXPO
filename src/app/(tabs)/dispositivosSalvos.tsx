@@ -13,7 +13,7 @@ export const DispositivosSalvos = () => {
   useFocusEffect(() => {
     fetchDevices().then((res) => {
       setLocalDevices(res);
-    });
+    })
   });
   const handleShowModal = () => {
     setShowModalDelete(!showModalDelete);
