@@ -1,23 +1,12 @@
 import { useState, useEffect } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { carregarArquivo, deleteFile } from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
+import { fetchArquivo } from "../../hooks/arquivoCK";
 export default function LocalFile() {
-  const [filename, setFileName] = useState("");
+  const [filename, setFileName] = useState<string>("");
   useEffect(() => {
-    const localFile = async () => {
-      const file: string = await AsyncStorage.getItem("FileName").then(
-        (res) => {
-          if (res) {
-            return res;
-          }
-          return "";
-        }
-      );
-      setFileName(file);
-    };
-    localFile();
+    fetchArquivo().then((res:string) => setFileName(res))
   }, [filename]);
   return (
     <>
