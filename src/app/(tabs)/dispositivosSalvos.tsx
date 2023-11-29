@@ -1,39 +1,48 @@
-import { Stack, useFocusEffect } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import { Stack, useFocusEffect } from "expo-router";import React, { useState, useCallback } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { Button } from "react-native-paper";
 import { LocalDevices } from "@/types/localDevices";
-import { fetchDevices, deleteDevice } from "../../hooks/dispositivos";
-import { DeletarDispositivo } from "../../components/DeletarDispositivo";
+import { fetchDevices, deleteDevice } from "@/hooks/dispositivos";
+import { DeletarDispositivo } from "@/components/DeletarDispositivo";
 import { Link } from "expo-router";
+import { Container } from "@/components/ui/Container";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] = useState<LocalDevices[]>();
   const [handleDeviceID, setHandleDeviceID] = useState("");
   const [handleDeviceName, setHandleDeviceName] = useState("");
   const [showModalDelete, setShowModalDelete] = useState(false);
-  useFocusEffect(() => {
-    fetchDevices().then((res) => {
-      setLocalDevices(res);
-    })
-  });
+  useFocusEffect(useCallback(() => {
+      fetchDevices().then((res) => {
+        console.log(res)
+        setLocalDevices(res);
+        console.log(localDevices)
+      });
+    }, [fetchDevices])
+  );
   const handleShowModal = () => {
     setShowModalDelete(!showModalDelete);
   };
   if (!localDevices || localDevices?.length === 0) {
     return (
       <>
-      <Stack.Screen options={{ title: 'Escanear Dispo' }} />
-      <View style={styles.ScrollView}>
-        <Text>Não existem dispositivos adicionados.</Text>
-        <Link href={"/Dispositivos/EscanearDispositivos"} asChild>
-          <Text>Escanear</Text>
-        </Link>
-      </View>
+        <Stack.Screen options={{ title: "Dispositivos Salvos" }} />
+        <Container>
+          <Text>Não existem dispositivos adicionados.</Text>
+          <Link href={"/(Escaneamento)"} asChild>
+            <Button
+              icon="magnify-scan"
+              mode="contained"
+              style={{ backgroundColor: "#1c73d2" }}>
+              Escanear Dispositivos
+            </Button>
+          </Link>
+        </Container>
       </>
     );
   }
   return (
     <>
-    <Stack.Screen options={{ title: 'Dispositivos Locais' }} />
+      <Stack.Screen options={{ title: "Dispositivos Locais" }} />
       {showModalDelete && (
         <DeletarDispositivo
           deleteDevice={deleteDevice}
@@ -52,36 +61,42 @@ export const DispositivosSalvos = () => {
           {localDevices?.map((devices) => {
             if (devices.envio) {
               return (
-                <ScrollView key={devices.ID} style={styles.maquinas}>
-                  <Button
-                    title={`${devices.name} - ${devices.ID}`}
+                <Container key={devices.ID}>
+                  <Text>{`${devices.name} - ${devices.ID}`}</Text>
+                  {/*                   <Button
+                    title=
                     onPress={() => {
                       setHandleDeviceID(devices.ID);
                       setHandleDeviceName(devices.name);
                       handleShowModal();
                     }}
-                  />
-                </ScrollView>
+                  /> */}
+                </Container>
               );
             }
             return (
               <View key={devices.ID} style={styles.maquinas}>
-                <Button
+                {/*                 <Button
                   title={`${devices.name} - ${devices.ID}`}
                   onPress={() => {
                     setHandleDeviceID(devices.ID);
                     setHandleDeviceName(devices.name);
                     handleShowModal();
                   }}
-                />
+                /> */}
               </View>
             );
           })}
           <Text>
             ----------------------------------------------------------------------------
           </Text>
-          <Link href={{ pathname: "/Dispositivos/EscanearDispositivos" }} asChild>
-            <Button title="escanear" />
+          <Link href={"/(Escaneamento)"} asChild>
+            <Button
+              icon="magnify-scan"
+              mode="contained"
+              style={{ backgroundColor: "#1c73d2" }}>
+              Escanear Dispositivos
+            </Button>
           </Link>
         </View>
       </ScrollView>
