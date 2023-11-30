@@ -40,7 +40,18 @@ export default function TabLayout() {
         name="dispositivosSalvos"
         options={{
           title: "Dispositivos Locais",
-          tabBarIcon: ({ color,size }) => <MaterialCommunityIcons name="forklift" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="forklift" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="envioChecklist"
+        options={{
+          title: "Enviar Checklist",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="abacus" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

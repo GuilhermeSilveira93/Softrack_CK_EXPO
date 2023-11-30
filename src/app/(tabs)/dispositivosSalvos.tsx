@@ -1,33 +1,30 @@
 import { Stack, useFocusEffect } from "expo-router";
 import React, { useState, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { LocalDevices } from "@/types/localDevices";
-import { fetchDevices, deleteDevice } from "@/hooks/dispositivos";
-import { DeletarDispositivo } from "@/components/DeletarDispositivo";
+import { fetchDevices } from "@/hooks/dispositivos";
 import { Link } from "expo-router";
-import {Avatar, Card, IconButton, Button} from 'react-native-paper';
+import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
+import DispositivosEscaneados from "@/components/DispositivosEscaneados";
+import { EscanearDispositivosProps } from "../(Escaneamento)";
 export const DispositivosSalvos = () => {
-  const [localDevices, setLocalDevices] = useState<LocalDevices[]>();
-  const [handleDeviceID, setHandleDeviceID] = useState("");
-  const [handleDeviceName, setHandleDeviceName] = useState("");
-  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [localDevices, setLocalDevices] =
+    useState<EscanearDispositivosProps["localDevices"]>();
   useFocusEffect(
     useCallback(() => {
       fetchDevices().then((res) => {
-        console.log(res);
         setLocalDevices(res);
-        console.log(localDevices);
       });
     }, [])
   );
-  const handleShowModal = () => {
-    setShowModalDelete(!showModalDelete);
+  const attLocalDevices = async (
+    novosDispositivos: EscanearDispositivosProps["localDevices"]
+  ) => {
+    setLocalDevices(novosDispositivos);
   };
   if (!localDevices || localDevices?.length === 0) {
     return (
       <>
-        <Stack.Screen options={{ title: "Dispositivos Salvos" }} />
         <Container>
           <Text>Não existem dispositivos adicionados.</Text>
           <Link href={"/(Escaneamento)"} asChild>
@@ -45,51 +42,34 @@ export const DispositivosSalvos = () => {
   return (
     <>
       <Stack.Screen options={{ title: "Dispositivos Locais" }} />
-      {showModalDelete && (
-        <DeletarDispositivo
-          deleteDevice={deleteDevice}
-          handleShowModal={handleShowModal}
-          ID={handleDeviceID}
-          name={handleDeviceName}
-        />
-      )}
       <ScrollView
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>
-        <View style={styles.centeredView}>
+        <View>
           {localDevices?.length > 0 && (
             <Text style={styles.textBlack}>Dispositivos salvos</Text>
           )}
           {localDevices?.map((devices) => {
             return (
-              <View key={devices.ID} style={styles.maquinas}>
-                <Card.Title
-                  title={devices.name}
-                  subtitle={devices.ID}
-                  left={(props) => (
-                    <Avatar.Icon
-                      {...props}
-                      icon="bluetooth"
-                      style={{ backgroundColor: "#1c73d2" }}
-                    />
-                  )}
-                  right={(props) => (
-                    <IconButton
-                      {...props}
-                      icon="dots-vertical"
-                      onPress={() => {
-                        setHandleDeviceID(devices.ID);
-                        handleShowModal();
-                      }}
-                    />
-                  )}
+              <Container key={devices.ID}>
+                <DispositivosEscaneados
+                  name={devices.name}
+                  device={devices.ID}
+                  dispositivosSalvos={localDevices}
+                  key={devices.ID}
+                  attLocalDevices={attLocalDevices}
                 />
-              </View>
+              </Container>
             );
           })}
-          <Text>
-            ----------------------------------------------------------------------------
-          </Text>
+          <Divider
+            style={{
+              width: "100%",
+              height: 5,
+              backgroundColor: "rgb(200,200,200)",
+              marginVertical: 10,
+            }}
+          />
           <Link href={"/(Escaneamento)"} asChild>
             <Button
               icon="magnify-scan"

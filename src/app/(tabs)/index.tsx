@@ -12,7 +12,6 @@ export default function LocalFile() {
   return (
     <>
       <Banner
-        style={{marginTop:30}}
         visible={filename?.length > 0}
         actions={[
           {

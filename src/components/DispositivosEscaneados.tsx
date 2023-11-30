@@ -1,34 +1,62 @@
-import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import React from "react";
+import { Pressable } from "react-native";
+import { List, Icon } from "react-native-paper";
+import { Container } from "./ui/Container";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 type DispositivosProps = {
-  device : string
-  name : string
-  handleShowAlert : (device:string,name:string) => any
-}
-const DispositivosEscaneados = ({device, name, handleShowAlert}:DispositivosProps) => {
+  device: string;
+  name: string;
+  dispositivosSalvos: {
+    ID: string;
+    name: string;
+  }[];
+  attLocalDevices: (novosDispositivos: DispositivosProps['dispositivosSalvos']) => {}
+};
+const DispositivosEscaneados = ({
+  device,
+  name,
+  dispositivosSalvos,
+  attLocalDevices,
+}: DispositivosProps) => {
+  const existe = dispositivosSalvos.filter(item => item.ID === device)
+  const favorito = async () => {
+    if (existe.length > 0) {
+      const resto = dispositivosSalvos?.filter((item) => item.ID !== device);
+      await AsyncStorage.removeItem("listaDispositivos");
+      await AsyncStorage.setItem("listaDispositivos", JSON.stringify(resto));
+      attLocalDevices(resto);
+    } else {
+      let dispositivosNovos = [{ ID: device, name }];
+      if (dispositivosSalvos) {
+        dispositivosNovos = [...dispositivosSalvos, ...dispositivosNovos];
+      }
+      await AsyncStorage.setItem(
+        "listaDispositivos",
+        JSON.stringify(dispositivosNovos)
+      );
+      attLocalDevices(dispositivosNovos);
+    }
+  };
   return (
-    <View key={device} style={{display: 'flex'}}>
-      <View style={styles.maquinas}>
-        <Button
-          title={`${name} - ${device}`}
-          onPress={() => {
-            handleShowAlert(device, name);
-          }}/>
-
-      </View>
-    </View>
+    <Container key={device}>
+      <List.Item
+        style={{ backgroundColor: "rgba(0,170,255,0.5)" }}
+        titleStyle={{ color: "#fff" }}
+        title={`${name}`}
+        descriptionStyle={{ color: "#fff" }}
+        description={`${device}`}
+        left={(props) => <List.Icon color="#fff" icon="bluetooth" />}
+        right={({ color, style }) => (
+          <Pressable onPress={() => favorito()}>
+            <Icon 
+              size={32}
+              color="rgb(255,255,0)"
+              source={existe.length > 0 ? "star" : "star-outline"}
+            />
+          </Pressable>
+        )}
+      />
+    </Container>
   );
 };
-const styles = StyleSheet.create({
-  maquinas: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  textWhite: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
-
 export default DispositivosEscaneados;
