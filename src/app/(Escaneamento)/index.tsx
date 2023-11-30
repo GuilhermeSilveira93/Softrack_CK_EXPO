@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { useFocusEffect } from "expo-router";
+import React, { useState, useCallback, useEffect } from "react";import { useFocusEffect } from "expo-router";
 import { Container } from "@/components/ui/Container";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import {
@@ -49,27 +48,24 @@ export const EscanearDispositivos = () => {
   const [handleDeviceNAME, setHandleDeviceNAME] =
     useState<EscanearDispositivosProps["handleDeviceNAME"]>("");
 
-  useFocusEffect(
-    useCallback(() => {
-      requestAccessFineLocationPermission()
-      fetchDevices().then((res) => setLocalDevices(res));
-      console.log("useFocusEffect");
-      startScan();
-    }, [fetchDevices])
-  );
-
+  useEffect(() => {
+    console.log("estou aqui useEffect");
+    startScan();
+  }, []);
   const startScan = async () => {
     try {
       setScanning(true);
       console.log("Iniciando escaneamento...");
-      await RNBluetoothClassic.startDiscovery().then(res => {
-        console.log("res : " + res);
-        setDispositivos(res);
-      }).catch(err => {
-        console.log('Erro Scan')
-        console.log(err)})
+      await RNBluetoothClassic.startDiscovery()
+        .then((res) => {
+          console.log("res : " + res);
+          setDispositivos(res);
+        })
+        .catch((err) => {
+          console.log("Erro Scan");
+          console.log(err);
+        });
       console.log("Escaneado");
-      
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,16 +73,16 @@ export const EscanearDispositivos = () => {
     }
   };
   const incluirDispositivo = async () => {
-    console.log(localDevices)
+    console.log(localDevices);
     if (localDevices.length > 0) {
-      setLocalDevices([
-        ...localDevices,
+      setLocalDevices((prevDevices) => [
+        ...prevDevices,
         { ID: handleDeviceID, name: handleDeviceNAME },
       ]);
     } else {
       setLocalDevices([{ ID: handleDeviceID, name: handleDeviceNAME }]);
     }
-    return
+    return;
   };
   const handleShowAlert = async (device: string = "", name: string = "") => {
     setShowModal(!showModal);
@@ -94,34 +90,36 @@ export const EscanearDispositivos = () => {
     setHandleDeviceNAME(name);
   };
   const adicionarDispositivo = async () => {
-    console.log(localDevices)
-    if (localDevices?.length > 0) {
-      const existe = localDevices.filter(
-        (devices) => devices.ID === handleDeviceID
-      );
-      if (existe.length > 0) {
-        alert("Dispositivo já adicionado");
+    try {
+      console.log(localDevices);
+      if (localDevices?.length > 0) {
+        const existe = localDevices.filter(
+          (devices) => devices.ID === handleDeviceID
+        );
+        if (existe.length > 0) {
+          alert("Dispositivo já adicionado");
+        } else {
+          await incluirDispositivo();
+          console.log("depois de incluir");
+          console.log(localDevices);
+          await AsyncStorage.setItem(
+            "listaDispositivos",
+            JSON.stringify(localDevices)
+          );
+          alert("adicionado");
+          handleShowAlert();
+        }
       } else {
         await incluirDispositivo();
-        console.log('depois de incluir')
-        console.log(localDevices)
+        await AsyncStorage.removeItem("listaDispositivos");
         await AsyncStorage.setItem(
           "listaDispositivos",
           JSON.stringify(localDevices)
         );
-        alert("adicionado");
-        handleShowAlert();
+        alert("primeiro adicionado");
+        await handleShowAlert();
       }
-    } else {
-      await incluirDispositivo();
-      await AsyncStorage.removeItem("listaDispositivos");
-      await AsyncStorage.setItem(
-        "listaDispositivos",
-        JSON.stringify(localDevices)
-      );
-      alert("primeiro adicionado");
-      await handleShowAlert();
-    }
+    } catch (error) {}
   };
   return (
     <Container>
@@ -134,15 +132,15 @@ export const EscanearDispositivos = () => {
           />
         )}
         {dispositivos?.map((device) => {
-          if (device.name.includes("SFTK_BT")) {
-            return (
-              <DispositivosEscaneados
-                handleShowAlert={handleShowAlert}
-                key={device.id}
-                name={device.name}
-                device={device.id}
-              />
-            );
+           if (device.name.includes("SFTK_BT")) {
+          return (
+            <DispositivosEscaneados
+              handleShowAlert={handleShowAlert}
+              key={device.id}
+              name={device.name}
+              device={device.id}
+            />
+          );
           }
         })}
         <View
@@ -160,7 +158,7 @@ export const EscanearDispositivos = () => {
               flexDirection: "row",
               alignItems: "center",
             }}>
-            {dispositivos?.length > 0 && (
+            {(dispositivos?.length > 0 && !scanning) && (
               <Pressable
                 disabled={scanning}
                 onPress={() => {
@@ -172,7 +170,7 @@ export const EscanearDispositivos = () => {
             )}
             {!scanning && (
               <Pressable
-                /* onPress={()=> startScan()} */
+                onPress={() => startScan()}
                 style={styles.botao}
                 disabled={scanning}>
                 <Text style={styles.textWhite}>

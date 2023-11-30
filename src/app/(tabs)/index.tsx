@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { carregarArquivo, deleteFile } from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
 import { fetchArquivo } from "../../hooks/arquivoCK";
+import { useFocusEffect } from "expo-router";
 export default function LocalFile() {
   const [filename, setFileName] = useState<string>("");
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchArquivo().then((res:string) => setFileName(res))
-  }, [filename]);
+  }, [filename]))
   return (
     <>
       <Banner

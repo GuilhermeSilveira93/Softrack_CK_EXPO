@@ -1,23 +1,25 @@
-import { Stack, useFocusEffect } from "expo-router";import React, { useState, useCallback } from "react";
+import { Stack, useFocusEffect } from "expo-router";
+import React, { useState, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Button } from "react-native-paper";
 import { LocalDevices } from "@/types/localDevices";
 import { fetchDevices, deleteDevice } from "@/hooks/dispositivos";
 import { DeletarDispositivo } from "@/components/DeletarDispositivo";
 import { Link } from "expo-router";
+import {Avatar, Card, IconButton, Button} from 'react-native-paper';
 import { Container } from "@/components/ui/Container";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] = useState<LocalDevices[]>();
   const [handleDeviceID, setHandleDeviceID] = useState("");
   const [handleDeviceName, setHandleDeviceName] = useState("");
   const [showModalDelete, setShowModalDelete] = useState(false);
-  useFocusEffect(useCallback(() => {
+  useFocusEffect(
+    useCallback(() => {
       fetchDevices().then((res) => {
-        console.log(res)
+        console.log(res);
         setLocalDevices(res);
-        console.log(localDevices)
+        console.log(localDevices);
       });
-    }, [fetchDevices])
+    }, [])
   );
   const handleShowModal = () => {
     setShowModalDelete(!showModalDelete);
@@ -59,31 +61,29 @@ export const DispositivosSalvos = () => {
             <Text style={styles.textBlack}>Dispositivos salvos</Text>
           )}
           {localDevices?.map((devices) => {
-            if (devices.envio) {
-              return (
-                <Container key={devices.ID}>
-                  <Text>{`${devices.name} - ${devices.ID}`}</Text>
-                  {/*                   <Button
-                    title=
-                    onPress={() => {
-                      setHandleDeviceID(devices.ID);
-                      setHandleDeviceName(devices.name);
-                      handleShowModal();
-                    }}
-                  /> */}
-                </Container>
-              );
-            }
             return (
               <View key={devices.ID} style={styles.maquinas}>
-                {/*                 <Button
-                  title={`${devices.name} - ${devices.ID}`}
-                  onPress={() => {
-                    setHandleDeviceID(devices.ID);
-                    setHandleDeviceName(devices.name);
-                    handleShowModal();
-                  }}
-                /> */}
+                <Card.Title
+                  title={devices.name}
+                  subtitle={devices.ID}
+                  left={(props) => (
+                    <Avatar.Icon
+                      {...props}
+                      icon="bluetooth"
+                      style={{ backgroundColor: "#1c73d2" }}
+                    />
+                  )}
+                  right={(props) => (
+                    <IconButton
+                      {...props}
+                      icon="dots-vertical"
+                      onPress={() => {
+                        setHandleDeviceID(devices.ID);
+                        handleShowModal();
+                      }}
+                    />
+                  )}
+                />
               </View>
             );
           })}
