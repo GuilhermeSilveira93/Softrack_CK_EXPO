@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { carregarArquivo, deleteFile } from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";

@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
-import DispositivosEscaneados from "@/components/DispositivosEscaneados";
+import Dispositivos from "@/components/Dispositivos";
 import { ScrollView } from "react-native-gesture-handler";
 export type EscanearDispositivosProps = {
   dispositivos: {
@@ -83,11 +83,11 @@ export const EscanearDispositivos = () => {
       <>
         {dispositivos?.map((device) => {
           return (
-            <DispositivosEscaneados
+            <Dispositivos
               key={device.id}
               dispositivosSalvos={localDevices}
               name={device.name}
-              device={device.id}
+              ID={device.id}
               attLocalDevices={attLocalDevices}
             />
           );

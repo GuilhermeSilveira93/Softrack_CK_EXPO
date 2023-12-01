@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";import { StyleSheet, Text, Pressable } from "react-native";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ProgressBar } from "react-native-paper";
+import { ProgressBar, List } from "react-native-paper";
 import {
   solicitarConexao,
   enviar,
@@ -16,70 +16,31 @@ type DispositivoEnvProps = {
     ID: string;
   };
   strings: string[];
+  atualizaQtdEnvio: (valor: boolean) => void;
 };
-export const DispositivoEnv = ({ devices, strings }: DispositivoEnvProps) => {
+export const DispositivoEnv = ({
+  devices,
+  strings,
+  atualizaQtdEnvio,
+}: DispositivoEnvProps) => {
   const [progressBar, setProgressBar] = useState<number>(0);
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false);
   const [mensagem, setMensagem] = useState<string>("");
-  const [tentativasEmp, setTentativasEmp] = useState<number>(0);
-  const [tentativasConex, setTentativasConex] = useState<number>(0);
+  const [tentativasConexoes, setTentativasConexoes] = useState<number>(0);
 
   useEffect(() => {
     console.log("To aqui");
-    inicioProcesso(devices.ID);
-  }, []);
-
-  const TentativasEmp = async (tentativa: number) => {
-    setTentativasEmp(tentativa);
-  };
-  const TentativasConex = async (tentativa: number) => {
-    setTentativasConex(tentativa);
-  };
-  const inicioProcesso = async (address: string) => {
-    setProgressBar(0);
-    setEnviarNovamente(false);
-    await TentativasEmp(0);
-    setMensagem("Conectando...");
-    let confirm = false;
-    while (!confirm && tentativasEmp < 3) {
-      console.log("####################################### " + devices.name);
-      try {
-        const paired = await RNBluetoothClassic.getBondedDevices();
-        var pareado = false;
-        paired.forEach(async (BondedDevices) => {
-          if (BondedDevices.address === address) {
-            await conectarDispositivo(address)
-              .then((res) => {
-                confirm = true;
-                pareado = true;
-              })
-              .catch((err) =>
-                console.log(devices.name + " erro de conexão 1.")
-              );
-            return;
-          }
-        });
-        if (!pareado) {
-          await RNBluetoothClassic.pairDevice(address)
-            .then((res) => console.log(devices.name + " pareado."))
-            .catch((error) => {
-              console.log(
-                devices.name + " Erro durante o emparelhamento:",
-                error
-              );
-            });
-        }
-        await TentativasEmp(tentativasEmp + 1);
-        console.log(tentativasEmp);
-      } catch (err) {
-        console.log(err);
-      }
+    if (tentativasConexoes > 3) {
+      setMensagem("Tentativas automaticas excedidas");
+      setEnviarNovamente(true);
+    } else {
+      atualizaQtdEnvio(true);
+      conectarDispositivo(devices.ID);
     }
-    await TentativasEmp(0);
-  };
+  }, [tentativasConexoes]);
   const conectarDispositivo = async (address: string) => {
-    console.log(devices.name + " começando a conectar " + tentativasConex);
-
+    setMensagem("Iniciando...");
+    setProgressBar(0);
     setEnviarNovamente(false);
     const conectado = await RNBluetoothClassic.isDeviceConnected(address).then(
       (res) => {
@@ -94,8 +55,9 @@ export const DispositivoEnv = ({ devices, strings }: DispositivoEnvProps) => {
         })
         .catch(async (err) => {
           console.log(devices.name + " erro conectarDipositivo " + err);
-          //await TentativasConex(tentativasConex + 1);
-          throw new Error(devices.name + " erro conectarDipositivo " + err);
+          atualizaQtdEnvio(false);
+          setMensagem("Erro ao conectar o dispositivo");
+          setTentativasConexoes(tentativasConexoes + 1);
         });
     } else {
       await enviosLeituras(address);
@@ -112,12 +74,14 @@ export const DispositivoEnv = ({ devices, strings }: DispositivoEnvProps) => {
       } else {
         console.log(devices.name + " Erro ao limpar o modulo");
         setMensagem("Erro ao limpar o modulo");
-        setEnviarNovamente(true);
+        atualizaQtdEnvio(false);
+        setTentativasConexoes(tentativasConexoes + 1);
       }
     } else {
       console.log(devices.name + " Erro de autenticação com o Módulo");
       setMensagem("Erro de autenticação com o Módulo");
-      setEnviarNovamente(true);
+      atualizaQtdEnvio(false);
+      setTentativasConexoes(tentativasConexoes + 1);
     }
   };
   const envioArquivo = async (address: string) => {
@@ -167,7 +131,8 @@ export const DispositivoEnv = ({ devices, strings }: DispositivoEnvProps) => {
             devices.name + " Não foi possivel enviar a linha: " + (i + 1)
           );
           setMensagem(`Não foi possivel enviar a linha: ${i + 1}`);
-          setEnviarNovamente(true);
+          atualizaQtdEnvio(false);
+          setTentativasConexoes(tentativasConexoes + 1);
           break;
         }
       }
@@ -177,32 +142,52 @@ export const DispositivoEnv = ({ devices, strings }: DispositivoEnvProps) => {
     console.log(devices.name + " Linhas enviadas.");
     await enviar(address, "43480102030405060708");
     await RNBluetoothClassic.disconnectFromDevice(address);
+    atualizaQtdEnvio(false);
     setEnviarNovamente(false);
   };
   return (
     <>
-      <Container>
-        <Text>{devices.name}</Text>
-        {mensagem?.length > 0 && <Text style={styles.texto}>{mensagem}</Text>}
-        {progressBar > 0 && (
-          <>
-            <Text style={styles.texto}>
-              {Math.floor((progressBar * 100) / strings.length)}%
-            </Text>
-            <ProgressBar
-              progress={(progressBar * 100) / strings.length / 100}
-              color="#5E84E2"
-              style={styles.progress}
-            />
-          </>
-        )}
-        {enviarNovamente && (
-          <Pressable
-            style={styles.botao}
-            onPress={() => inicioProcesso(devices.ID)}>
-            <FontAwesome name="send-o" color="#5E84E2" size={30} />
-          </Pressable>
-        )}
+      <Container key={devices.ID}>
+        <List.Item
+          style={{
+            backgroundColor: "rgba(0,170,255,0.2)",
+            borderRadius: 10,
+            minHeight: 80
+          }}
+          //     descriptionStyle={{ color: "#fff" }}
+          titleStyle={{ fontWeight: "700" }}
+          title={`${devices.name}`}
+          description={() => (
+            <>
+              {mensagem?.length > 0 && (
+                <Text style={styles.texto}>{mensagem}</Text>
+              )}
+              {progressBar > 0 && progressBar < strings.length && (
+                <ProgressBar
+                  progress={(progressBar * 100) / strings.length / 100}
+                  color="#5E84E2"
+                  style={styles.progress}
+                />
+              )}
+            </>
+          )}
+          left={() => <List.Icon icon="bluetooth" />}
+          right={() => (
+            <>
+              {enviarNovamente && (
+                <Pressable
+                  onPress={() => {
+                    setTentativasConexoes(0);
+                  }}>
+                  <FontAwesome name="send-o" color="#5E84E2" size={30} />
+                </Pressable>
+              )}
+              {progressBar === strings.length && (
+                  <FontAwesome name="check-circle" color="#66aa66" size={30} />
+              )}
+            </>
+          )}
+        />
       </Container>
     </>
   );
@@ -216,7 +201,7 @@ const styles = StyleSheet.create({
   },
   progress: {
     height: 10,
-    width: 250,
+    width: "100%",
   },
   botao: {
     position: "absolute",

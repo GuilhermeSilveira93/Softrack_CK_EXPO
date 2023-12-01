@@ -10,6 +10,7 @@ export const Container = ({children}:ContainerProps) =>{
 }
 const styles = StyleSheet.create({
   container: {
+    padding:2,
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',

@@ -1,3 +1,2 @@
 export * from './localDevices'
-export * from './deleteDevices'
-export * from './adicionarDispositivos'
+export * from './dispositivosPareados'

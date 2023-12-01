@@ -1,19 +1,21 @@
 import { Stack, useFocusEffect } from "expo-router";
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView,ActivityIndicator } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
 import { Link } from "expo-router";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
-import DispositivosEscaneados from "@/components/DispositivosEscaneados";
+import Dispositivos from "@/components/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();
+  const [loadingDevices, setLoadingDevices] = useState(true)
   useFocusEffect(
     useCallback(() => {
       fetchDevices().then((res) => {
         setLocalDevices(res);
+        setLoadingDevices(false)
       });
     }, [])
   );
@@ -22,6 +24,13 @@ export const DispositivosSalvos = () => {
   ) => {
     setLocalDevices(novosDispositivos);
   };
+  if (loadingDevices) {
+    return(
+      <Container>
+        <ActivityIndicator size="large" color="#1c73d2" />
+      </Container>
+    )
+  }
   if (!localDevices || localDevices?.length === 0) {
     return (
       <>
@@ -46,15 +55,15 @@ export const DispositivosSalvos = () => {
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>
         <View>
-          {localDevices?.length > 0 && (
+          {localDevices.length > 0 && (
             <Text style={styles.textBlack}>Dispositivos salvos</Text>
           )}
           {localDevices?.map((devices) => {
             return (
               <Container key={devices.ID}>
-                <DispositivosEscaneados
+                <Dispositivos
                   name={devices.name}
-                  device={devices.ID}
+                  ID={devices.ID}
                   dispositivosSalvos={localDevices}
                   key={devices.ID}
                   attLocalDevices={attLocalDevices}

@@ -4,6 +4,7 @@ export const enviar = async (
   msg: string,
   tipo: string = 'hex',
 ) => {
+  
   return await RNBluetoothClassic.writeToDevice(address, msg, tipo)
     .then(res => {
       return res;
