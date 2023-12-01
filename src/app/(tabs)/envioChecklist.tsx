@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Link, Stack, useFocusEffect } from "expo-router";
+import { Stack, useFocusEffect, router } from "expo-router";
 import { Pressable, Text } from "react-native";
 import { DispositivoEnv } from "@/components/tabs/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
@@ -26,8 +26,7 @@ export const EnvioAutomatico = () => {
         <Stack.Screen
           options={{
             headerRight: () => (
-              <Link href="/envioChecklist" asChild>
-                <Pressable>
+                <Pressable onPress={()=> router.push('/envioChecklist')}>
                   {({ pressed }) => (
                     <FontAwesome
                       name="info-circle"
@@ -36,7 +35,6 @@ export const EnvioAutomatico = () => {
                     />
                   )}
                 </Pressable>
-              </Link>
             ),
           }}
         />
@@ -53,13 +51,30 @@ export const EnvioAutomatico = () => {
     );
   } else {
     return (
-      <Container>
-        <Text>
-          Para enviar o checklist, é necessario ter uma lista de dispositivos e
-          um arquivo previamente carregado.
-        </Text>
-        <Text>Navegue para as abas anteriores e faça o processo.</Text>
-      </Container>
+      <>
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <Pressable onPress={()=> router.push('/envioChecklist')}>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="update"
+                    size={25}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            ),
+          }}
+        />
+        <Container>
+          <Text>
+            Para enviar o checklist, é necessario ter uma lista de dispositivos
+            e um arquivo previamente carregado.
+          </Text>
+          <Text>Navegue para as abas anteriores e faça o processo.</Text>
+        </Container>
+      </>
     );
   }
 };
