@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from "react";import { useFocusEffect } from "expo-router";
-import { Text } from "react-native";
-import { DispositivoEnv } from "./components/DispositivoEnv";
+import React, { useState, useCallback } from "react";
+import { Link, Stack, useFocusEffect } from "expo-router";
+import { Pressable, Text } from "react-native";
+import { DispositivoEnv } from "@/components/tabs/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
 import { fetchDevices } from "@/hooks/dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { Container } from "@/components/ui/Container";
+import { FontAwesome } from "@expo/vector-icons";
 export const EnvioAutomatico = () => {
   const [strings, setStrings] = useState<string[]>([]);
   const [localDevices, setLocalDevices] = useState<
@@ -21,6 +23,23 @@ export const EnvioAutomatico = () => {
   if (localDevices?.length > 0 && strings?.length > 0) {
     return (
       <>
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <Link href="/envioChecklist" asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <FontAwesome
+                      name="info-circle"
+                      size={25}
+                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              </Link>
+            ),
+          }}
+        />
         {localDevices?.map((dispositivo) => {
           return (
             <DispositivoEnv
