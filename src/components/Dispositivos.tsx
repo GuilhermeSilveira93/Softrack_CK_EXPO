@@ -28,7 +28,7 @@ const Dispositivos = ({
   const existe = dispositivosSalvos.filter((item) => item.ID === ID);
   useEffect(() => {
     dispositivosPareados(ID).then((res) => setPareado(res));
-  }, []);
+  });
 
   const validaPareado = async () => {
     setAdicionando(true)

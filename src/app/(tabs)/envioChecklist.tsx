@@ -55,7 +55,7 @@ export const EnvioAutomatico = () => {
         <Stack.Screen
           options={{
             title: `Enviar Checklist ${qtdEnvio}`,
-            headerRight: () => (
+            /* headerRight: () => (
               <Pressable>
                 {({ pressed }) => (
                   <MaterialIcons
@@ -65,7 +65,7 @@ export const EnvioAutomatico = () => {
                   />
                 )}
               </Pressable>
-            ),
+            ), */
           }}
         />
         <ScrollView
@@ -92,7 +92,7 @@ export const EnvioAutomatico = () => {
       <>
         <Stack.Screen
           options={{
-            headerRight: () => (
+            /* headerRight: () => (
               <Pressable>
                 {({ pressed }) => (
                   <MaterialIcons
@@ -102,7 +102,7 @@ export const EnvioAutomatico = () => {
                   />
                 )}
               </Pressable>
-            ),
+            ), */
           }}
         />
         <Container>

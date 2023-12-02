@@ -11,6 +11,7 @@ export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();
   const [loadingDevices, setLoadingDevices] = useState(true)
+  
   useFocusEffect(
     useCallback(() => {
       fetchDevices().then((res) => {
