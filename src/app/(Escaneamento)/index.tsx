@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";import { useFocusEffect } from "expo-router";
+import React, { useState, useEffect } from "react";
+import { useFocusEffect } from "expo-router";
 import { Container } from "@/components/ui/Container";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import {
@@ -9,7 +10,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
-import Dispositivos from "@/components/Dispositivos";
+import Dispositivos from "@/components/dispositivosSalvos/Dispositivos";
 import { ScrollView } from "react-native-gesture-handler";
 export type EscanearDispositivosProps = {
   dispositivos: {
@@ -39,7 +40,6 @@ export const EscanearDispositivos = () => {
   >([]);
   const [scanning, setScanning] =
     useState<EscanearDispositivosProps["scanning"]>(false);
-
 
   useEffect(() => {
     fetchDevices().then((res) => setLocalDevices(res));
@@ -76,57 +76,59 @@ export const EscanearDispositivos = () => {
       <Container>
         <ActivityIndicator size="large" color="#1c73d2" />
       </Container>
-    )
+    );
   }
   return (
-    <ScrollView>
-      <>
-        {dispositivos?.map((device) => {
-          return (
-            <Dispositivos
-              key={device.id}
-              dispositivosSalvos={localDevices}
-              name={device.name}
-              ID={device.id}
-              attLocalDevices={attLocalDevices}
-            />
-          );
-        })}
-        <Container>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}>
-            {dispositivos?.length > 0 && !scanning && (
-              <Pressable
-                disabled={scanning}
-                onPress={() => {
-                  setDispositivos([]);
-                }}
-                style={styles.botao}>
-                <Text style={styles.textWhite}>Limpar Lista</Text>
-              </Pressable>
-            )}
-            {!scanning && (
-              <Pressable
-                onPress={() => startScan()}
-                style={styles.botao}
-                disabled={scanning}>
-                <Text style={styles.textWhite}>
-                  {`${
-                    dispositivos.length === 0
-                      ? "Escanear"
-                      : "Escanear Novamente"
-                  }`}
-                </Text>
-              </Pressable>
-            )}
-          </View>
-        </Container>
-      </>
-    </ScrollView>
+    <>
+      <ScrollView>
+        <>
+          {dispositivos?.map((device) => {
+            return (
+              <Dispositivos
+                key={device.id}
+                dispositivosSalvos={localDevices}
+                name={device.name}
+                ID={device.id}
+                attLocalDevices={attLocalDevices}
+              />
+            );
+          })}
+          <Container>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
+              {dispositivos?.length > 0 && !scanning && (
+                <Pressable
+                  disabled={scanning}
+                  onPress={() => {
+                    setDispositivos([]);
+                  }}
+                  style={styles.botao}>
+                  <Text style={styles.textWhite}>Limpar Lista</Text>
+                </Pressable>
+              )}
+              {!scanning && (
+                <Pressable
+                  onPress={() => startScan()}
+                  style={styles.botao}
+                  disabled={scanning}>
+                  <Text style={styles.textWhite}>
+                    {`${
+                      dispositivos.length === 0
+                        ? "Escanear"
+                        : "Escanear Novamente"
+                    }`}
+                  </Text>
+                </Pressable>
+              )}
+            </View>
+          </Container>
+        </>
+      </ScrollView>
+    </>
   );
 };
 

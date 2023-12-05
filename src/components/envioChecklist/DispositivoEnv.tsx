@@ -16,12 +16,12 @@ type DispositivoEnvProps = {
     ID: string;
   };
   strings: string[];
-  atualizaQtdEnvio: (valor: boolean) => void;
+  atualizaFilaDeEnvio: (valor: boolean) => void;
 };
 export const DispositivoEnv = ({
   devices,
   strings,
-  atualizaQtdEnvio,
+  atualizaFilaDeEnvio,
 }: DispositivoEnvProps) => {
   const [progressBar, setProgressBar] = useState<number>(0);
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export const DispositivoEnv = ({
       setMensagem("Tentativas automaticas excedidas");
       setEnviarNovamente(true);
     } else {
-      atualizaQtdEnvio(true);
+      atualizaFilaDeEnvio(true);
       conectarDispositivo(devices.ID);
     }
   }, [tentativasConexoes]);
@@ -55,7 +55,7 @@ export const DispositivoEnv = ({
         })
         .catch(async (err) => {
           console.log(devices.name + " erro conectarDipositivo " + err);
-          atualizaQtdEnvio(false);
+          atualizaFilaDeEnvio(false);
           setMensagem("Erro ao conectar o dispositivo");
           setTentativasConexoes(tentativasConexoes + 1);
         });
@@ -74,13 +74,13 @@ export const DispositivoEnv = ({
       } else {
         console.log(devices.name + " Erro ao limpar o modulo");
         setMensagem("Erro ao limpar o modulo");
-        atualizaQtdEnvio(false);
+        atualizaFilaDeEnvio(false);
         setTentativasConexoes(tentativasConexoes + 1);
       }
     } else {
       console.log(devices.name + " Erro de autenticação com o Módulo");
       setMensagem("Erro de autenticação com o Módulo");
-      atualizaQtdEnvio(false);
+      atualizaFilaDeEnvio(false);
       setTentativasConexoes(tentativasConexoes + 1);
     }
   };
@@ -131,7 +131,7 @@ export const DispositivoEnv = ({
             devices.name + " Não foi possivel enviar a linha: " + (i + 1)
           );
           setMensagem(`Não foi possivel enviar a linha: ${i + 1}`);
-          atualizaQtdEnvio(false);
+          atualizaFilaDeEnvio(false);
           setTentativasConexoes(tentativasConexoes + 1);
           break;
         }
@@ -142,7 +142,7 @@ export const DispositivoEnv = ({
     console.log(devices.name + " Linhas enviadas.");
     await enviar(address, "43480102030405060708");
     await RNBluetoothClassic.disconnectFromDevice(address);
-    atualizaQtdEnvio(false);
+    atualizaFilaDeEnvio(false);
     setEnviarNovamente(false);
   };
   return (

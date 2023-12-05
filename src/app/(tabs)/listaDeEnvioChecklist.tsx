@@ -1,5 +1,4 @@
-import { Stack, useFocusEffect } from "expo-router";
-import React, { useState, useCallback } from "react";
+import { Stack, useFocusEffect } from "expo-router";import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -11,13 +10,15 @@ import { fetchDevices } from "@/hooks/dispositivos";
 import { Link } from "expo-router";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
-import Dispositivos from "@/components/dispositivosSalvos/Dispositivos";
+import Dispositivos from "@/components/listaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
-export const DispositivosSalvos = () => {
+import { LocalDevices } from "@/types/localDevices";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export const listaDeEnvioChecklist = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();
-  const [loadingDevices, setLoadingDevices] = useState<boolean>(true);
-  const [bloqueio, setBloqueio] = useState<boolean>(false);
+  const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
+  const [loadingDevices, setLoadingDevices] = useState(true);
   useFocusEffect(
     useCallback(() => {
       fetchDevices().then((res) => {
@@ -26,27 +27,31 @@ export const DispositivosSalvos = () => {
       });
     }, [])
   );
-  const setaBloqueio = () => {
-    setBloqueio(prev => !prev)
-  }
-  const attLocalDevices = async (
-    novosDispositivos: EscanearDispositivosProps["localDevices"]
-  ) => {
-    setLocalDevices(novosDispositivos);
+  const ListaDeEnvio = async (ID: string, name: string) => {
+    let existe = false;
+    listaDeEnvio.forEach((item) => {
+      if (item.ID === ID) {
+        existe = true;
+      }
+    });
+    if (existe) {
+      const dispositivos = listaDeEnvio.filter((item) => item.ID !== ID);
+      setListaDeEnvio(dispositivos)
+      await AsyncStorage.removeItem("listaDeEnvio");
+      await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
+    } else {
+      const dispositivos = [...listaDeEnvio, { ID, name }];
+      setListaDeEnvio(dispositivos)
+      await AsyncStorage.removeItem("listaDeEnvio");
+      await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
+    }
   };
-  if (loadingDevices) {
-    return (
-      <Container>
-        <ActivityIndicator size="large" color="#1c73d2" />
-      </Container>
-    );
-  }
   if (!localDevices || localDevices?.length === 0) {
     return (
       <>
         <Stack.Screen
           options={{
-            title: "Dispositivos Locais",
+            title: "Lista de Envio de Checklist",
           }}
         />
         <Container>
@@ -65,15 +70,18 @@ export const DispositivosSalvos = () => {
   }
   return (
     <>
-      <Stack.Screen options={{ title: "Dispositivos Locais" }} />
+      <Stack.Screen options={{ title: "Lista de Envio de Checklist" }} />
       <ScrollView
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>
         <View>
-          {localDevices.length > 0 && (
-            <Text style={styles.textBlack}>Dispositivos salvos</Text>
-          )}
           {localDevices?.map((devices) => {
+            let existe = false;
+            listaDeEnvio.forEach((dispositivo) => {
+              if (dispositivo.ID === devices.ID) {
+                existe = true;
+              }
+            });
             return (
               <Container key={devices.ID}>
                 <Dispositivos
@@ -81,9 +89,8 @@ export const DispositivosSalvos = () => {
                   ID={devices.ID}
                   dispositivosSalvos={localDevices}
                   key={devices.ID}
-                  attLocalDevices={attLocalDevices}
-                  setaBloqueio={setaBloqueio}
-                  bloqueio={bloqueio}
+                  listaDeEnvio={ListaDeEnvio}
+                  existe={existe}
                 />
               </Container>
             );
@@ -96,12 +103,12 @@ export const DispositivosSalvos = () => {
               marginVertical: 10,
             }}
           />
-          <Link href={"/(Escaneamento)"} asChild>
+          <Link href={"/(EnvioAutomatico)"} asChild>
             <Button
               icon="magnify-scan"
               mode="contained"
               style={{ backgroundColor: "#1c73d2" }}>
-              Escanear Dispositivos
+              Enviar para Dispositivos Selecionados
             </Button>
           </Link>
         </View>
@@ -143,4 +150,4 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-export default DispositivosSalvos;
+export default listaDeEnvioChecklist;

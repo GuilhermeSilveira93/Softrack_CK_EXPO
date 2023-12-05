@@ -1,5 +1,5 @@
 export type LocalDevices = {
   ID: string
   name: string
-  envio: boolean
+  nomeArquivo?: string
 }

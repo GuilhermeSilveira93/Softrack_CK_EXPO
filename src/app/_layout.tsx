@@ -1,6 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import {
   isBluetoothEnable,
   requestAccessFineLocationPermission,
@@ -40,7 +40,14 @@ function RootLayoutNav() {
       <SafeAreaProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(Escaneamento)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(Escaneamento)"
+            options={{ headerShown: false }}
+          />
+                    <Stack.Screen
+            name="(EnvioAutomatico)"
+            options={{ headerShown: false }}
+          />
         </Stack>
         <StatusBar animated />
       </SafeAreaProvider>

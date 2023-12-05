@@ -4,7 +4,6 @@ export const isBluetoothEnable = async () => {
     const available = await RNBluetoothClassic.isBluetoothAvailable();
     return available
   } catch (err) {
-    console.log('request location: ' + err)
     return err
   }
 }

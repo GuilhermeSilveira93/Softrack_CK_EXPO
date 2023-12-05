@@ -1,15 +1,15 @@
 import { Stack } from "expo-router";
 
-export const Escanemento = () => {
+export const EnvioDeChecklist = () => {
   return (
     <Stack>
       <Stack.Screen
         name="index"
         options={{
-          title: "Escaneando Dispositivos"
+          title: "Envio de Checklist",
         }}
       />
     </Stack>
   );
 };
-export default Escanemento;
+export default EnvioDeChecklist;

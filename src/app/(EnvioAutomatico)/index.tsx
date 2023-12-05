@@ -1,62 +1,67 @@
-import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, router, useNavigation } from "expo-router";
+import React, { useState, useCallback } from "react";
+import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
+import {
+  useGlobalSearchParams,
+} from "expo-router";
 import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
-import { fetchDevices } from "@/hooks/dispositivos";
+import { FetchListaDeEnvio, fetchDevices } from "@/hooks/dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { Container } from "@/components/ui/Container";
 import { MaterialIcons } from "@expo/vector-icons";
+type listaDispositivos = {
+  params: {
+    dispositivos: string;
+    screen?: number
+  };
+};
 export const EnvioAutomatico = () => {
+  const listaDispositivos = useGlobalSearchParams()
+  console.log(JSON.stringify(listaDispositivos))
   const [strings, setStrings] = useState<string[]>([]);
-  const [qtdEnvio, setQtdEnvio] = useState<number>(0);
+  const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [atualizarTudo, setAtualizarTudo] = useState<boolean>(false);
-  const [localDevices, setLocalDevices] = useState<
+  const [listaDeEnvio, setListaDeEnvio] = useState<
     EscanearDispositivosProps["localDevices"]
   >([]);
-
-  const router = useNavigation();
   useFocusEffect(
     useCallback(() => {
-      fetchDevices().then((res) => {
-        setLocalDevices(res);
+      FetchListaDeEnvio().then((res) => {
+        setListaDeEnvio(res);
       });
       fetchStrings().then((res) => setStrings(res));
-      console.log('focus: ' + qtdEnvio);
     }, [atualizarTudo])
   );
-
-  const atualizaQtdEnvio = (valor: boolean) => {
+  const atualizaFilaDeEnvio = (valor: boolean) => {
     if (valor) {
-      setQtdEnvio(prev => prev + 1);
+      setFilaDeEnvio((prev) => prev + 1);
     } else {
-      setQtdEnvio(prev => prev - 1);
+      setFilaDeEnvio((prev) => prev - 1);
     }
     console.log("atualizei " + valor);
-  }
-
+  };
   const onRefresh = useCallback(() => {
-    console.log('refresh: ' + qtdEnvio);
-    if (qtdEnvio === 0) {
-      console.log('refresh2: ' + qtdEnvio);
+    if (filaDeEnvio === 0) {
       setRefreshing(true);
       setAtualizarTudo(!atualizarTudo);
-      setLocalDevices([]);
+      setListaDeEnvio([]);
       setTimeout(() => {
         setRefreshing(false);
       }, 2000);
     }
-  }, [atualizarTudo, qtdEnvio]);
+  }, [atualizarTudo, filaDeEnvio]);
 
-  if (localDevices?.length > 0 && strings?.length > 0) {
-    console.log('no if: ' + qtdEnvio);
+  if (listaDeEnvio?.length > 0 && strings?.length > 0) {
+    console.log("no if: " + filaDeEnvio);
     return (
       <>
         <Stack.Screen
           options={{
-            title: `Enviar Checklist ${qtdEnvio}`,
-            /* headerRight: () => (
-              <Pressable>
+            title: `Enviar Checklist ${filaDeEnvio}`,
+            headerRight: () => (
+              <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
                 {({ pressed }) => (
                   <MaterialIcons
                     name="update"
@@ -65,7 +70,7 @@ export const EnvioAutomatico = () => {
                   />
                 )}
               </Pressable>
-            ), */
+            ),
           }}
         />
         <ScrollView
@@ -74,14 +79,16 @@ export const EnvioAutomatico = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
-          {localDevices.map((dispositivo) => {
+          {listaDeEnvio.map((dispositivo) => {
             return (
-              <DispositivoEnv
+              <>
+                <DispositivoEnv
                 devices={dispositivo}
                 strings={strings}
-                atualizaQtdEnvio={atualizaQtdEnvio}
+                atualizaFilaDeEnvio={atualizaFilaDeEnvio}
                 key={dispositivo.ID}
               />
+              </>
             );
           })}
         </ScrollView>
@@ -92,8 +99,8 @@ export const EnvioAutomatico = () => {
       <>
         <Stack.Screen
           options={{
-            /* headerRight: () => (
-              <Pressable>
+            headerRight: () => (
+              <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
                 {({ pressed }) => (
                   <MaterialIcons
                     name="update"
@@ -102,7 +109,7 @@ export const EnvioAutomatico = () => {
                   />
                 )}
               </Pressable>
-            ), */
+            ),
           }}
         />
         <Container>

@@ -1,41 +1,43 @@
-import { useState, useCallback } from "react";
-import { View, Pressable, StyleSheet } from "react-native";
+import { useState, useCallback, Suspense } from "react";import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { carregarArquivo, deleteFile } from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
 import { fetchArquivo } from "../../hooks/arquivoCK";
 import { useFocusEffect } from "expo-router";
 export default function LocalFile() {
   const [filename, setFileName] = useState<string>("");
-  useFocusEffect(useCallback(() => {
-    fetchArquivo().then((res:string) => setFileName(res))
-  }, [filename]))
+  useFocusEffect(
+    useCallback(() => {
+      fetchArquivo().then((res: string) => setFileName(res));
+    }, [filename])
+  );
   return (
     <>
-      <Banner
-        visible={filename?.length > 0}
-        actions={[
-          {
-            label: "Remover arquivo",
-            onPress: async () => {
-              await deleteFile().then((res) => setFileName(res));
+      <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
+        <Banner
+          visible={filename?.length > 0}
+          actions={[
+            {
+              label: "Remover arquivo",
+              onPress: async () => {
+                await deleteFile().then((res) => setFileName(res));
+              },
             },
-          },
-        ]}
-        icon={() => (
-          <Avatar.Icon
-            size={50}
-            style={{ backgroundColor: "blue" }}
-            icon="file"
-          />
-        )}>
-        Arquivo {filename} na memória
-      </Banner>
+          ]}
+          icon={() => (
+            <Avatar.Icon
+              size={50}
+              style={{ backgroundColor: "blue" }}
+              icon="file"
+            />
+          )}>
+          Arquivo {filename} na memória
+        </Banner>
+      </Suspense>
       <View style={styles.centeredView}>
-        <Pressable onPress={
-          async () => {
-            await carregarArquivo()
-            .then((res:any) => setFileName(res))
-            }}>
+        <Pressable
+          onPress={async () => {
+            await carregarArquivo().then((res: any) => setFileName(res));
+          }}>
           <Avatar.Icon
             size={80}
             style={{ backgroundColor: "blue" }}

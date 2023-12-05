@@ -34,9 +34,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="envioChecklist"
+        name="listaDeEnvioChecklist"
         options={{
-          title: "Enviar Checklist",
+          title: "Lista de Envio",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="abacus" size={size} color={color} />
           ),
