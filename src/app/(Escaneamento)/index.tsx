@@ -11,6 +11,8 @@ import {
 import { fetchDevices } from "@/hooks/dispositivos";
 import Dispositivos from "@/components/dispositivosSalvos/Dispositivos";
 import { ScrollView } from "react-native-gesture-handler";
+import { Scroll } from "@/components/ui/Scroll";
+import { Button } from "react-native-paper";
 export type EscanearDispositivosProps = {
   dispositivos: {
     name: string;
@@ -76,10 +78,17 @@ export const EscanearDispositivos = () => {
       </Container>
     );
   }
+  if (!scanning) {
+    return (
+      <Container>
+        <Button mode="contained-tonal" style={{backgroundColor:"#1c73d2", paddingVertical:5,paddingHorizontal:15}} textColor="#fff" onPress={() => startScan()}>Escanear</Button>
+      </Container>
+    );
+  }
   return (
     <>
-      <ScrollView>
-        <>
+      <Scroll>
+        <Container>
           {dispositivos?.map((device) => {
             return (
               <Dispositivos
@@ -91,55 +100,22 @@ export const EscanearDispositivos = () => {
               />
             );
           })}
-          <Container>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}>
-              {dispositivos?.length > 0 && !scanning && (
-                <Pressable
-                  disabled={scanning}
-                  onPress={() => {
-                    setDispositivos([]);
-                  }}
-                  style={styles.botao}>
-                  <Text style={styles.textWhite}>Limpar Lista</Text>
-                </Pressable>
-              )}
-              {!scanning && (
-                <Pressable
-                  onPress={() => startScan()}
-                  style={styles.botao}
-                  disabled={scanning}>
-                  <Text style={styles.textWhite}>
-                    {`${
-                      dispositivos.length === 0
-                        ? "Escanear"
-                        : "Escanear Novamente"
-                    }`}
-                  </Text>
-                </Pressable>
-              )}
-            </View>
-          </Container>
-        </>
-      </ScrollView>
+          {dispositivos.length > 0 && (
+            <Pressable
+              disabled={scanning}
+              onPress={() => {
+                setDispositivos([]);
+              }}
+              style={styles.botao}>
+              <Text style={styles.textWhite}>Limpar Lista</Text>
+            </Pressable>
+          )}
+        </Container>
+      </Scroll>
     </>
   );
 };
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  textBlack: {
-    color: "#000",
-  },
   textWhite: {
     color: "#fff",
     textAlign: "center",
@@ -149,18 +125,6 @@ const styles = StyleSheet.create({
     width: "50%",
     paddingVertical: 25,
     paddingHorizontal: 10,
-  },
-  maquinas: {
-    borderWidth: 2,
-    borderColor: "#1c73d2",
-    flexDirection: "row",
-    backgroundColor: "beige",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 8,
-    width: 250,
-    borderRadius: 20,
-    color: "#fff",
   },
 });
 export default EscanearDispositivos;

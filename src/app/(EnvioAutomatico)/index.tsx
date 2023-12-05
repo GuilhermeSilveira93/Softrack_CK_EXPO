@@ -1,9 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
-import {
-  useGlobalSearchParams,
-} from "expo-router";
+import router from "expo-router";
 import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
 import { FetchListaDeEnvio, fetchDevices } from "@/hooks/dispositivos";
@@ -17,8 +15,6 @@ type listaDispositivos = {
   };
 };
 export const EnvioAutomatico = () => {
-  const listaDispositivos = useGlobalSearchParams()
-  console.log(JSON.stringify(listaDispositivos))
   const [strings, setStrings] = useState<string[]>([]);
   const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
