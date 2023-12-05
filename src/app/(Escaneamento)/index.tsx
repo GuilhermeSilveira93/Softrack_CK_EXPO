@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useFocusEffect } from "expo-router";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container } from "@/components/ui/Container";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import {
@@ -40,24 +39,23 @@ export const EscanearDispositivos = () => {
   >([]);
   const [scanning, setScanning] =
     useState<EscanearDispositivosProps["scanning"]>(false);
-
   useEffect(() => {
     fetchDevices().then((res) => setLocalDevices(res));
     startScan();
   }, []);
-  const startScan = async () => {
+  const startScan = useCallback(async () => {
     try {
       setScanning(true);
       console.log("Iniciando escaneamento...");
       await RNBluetoothClassic.startDiscovery()
         .then((res: EscanearDispositivosProps["dispositivos"]) => {
-          setDispositivos(
+          setDispositivos(res);
+          /*           setDispositivos(
             res.filter((devices) => devices.name.includes("SFTK_BT"))
-          );
+          ); */
         })
         .catch((err) => {
-          console.log("Erro Scan");
-          console.log(err);
+          alert(err);
         });
       console.log("Escaneado");
     } catch (error) {
@@ -65,7 +63,7 @@ export const EscanearDispositivos = () => {
     } finally {
       setScanning(false);
     }
-  };
+  }, [dispositivos]);
   const attLocalDevices = async (
     novosDispositivos: EscanearDispositivosProps["localDevices"]
   ) => {

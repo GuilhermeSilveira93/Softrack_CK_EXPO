@@ -1,11 +1,6 @@
-import { Stack, useFocusEffect } from "expo-router";import React, { useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
+import { Stack, useFocusEffect } from "expo-router";
+import React, { useState, useCallback } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
 import { Link } from "expo-router";
 import { Divider, Button } from "react-native-paper";
@@ -18,16 +13,13 @@ export const listaDeEnvioChecklist = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
-  const [loadingDevices, setLoadingDevices] = useState(true);
   useFocusEffect(
     useCallback(() => {
       fetchDevices().then((res) => {
         setLocalDevices(res);
-        setLoadingDevices(false);
       });
-    }, [])
-  );
-  const ListaDeEnvio = async (ID: string, name: string) => {
+    }, []));
+  const ListaDeEnvio = useCallback(async (ID: string, name: string) => {
     let existe = false;
     listaDeEnvio.forEach((item) => {
       if (item.ID === ID) {
@@ -36,16 +28,16 @@ export const listaDeEnvioChecklist = () => {
     });
     if (existe) {
       const dispositivos = listaDeEnvio.filter((item) => item.ID !== ID);
-      setListaDeEnvio(dispositivos)
+      setListaDeEnvio(dispositivos);
       await AsyncStorage.removeItem("listaDeEnvio");
       await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
     } else {
       const dispositivos = [...listaDeEnvio, { ID, name }];
-      setListaDeEnvio(dispositivos)
+      setListaDeEnvio(dispositivos);
       await AsyncStorage.removeItem("listaDeEnvio");
       await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
     }
-  };
+  },[listaDeEnvio])
   if (!localDevices || localDevices?.length === 0) {
     return (
       <>

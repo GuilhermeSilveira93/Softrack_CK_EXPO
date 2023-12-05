@@ -1,6 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import {
   isBluetoothEnable,
   requestAccessFineLocationPermission,
@@ -8,6 +8,7 @@ import {
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { MD2DarkTheme, MD2LightTheme, ThemeProvider } from "react-native-paper";
 export { ErrorBoundary } from "expo-router";
 export const unstable_settings = {
   initialRouteName: "/(tabs)/index",
@@ -38,18 +39,20 @@ function RootLayoutNav() {
   return (
     <>
       <SafeAreaProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="(Escaneamento)"
-            options={{ headerShown: false }}
-          />
-                    <Stack.Screen
-            name="(EnvioAutomatico)"
-            options={{ headerShown: false }}
-          />
-        </Stack>
-        <StatusBar animated />
+        <ThemeProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="(Escaneamento)"
+              options={{ headerShown: false, title:'hum' }}
+            />
+            <Stack.Screen
+              name="(EnvioAutomatico)"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+          <StatusBar animated />
+        </ThemeProvider>
       </SafeAreaProvider>
     </>
   );

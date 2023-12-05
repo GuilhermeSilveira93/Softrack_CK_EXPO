@@ -70,9 +70,6 @@ export const DispositivosSalvos = () => {
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>
         <View>
-          {localDevices.length > 0 && (
-            <Text style={styles.textBlack}>Dispositivos salvos</Text>
-          )}
           {localDevices?.map((devices) => {
             return (
               <Container key={devices.ID}>
@@ -100,7 +97,8 @@ export const DispositivosSalvos = () => {
             <Button
               icon="magnify-scan"
               mode="contained"
-              style={{ backgroundColor: "#1c73d2" }}>
+              style={{ backgroundColor: "#1c73d2" }}
+            >
               Escanear Dispositivos
             </Button>
           </Link>

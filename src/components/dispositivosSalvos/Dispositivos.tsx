@@ -14,8 +14,8 @@ type DispositivosProps = {
     ID: string;
     name: string;
   }[];
-  setaBloqueio: () => void;
-  bloqueio: boolean;
+  setaBloqueio?: () => void;
+  bloqueio?: boolean;
   attLocalDevices: (
     novosDispositivos: DispositivosProps["dispositivosSalvos"]
   ) => {};
@@ -38,7 +38,9 @@ const Dispositivos = ({
   });
 
   const parear = async () => {
-    setaBloqueio()
+    if (setaBloqueio) {
+      setaBloqueio()  
+    }
     setPareando(true);
     await RNBluetoothClassic.pairDevice(ID)
       .then(async (res) => {
@@ -57,7 +59,9 @@ const Dispositivos = ({
         setPareando(false);
     });
     setPareando(false);
-    setaBloqueio()
+    if (setaBloqueio) {
+      setaBloqueio()  
+    }
   };
   const addDispositivoNaLista = async () => {
     setAdicionando(true);
