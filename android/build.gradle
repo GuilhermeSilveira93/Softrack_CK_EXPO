@@ -37,9 +37,4 @@ allprojects {
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
     }
-    configurations.all {
-    resolutionStrategy {
-        force 'androidx.core:core-ktx:1.6.0'
-    }
-}
 }
