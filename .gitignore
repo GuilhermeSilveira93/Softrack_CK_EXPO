@@ -41,7 +41,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
+.expo/
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
@@ -131,3 +131,4 @@ dist
 
 expo-env.d.ts
 # @end expo-cli
+my-release-key.keystore
