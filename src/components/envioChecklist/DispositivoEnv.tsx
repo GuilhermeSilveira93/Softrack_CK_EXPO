@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";import { StyleSheet, Text, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, Pressable } from "react-native";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ProgressBar, List } from "react-native-paper";
@@ -10,7 +11,9 @@ import {
   validaGravado,
 } from "@/hooks/envioAutomatico";
 import { Container } from "@/components/ui/Container";
+import { checklistEnviado } from "@/hooks/arquivoCK";
 type DispositivoEnvProps = {
+  nomeArquivo: string;
   devices: {
     name: string;
     ID: string;
@@ -22,6 +25,7 @@ export const DispositivoEnv = ({
   devices,
   strings,
   atualizaFilaDeEnvio,
+  nomeArquivo,
 }: DispositivoEnvProps) => {
   const [progressBar, setProgressBar] = useState<number>(0);
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false);
@@ -49,7 +53,6 @@ export const DispositivoEnv = ({
     if (!conectado) {
       await RNBluetoothClassic.connectToDevice(address)
         .then(async () => {
-          console.log(devices.name + " Conectado");
           await enviosLeituras(address);
         })
         .catch(async (err) => {
@@ -112,13 +115,10 @@ export const DispositivoEnv = ({
           } else {
             const validacaoCRC = await validaGravado(linha, resposta);
             if (validacaoCRC) {
-              console.log(devices.name + " CRC : " + validacaoCRC);
-              console.log(devices.name + " linha " + (i + 1) + " gravada.");
               setProgressBar(i + 1);
               setMensagem(`linha: ${i + 1} gravada`);
               tentativas = 5;
             } else {
-              console.log(devices.name + " CRC não bateu");
               setMensagem("CRC não Bateu");
               enviarLinha = true;
               tentativas++;
@@ -126,9 +126,6 @@ export const DispositivoEnv = ({
           }
         } while (tentativas <= 3);
         if (tentativas === 4) {
-          console.log(
-            devices.name + " Não foi possivel enviar a linha: " + (i + 1)
-          );
           setMensagem(`Não foi possivel enviar a linha: ${i + 1}`);
           atualizaFilaDeEnvio(false);
           setTentativasConexoes(tentativasConexoes + 1);
@@ -136,9 +133,9 @@ export const DispositivoEnv = ({
         }
       }
     }
+    await checklistEnviado(devices.name, address, nomeArquivo)
     setMensagem("Checklist enviado.");
     setProgressBar(strings.length);
-    console.log(devices.name + " Linhas enviadas.");
     await enviar(address, "43480102030405060708");
     await RNBluetoothClassic.disconnectFromDevice(address);
     atualizaFilaDeEnvio(false);
@@ -151,7 +148,7 @@ export const DispositivoEnv = ({
           style={{
             backgroundColor: "rgba(0,170,255,0.2)",
             borderRadius: 10,
-            minHeight: 80
+            minHeight: 80,
           }}
           //     descriptionStyle={{ color: "#fff" }}
           titleStyle={{ fontWeight: "700" }}
@@ -182,7 +179,7 @@ export const DispositivoEnv = ({
                 </Pressable>
               )}
               {progressBar === strings.length && (
-                  <FontAwesome name="check-circle" color="#66aa66" size={30} />
+                <FontAwesome name="check-circle" color="#66aa66" size={30} />
               )}
             </>
           )}

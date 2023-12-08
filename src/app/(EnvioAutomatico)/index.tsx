@@ -4,10 +4,11 @@ import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
 import router from "expo-router";
 import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
-import { FetchListaDeEnvio, fetchDevices } from "@/hooks/dispositivos";
+import { FetchListaDeEnvio } from "@/hooks/dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { Container } from "@/components/ui/Container";
 import { MaterialIcons } from "@expo/vector-icons";
+import { fetchNomeArquivo } from "@/hooks/arquivoCK";
 type listaDispositivos = {
   params: {
     dispositivos: string;
@@ -16,6 +17,7 @@ type listaDispositivos = {
 };
 export const EnvioAutomatico = () => {
   const [strings, setStrings] = useState<string[]>([]);
+  const [nomeArquivo, setNomeArquivo] = useState<string>('');
   const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [atualizarTudo, setAtualizarTudo] = useState<boolean>(false);
@@ -28,6 +30,7 @@ export const EnvioAutomatico = () => {
         setListaDeEnvio(res);
       });
       fetchStrings().then((res) => setStrings(res));
+      fetchNomeArquivo().then(res => setNomeArquivo(res))
     }, [atualizarTudo])
   );
   const atualizaFilaDeEnvio = (valor: boolean) => {
@@ -82,6 +85,7 @@ export const EnvioAutomatico = () => {
                 devices={dispositivo}
                 strings={strings}
                 atualizaFilaDeEnvio={atualizaFilaDeEnvio}
+                nomeArquivo={nomeArquivo}
                 key={dispositivo.ID}
               />
               </>
