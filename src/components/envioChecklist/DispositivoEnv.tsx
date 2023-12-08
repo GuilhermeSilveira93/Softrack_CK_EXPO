@@ -29,7 +29,6 @@ export const DispositivoEnv = ({
   const [tentativasConexoes, setTentativasConexoes] = useState<number>(0);
 
   useEffect(() => {
-    console.log("To aqui");
     if (tentativasConexoes > 3) {
       setMensagem("Tentativas automaticas excedidas");
       setEnviarNovamente(true);
