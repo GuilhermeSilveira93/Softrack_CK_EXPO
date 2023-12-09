@@ -9,13 +9,14 @@ import Dispositivos from "@/components/listaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
+import { fetchChecklistEnviado, fetchNomeArquivo } from "@/hooks/arquivoCK";
 export const listaDeEnvioChecklist = () => {
   const router = useRouter();
   const [localDevices, setLocalDevices] = useState<
     EscanearDispositivosProps["localDevices"]
   >([]);
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
+  const [nomeArquivo, setNomeArquivo] =useState<string>('')
   const [checklistsEnviados, setChecklistsEnviados] = useState([]);
   useFocusEffect(
     useCallback(() => {
@@ -30,11 +31,11 @@ export const listaDeEnvioChecklist = () => {
           }
         ),
         fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
-        setListaDeEnvio([])
+        setListaDeEnvio([]),
+        fetchNomeArquivo().then((res) => setNomeArquivo(res))
       ]);
     }, [])
   );
-  console.log(checklistsEnviados);
   const ListaDeEnvio = useCallback(
     async (ID: string, name: string) => {
       let existe = false;
@@ -52,7 +53,7 @@ export const listaDeEnvioChecklist = () => {
           JSON.stringify(dispositivos)
         );
       } else {
-        const dispositivos = [...listaDeEnvio, { ID, name }];
+        const dispositivos = [...listaDeEnvio, { ID, name, nomeArquivo }];
         setListaDeEnvio(dispositivos);
         await AsyncStorage.removeItem("listaDeEnvio");
         await AsyncStorage.setItem(
@@ -85,6 +86,7 @@ export const listaDeEnvioChecklist = () => {
                   dispositivosSalvos={localDevices}
                   key={devices.ID}
                   listaDeEnvio={ListaDeEnvio}
+                  nomeArquivo={nomeArquivo}
                   existe={existe}
                 />
               </Container>

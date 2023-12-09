@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Pressable, ActivityIndicator,Text } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";import { Pressable, ActivityIndicator, Text } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
@@ -7,6 +6,8 @@ import { dispositivosPareados } from "@/hooks/dispositivos";
 import { List } from "react-native-paper";
 import { Container } from "../ui/Container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
+import { ChecklistEnviado, ChecklistsEnviados } from "@/types/checklistsEnviados";
 type DispositivosProps = {
   ID: string;
   name: string;
@@ -31,11 +32,19 @@ const Dispositivos = ({
   const [pareado, setPareado] = useState<boolean>(false);
   const [adicionando, setAdicionando] = useState<boolean>(false);
   const [pareando, setPareando] = useState<boolean>(false);
+  const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>()
   const existe = dispositivosSalvos.filter((item) => item.ID === ID);
 
-  useEffect(() => {
-    dispositivosPareados(ID).then((res) => setPareado(res));
-  });
+  useEffect(
+    useCallback(() => {
+      dispositivosPareados(ID).then((res) => setPareado(res))
+      fetchChecklistEnviado().then((res: ChecklistsEnviados) => {
+        const checklist = res.filter(item => item.id === ID)
+        setChecklistEnviado(checklist[0])
+      })
+    }, [pareado,]),
+    []
+  );
 
   const parear = async () => {
     if (setaBloqueio) {
@@ -97,7 +106,7 @@ const Dispositivos = ({
         }}
         titleStyle={{ fontWeight: "700" }}
         title={`${name}`}
-        description={`${ID}`}
+        description={`${checklistEnviado?.nomeArquivo.substring(0, checklistEnviado?.nomeArquivo.length - 3)} já enviado`}
         left={() => (
           <Pressable
             disabled={bloqueio}

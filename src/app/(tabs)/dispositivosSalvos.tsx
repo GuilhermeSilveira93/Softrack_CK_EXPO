@@ -13,17 +13,22 @@ import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
 import Dispositivos from "@/components/dispositivosSalvos/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
+import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();
   const [loadingDevices, setLoadingDevices] = useState<boolean>(true);
   const [bloqueio, setBloqueio] = useState<boolean>(false);
+  const [ checklistEnviado, setChecklistEnviado] = useState<EscanearDispositivosProps["localDevices"]>([])
   useFocusEffect(
     useCallback(() => {
+      Promise.all([
       fetchDevices().then((res) => {
         setLocalDevices(res);
         setLoadingDevices(false);
-      });
+      }),
+      fetchChecklistEnviado().then(res => setChecklistEnviado(res))
+    ])
     }, [])
   );
   const setaBloqueio = () => {

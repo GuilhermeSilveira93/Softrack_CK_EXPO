@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Pressable, ActivityIndicator } from "react-native";
+import React from "react";
+import { Pressable, } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import RNBluetoothClassic from "react-native-bluetooth-classic";
-import { dispositivosPareados } from "@/hooks/dispositivos";
 import { List } from "react-native-paper";
 import { Container } from "../ui/Container";
 type DispositivosProps = {
@@ -15,22 +13,14 @@ type DispositivosProps = {
     name: string;
   }[];
   listaDeEnvio: (ID: string, name: string) => {};
+  nomeArquivo:string
 };
 const Dispositivos = ({
   ID,
   name,
-  dispositivosSalvos,
   listaDeEnvio,
-  existe
+  existe,
 }: DispositivosProps) => {
-  const [pareado, setPareado] = useState<boolean>(false);
-  const [adicionando, setAdicionando] = useState<boolean>(false);
-  const [pareando, setPareando] = useState<boolean>(false);
-
-  useEffect(() => {
-    dispositivosPareados(ID).then((res) => setPareado(res));
-  });
-
   return (
     <Container key={ID}>
       <List.Item

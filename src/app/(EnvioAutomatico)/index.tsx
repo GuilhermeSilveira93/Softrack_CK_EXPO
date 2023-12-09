@@ -1,27 +1,29 @@
-import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
+import React, { useState, useCallback } from "react";
+import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
-import router from "expo-router";
 import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
 import { FetchListaDeEnvio } from "@/hooks/dispositivos";
-import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { Container } from "@/components/ui/Container";
 import { MaterialIcons } from "@expo/vector-icons";
-import { fetchNomeArquivo } from "@/hooks/arquivoCK";
-type listaDispositivos = {
-  params: {
-    dispositivos: string;
-    screen?: number;
-  };
+import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
+type EnvioAutomaticoProps = {
+  listaDeEnvio: {
+    ID: string;
+    name: string;
+    nomeArquivo: string;
+  }[];
 };
 export const EnvioAutomatico = () => {
   const [strings, setStrings] = useState<string[]>([]);
-  const [nomeArquivo, setNomeArquivo] = useState<string>("");
   const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [checklistsEnviados, setChecklistsEnviados] = useState<
+    EnvioAutomaticoProps["listaDeEnvio"]
+  >([]);
   const [atualizarTudo, setAtualizarTudo] = useState<boolean>(false);
   const [listaDeEnvio, setListaDeEnvio] = useState<
-    EscanearDispositivosProps["localDevices"]
+    EnvioAutomaticoProps["listaDeEnvio"]
   >([]);
   useFocusEffect(
     useCallback(() => {
@@ -30,17 +32,17 @@ export const EnvioAutomatico = () => {
           setListaDeEnvio(res);
         }),
         fetchStrings().then((res) => setStrings(res)),
-        fetchNomeArquivo().then((res: string ) => setNomeArquivo(res)),
+        fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
       ]);
-    }, [atualizarTudo])
+    }, [atualizarTudo, filaDeEnvio])
   );
+  console.log(checklistsEnviados)
   const atualizaFilaDeEnvio = (valor: boolean) => {
     if (valor) {
       setFilaDeEnvio((prev) => prev + 1);
     } else {
       setFilaDeEnvio((prev) => prev - 1);
     }
-    console.log("atualizei " + valor);
   };
   const onRefresh = useCallback(() => {
     if (filaDeEnvio === 0) {
@@ -79,15 +81,11 @@ export const EnvioAutomatico = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
           {listaDeEnvio.map((dispositivo) => {
-            console.log('nomeArquivo')
-            console.log(nomeArquivo)
-            console.log('nomeArquivo')
             return (
               <DispositivoEnv
                 devices={dispositivo}
                 strings={strings}
                 atualizaFilaDeEnvio={atualizaFilaDeEnvio}
-                nomeArquivo={nomeArquivo}
                 key={dispositivo.ID}
               />
             );

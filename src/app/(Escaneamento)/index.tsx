@@ -22,6 +22,7 @@ export type EscanearDispositivosProps = {
   localDevices: {
     ID: string;
     name: string;
+    nomeArquivo?:string;
   }[];
   scanning: boolean;
   showModal: boolean;

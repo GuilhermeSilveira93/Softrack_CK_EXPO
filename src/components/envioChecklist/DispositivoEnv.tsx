@@ -13,10 +13,10 @@ import {
 import { Container } from "@/components/ui/Container";
 import { checklistEnviado } from "@/hooks/arquivoCK";
 type DispositivoEnvProps = {
-  nomeArquivo: string;
   devices: {
     name: string;
     ID: string;
+    nomeArquivo: string;
   };
   strings: string[];
   atualizaFilaDeEnvio: (valor: boolean) => void;
@@ -25,7 +25,6 @@ export const DispositivoEnv = ({
   devices,
   strings,
   atualizaFilaDeEnvio,
-  nomeArquivo,
 }: DispositivoEnvProps) => {
   const [progressBar, setProgressBar] = useState<number>(0);
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false);
@@ -132,10 +131,7 @@ export const DispositivoEnv = ({
         }
       }
     }
-    console.log('nomeArquivo')
-    console.log(nomeArquivo)
-    console.log('nomeArquivo')
-    await checklistEnviado(devices.name, address, nomeArquivo)
+    await checklistEnviado(devices.name, address, devices.nomeArquivo)
     setMensagem("Checklist enviado.");
     setProgressBar(strings.length);
     await enviar(address, "43480102030405060708");
