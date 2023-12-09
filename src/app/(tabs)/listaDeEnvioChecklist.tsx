@@ -1,4 +1,4 @@
-import { Stack, useFocusEffect } from "expo-router";
+import { Stack, useFocusEffect, useRouter } from "expo-router";
 import React, { useState, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
@@ -9,60 +9,63 @@ import Dispositivos from "@/components/listaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
 export const listaDeEnvioChecklist = () => {
-  const [localDevices, setLocalDevices] =
-    useState<EscanearDispositivosProps["localDevices"]>();
+  const router = useRouter();
+  const [localDevices, setLocalDevices] = useState<
+    EscanearDispositivosProps["localDevices"]
+  >([]);
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
+  const [checklistsEnviados, setChecklistsEnviados] = useState([]);
   useFocusEffect(
     useCallback(() => {
-      fetchDevices().then((res) => {
-        setLocalDevices(res);
+      Promise.all([
+        fetchDevices().then(
+          (res: EscanearDispositivosProps["localDevices"]) => {
+            if (res.length > 0) {
+              setLocalDevices(res);
+            } else {
+              router.push("/(tabs)/");
+            }
+          }
+        ),
+        fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
+        setListaDeEnvio([])
+      ]);
+    }, [])
+  );
+  console.log(checklistsEnviados);
+  const ListaDeEnvio = useCallback(
+    async (ID: string, name: string) => {
+      let existe = false;
+      listaDeEnvio.forEach((item) => {
+        if (item.ID === ID) {
+          existe = true;
+        }
       });
-    }, []));
-  const ListaDeEnvio = useCallback(async (ID: string, name: string) => {
-    let existe = false;
-    listaDeEnvio.forEach((item) => {
-      if (item.ID === ID) {
-        existe = true;
+      if (existe) {
+        const dispositivos = listaDeEnvio.filter((item) => item.ID !== ID);
+        setListaDeEnvio(dispositivos);
+        await AsyncStorage.removeItem("listaDeEnvio");
+        await AsyncStorage.setItem(
+          "listaDeEnvio",
+          JSON.stringify(dispositivos)
+        );
+      } else {
+        const dispositivos = [...listaDeEnvio, { ID, name }];
+        setListaDeEnvio(dispositivos);
+        await AsyncStorage.removeItem("listaDeEnvio");
+        await AsyncStorage.setItem(
+          "listaDeEnvio",
+          JSON.stringify(dispositivos)
+        );
       }
-    });
-    if (existe) {
-      const dispositivos = listaDeEnvio.filter((item) => item.ID !== ID);
-      setListaDeEnvio(dispositivos);
-      await AsyncStorage.removeItem("listaDeEnvio");
-      await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
-    } else {
-      const dispositivos = [...listaDeEnvio, { ID, name }];
-      setListaDeEnvio(dispositivos);
-      await AsyncStorage.removeItem("listaDeEnvio");
-      await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
-    }
-  },[listaDeEnvio])
-  if (!localDevices || localDevices?.length === 0) {
-    return (
-      <>
-        <Stack.Screen
-          options={{
-            title: "Lista de Envio de Checklist",
-          }}
-        />
-        <Container>
-          <Text>Não existem dispositivos adicionados.</Text>
-          <Link href={"/(Escaneamento)"} asChild>
-            <Button
-              icon="magnify-scan"
-              mode="contained"
-              style={{ backgroundColor: "#1c73d2" }}>
-              Escanear Dispositivos
-            </Button>
-          </Link>
-        </Container>
-      </>
-    );
-  }
+    },
+    [listaDeEnvio]
+  );
   return (
     <>
-      <Stack.Screen options={{ title: "Lista de Envio de Checklist" }} />
+      <Stack.Screen options={{ title: "Dispositivos para Enviar" }} />
       <ScrollView
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>
@@ -111,35 +114,6 @@ export const listaDeEnvioChecklist = () => {
 const styles = StyleSheet.create({
   ScrollView: {
     minHeight: "100%",
-  },
-  centeredView: {
-    width: "100%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-    height: "100%",
-  },
-  textBlack: {
-    color: "black",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  textWhite: {
-    fontSize: 15,
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  maquinas: {
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  button: {
-    minWidth: "87%",
-    flex: 1,
-    maxHeight: 60,
-    justifyContent: "space-between",
   },
 });
 export default listaDeEnvioChecklist;

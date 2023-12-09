@@ -16,12 +16,12 @@ export const checklistEnviado = async (name:string, id:string, nomeArquivo:strin
     const existe = checklistsEnviados.filter((item) => item.id === id);
     if (existe.length > 0) {
       const resto = checklistsEnviados?.filter((item) => item.id !== id);
-      const novaLista = [...resto, { Address: id, Name: name, nomeArquivo }];
+      const dispositivosNovos = [...resto, { id, name, nomeArquivo }];
       await AsyncStorage.removeItem("ChecklistEnviado");
-      await AsyncStorage.setItem("ChecklistEnviado", JSON.stringify(novaLista));
+      await AsyncStorage.setItem("ChecklistEnviado", JSON.stringify(dispositivosNovos));
     } else {
       let dispositivosNovos = [{ id, name, nomeArquivo }];
-      if (checklistsEnviados) {
+      if (checklistsEnviados.length === 0) {
         dispositivosNovos = [...checklistsEnviados, ...dispositivosNovos];
       }
       await AsyncStorage.setItem(

@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
+import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
 import router from "expo-router";
 import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
@@ -12,12 +11,12 @@ import { fetchNomeArquivo } from "@/hooks/arquivoCK";
 type listaDispositivos = {
   params: {
     dispositivos: string;
-    screen?: number
+    screen?: number;
   };
 };
 export const EnvioAutomatico = () => {
   const [strings, setStrings] = useState<string[]>([]);
-  const [nomeArquivo, setNomeArquivo] = useState<string>('');
+  const [nomeArquivo, setNomeArquivo] = useState<string>("");
   const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [atualizarTudo, setAtualizarTudo] = useState<boolean>(false);
@@ -26,11 +25,13 @@ export const EnvioAutomatico = () => {
   >([]);
   useFocusEffect(
     useCallback(() => {
-      FetchListaDeEnvio().then((res) => {
-        setListaDeEnvio(res);
-      });
-      fetchStrings().then((res) => setStrings(res));
-      fetchNomeArquivo().then(res => setNomeArquivo(res))
+      Promise.all([
+        FetchListaDeEnvio().then((res) => {
+          setListaDeEnvio(res);
+        }),
+        fetchStrings().then((res) => setStrings(res)),
+        fetchNomeArquivo().then((res: string ) => setNomeArquivo(res)),
+      ]);
     }, [atualizarTudo])
   );
   const atualizaFilaDeEnvio = (valor: boolean) => {
@@ -44,8 +45,8 @@ export const EnvioAutomatico = () => {
   const onRefresh = useCallback(() => {
     if (filaDeEnvio === 0) {
       setRefreshing(true);
-      setAtualizarTudo(!atualizarTudo);
       setListaDeEnvio([]);
+      setAtualizarTudo(!atualizarTudo);
       setTimeout(() => {
         setRefreshing(false);
       }, 2000);
@@ -53,7 +54,6 @@ export const EnvioAutomatico = () => {
   }, [atualizarTudo, filaDeEnvio]);
 
   if (listaDeEnvio?.length > 0 && strings?.length > 0) {
-    console.log("no if: " + filaDeEnvio);
     return (
       <>
         <Stack.Screen
@@ -79,16 +79,17 @@ export const EnvioAutomatico = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
           {listaDeEnvio.map((dispositivo) => {
+            console.log('nomeArquivo')
+            console.log(nomeArquivo)
+            console.log('nomeArquivo')
             return (
-              <>
-                <DispositivoEnv
+              <DispositivoEnv
                 devices={dispositivo}
                 strings={strings}
                 atualizaFilaDeEnvio={atualizaFilaDeEnvio}
                 nomeArquivo={nomeArquivo}
                 key={dispositivo.ID}
               />
-              </>
             );
           })}
         </ScrollView>

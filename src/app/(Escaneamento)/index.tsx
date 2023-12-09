@@ -3,14 +3,10 @@ import { Container } from "@/components/ui/Container";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import {
   ActivityIndicator,
-  Pressable,
-  Text,
-  View,
   StyleSheet,
 } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
 import Dispositivos from "@/components/dispositivosSalvos/Dispositivos";
-import { ScrollView } from "react-native-gesture-handler";
 import { Scroll } from "@/components/ui/Scroll";
 import { Button } from "react-native-paper";
 export type EscanearDispositivosProps = {
@@ -51,10 +47,9 @@ export const EscanearDispositivos = () => {
       console.log("Iniciando escaneamento...");
       await RNBluetoothClassic.startDiscovery()
         .then((res: EscanearDispositivosProps["dispositivos"]) => {
-          setDispositivos(res);
-          /*           setDispositivos(
+          setDispositivos(
             res.filter((devices) => devices.name.includes("SFTK_BT"))
-          ); */
+          )
         })
         .catch((err) => {
           alert(err);
@@ -78,7 +73,7 @@ export const EscanearDispositivos = () => {
       </Container>
     );
   }
-  if (!scanning) {
+  if (!scanning && dispositivos.length < 1) {
     return (
       <Container>
         <Button mode="contained-tonal" style={{backgroundColor:"#1c73d2", paddingVertical:5,paddingHorizontal:15}} textColor="#fff" onPress={() => startScan()}>Escanear</Button>
@@ -101,14 +96,7 @@ export const EscanearDispositivos = () => {
             );
           })}
           {dispositivos.length > 0 && (
-            <Pressable
-              disabled={scanning}
-              onPress={() => {
-                setDispositivos([]);
-              }}
-              style={styles.botao}>
-              <Text style={styles.textWhite}>Limpar Lista</Text>
-            </Pressable>
+            <Button disabled={scanning} mode="contained-tonal" style={{backgroundColor:"#1c73d2", paddingVertical:5,paddingHorizontal:15}} textColor="#fff" onPress={() => setDispositivos([])}>Limpar Lista</Button>
           )}
         </Container>
       </Scroll>

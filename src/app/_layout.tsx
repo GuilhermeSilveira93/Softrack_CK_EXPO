@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MD2DarkTheme, MD2LightTheme, ThemeProvider } from "react-native-paper";
 export { ErrorBoundary } from "expo-router";
+
 export const unstable_settings = {
   initialRouteName: "/(tabs)/index",
 };
@@ -44,7 +45,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="(Escaneamento)"
-              options={{ headerShown: false, title:'hum' }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="(EnvioAutomatico)"

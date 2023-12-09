@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, ActivityIndicator } from "react-native";
+import { Pressable, ActivityIndicator,Text } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
@@ -39,7 +39,7 @@ const Dispositivos = ({
 
   const parear = async () => {
     if (setaBloqueio) {
-      setaBloqueio()  
+      setaBloqueio();
     }
     setPareando(true);
     await RNBluetoothClassic.pairDevice(ID)
@@ -57,13 +57,17 @@ const Dispositivos = ({
       .catch((err) => {
         console.log(err);
         setPareando(false);
-    });
+      });
     setPareando(false);
     if (setaBloqueio) {
-      setaBloqueio()  
+      setaBloqueio();
     }
   };
   const addDispositivoNaLista = async () => {
+    if (!pareado) {
+      alert("Faça o pareamento da máquina antes de adicionar na lista.");
+      return;
+    }
     setAdicionando(true);
     if (existe.length > 0) {
       const resto = dispositivosSalvos?.filter((item) => item.ID !== ID);
@@ -96,7 +100,7 @@ const Dispositivos = ({
         description={`${ID}`}
         left={() => (
           <Pressable
-          disabled={bloqueio}
+            disabled={bloqueio}
             onPress={
               !pareado
                 ? () => {
@@ -107,11 +111,13 @@ const Dispositivos = ({
             {pareando ? (
               <ActivityIndicator size="large" color="#1c73d2" />
             ) : (
-              <MaterialCommunityIcons
-                name={!pareado ? "bluetooth-off" : "bluetooth-connect"}
-                size={34}
-                color={!pareado ? "#aaa" : "#1c73d2"}
-              />
+              <>
+                <MaterialCommunityIcons
+                  name={!pareado ? "link-off" : "bluetooth-connect"}
+                  size={40}
+                  color={!pareado ? "#aaa" : "#1c73d2"}
+                />
+              </>
             )}
           </Pressable>
         )}

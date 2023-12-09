@@ -31,7 +31,6 @@ export const DispositivoEnv = ({
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false);
   const [mensagem, setMensagem] = useState<string>("");
   const [tentativasConexoes, setTentativasConexoes] = useState<number>(0);
-
   useEffect(() => {
     if (tentativasConexoes > 3) {
       setMensagem("Tentativas automaticas excedidas");
@@ -133,6 +132,9 @@ export const DispositivoEnv = ({
         }
       }
     }
+    console.log('nomeArquivo')
+    console.log(nomeArquivo)
+    console.log('nomeArquivo')
     await checklistEnviado(devices.name, address, nomeArquivo)
     setMensagem("Checklist enviado.");
     setProgressBar(strings.length);

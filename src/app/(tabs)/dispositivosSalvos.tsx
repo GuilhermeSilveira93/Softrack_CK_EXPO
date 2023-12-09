@@ -44,11 +44,6 @@ export const DispositivosSalvos = () => {
   if (!localDevices || localDevices?.length === 0) {
     return (
       <>
-        <Stack.Screen
-          options={{
-            title: "Dispositivos Locais",
-          }}
-        />
         <Container>
           <Text>Não existem dispositivos adicionados.</Text>
           <Link href={"/(Escaneamento)"} asChild>
@@ -65,7 +60,6 @@ export const DispositivosSalvos = () => {
   }
   return (
     <>
-      <Stack.Screen options={{ title: "Dispositivos Locais" }} />
       <ScrollView
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>

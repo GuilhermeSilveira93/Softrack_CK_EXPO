@@ -1,16 +1,18 @@
 import { useState, useCallback, Suspense } from "react";import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
-import { carregarArquivo, deleteFile } from "../../hooks/arquivoCK";
+import { carregarArquivo, deleteFile, fetchStrings } from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
-import { fetchArquivo } from "../../hooks/arquivoCK";
+import { fetchNomeArquivo } from "../../hooks/arquivoCK";
 import { useFocusEffect } from "expo-router";
 export default function LocalFile() {
   const [filename, setFileName] = useState<string>("");
+  const [strings, setStrings] = useState<string[]>([]);
   useFocusEffect(
     useCallback(() => {
-      fetchArquivo().then((res: string) => setFileName(res));
-    }, [filename])
+      Promise.all([
+        fetchNomeArquivo().then((res: string) => setFileName(res)),
+        fetchStrings().then((res) => setStrings(res))])
+    }, [filename,strings])
   );
-  //INDEX
   return (
     <>
       <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>

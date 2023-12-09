@@ -10,8 +10,8 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
-
 export default function TabLayout() {
+
   return (
     <Tabs>
       <Tabs.Screen
@@ -26,7 +26,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="dispositivosSalvos"
         options={{
-          title: "Dispositivos Locais",
+          title: "Dispositivos",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="forklift" size={size} color={color} />
           ),
