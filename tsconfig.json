@@ -13,10 +13,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "src/app/(tabs)/_Layout.js",
-    "src/app/_Layout.js",
-    "src/app/(Escaneamento)/_Layout.js",
-    "src/app/(EnvioAutomatico)/_Layout.js"
-  ]
+    "expo-env.d.ts"
+  , "src/app/(tabs)/_Layout.js", "src/app/_Layout.js"  ]
 }

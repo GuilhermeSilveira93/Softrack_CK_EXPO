@@ -1,6 +1,7 @@
 {
   "devices": [
     {
+<<<<<<< HEAD
       "installationId": "77e2fee7-c78a-42f8-a1f4-f96b2a27e7ee",
       "lastUsed": 1702242846185
     },
@@ -11,6 +12,10 @@
     {
       "installationId": "b1a80e52-cc18-4adb-9a0c-9c1ca3b2e136",
       "lastUsed": 1702241385822
+=======
+      "installationId": "8f23a668-6936-4f6a-9c77-bf384639e9de",
+      "lastUsed": 1702162709688
+>>>>>>> parent of 1c06c0d (1)
     }
   ]
 }
