@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
+import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
 import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
@@ -25,18 +24,16 @@ export const EnvioAutomatico = () => {
   const [listaDeEnvio, setListaDeEnvio] = useState<
     EnvioAutomaticoProps["listaDeEnvio"]
   >([]);
-  useFocusEffect(
-    useCallback(() => {
-      Promise.all([
-        FetchListaDeEnvio().then((res) => {
-          setListaDeEnvio(res);
-        }),
-        fetchStrings().then((res) => setStrings(res)),
-        fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
-      ]);
-    }, [atualizarTudo, filaDeEnvio])
-  );
-  console.log(checklistsEnviados)
+  useFocusEffect(() => {
+    Promise.all([
+      FetchListaDeEnvio().then((res) => {
+        setListaDeEnvio(res);
+      }),
+      fetchStrings().then((res) => setStrings(res)),
+      fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
+    ]);
+  });
+  console.log(checklistsEnviados);
   const atualizaFilaDeEnvio = (valor: boolean) => {
     if (valor) {
       setFilaDeEnvio((prev) => prev + 1);
