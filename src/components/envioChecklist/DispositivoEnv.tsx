@@ -11,7 +11,8 @@ import {
   validaGravado,
 } from "@/hooks/envioAutomatico";
 import { Container } from "@/components/ui/Container";
-import { checklistEnviado } from "@/hooks/arquivoCK";
+import { ChecklistEnviado } from "@/types/checklistsEnviados";
+import { checklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 type DispositivoEnvProps = {
   devices: {
     name: string;

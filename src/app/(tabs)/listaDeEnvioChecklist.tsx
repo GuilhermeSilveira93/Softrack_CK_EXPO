@@ -9,7 +9,8 @@ import Dispositivos from "@/components/listaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { fetchChecklistEnviado, fetchNomeArquivo } from "@/hooks/arquivoCK";
+import { fetchNomeArquivo } from "@/hooks/arquivoCK";
+import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 export const listaDeEnvioChecklist = () => {
   const router = useRouter();
   const [localDevices, setLocalDevices] = useState<

@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";import { Pressab
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
-import { dispositivosPareados } from "@/hooks/dispositivos";
+import { dispositivosPareados } from "@/hooks/localDataBase/st_dispositivo/dispositivosPareados";
 import { List } from "react-native-paper";
 import { Container } from "../ui/Container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
+import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 import { ChecklistEnviado, ChecklistsEnviados } from "@/types/checklistsEnviados";
 type DispositivosProps = {
   ID: string;

@@ -39,7 +39,7 @@ export default function LocalFile() {
       <View style={styles.centeredView}>
         <Pressable
           onPress={async () => {
-            await carregarArquivo().then((res: any) => setFileName(res));
+            await carregarArquivo().then((res: string) => setFileName(res));
           }}>
           <Avatar.Icon
             size={80}
