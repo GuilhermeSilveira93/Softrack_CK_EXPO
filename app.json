@@ -45,8 +45,8 @@
       [
         "with-rn-bluetooth-classic",
         {
-          "peripheralUsageDescription": "Allow myDevice to check bluetooth peripheral info",
-          "alwaysUsageDescription": "Allow myDevice to always use bluetooth info",
+          "peripheralUsageDescription": "Permitir que o aplicativo acesso o bluetooth",
+          "alwaysUsageDescription": "Permitir que o aplicativo acesso o bluetooth",
           "protocols": [
             "com.myCompany.p1",
             "com.myCompany.p2"

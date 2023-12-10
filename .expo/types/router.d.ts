@@ -7,11 +7,11 @@ declare module "expo-router" {
   export * from 'expo-router/build';
 
   // prettier-ignore
-  type StaticRoutes = `/` | `/(EnvioAutomatico)/_layout` | `/_layout` | `/(Escaneamento)/_layout` | `/(tabs)/_layout`;
+  type StaticRoutes = `/` | `/(EnvioAutomatico)/envioChecklist/DispositivoEnv` | `/envioChecklist/DispositivoEnv` | `/(EnvioAutomatico)/` | `/(EnvioAutomatico)` | `/(EnvioAutomatico)/_layout` | `/_layout` | `/(Escaneamento)/components/Dispositivos` | `/components/Dispositivos` | `/(Escaneamento)/` | `/(Escaneamento)` | `/(Escaneamento)/_layout` | `/(tabs)/components/dispositivosSalvos/Dispositivos` | `/components/dispositivosSalvos/Dispositivos` | `/(tabs)/components/listaDeEnvioChecklist/Dispositivos` | `/components/listaDeEnvioChecklist/Dispositivos` | `/(tabs)/dispositivosSalvos` | `/dispositivosSalvos` | `/(tabs)/` | `/(tabs)` | `/(tabs)/listaDeEnvioChecklist` | `/listaDeEnvioChecklist` | `/(tabs)/_layout`;
   // prettier-ignore
-  type DynamicRoutes<T extends string> = never;
+  type DynamicRoutes<T extends string> = `/${CatchAllRoutePart<T>}`;
   // prettier-ignore
-  type DynamicRouteTemplate = never;
+  type DynamicRouteTemplate = `/[...missing]`;
 
   type RelativePathString = `./${string}` | `../${string}` | '..';
   type AbsoluteRoute = DynamicRouteTemplate | StaticRoutes;
