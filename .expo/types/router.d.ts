@@ -7,7 +7,7 @@ declare module "expo-router" {
   export * from 'expo-router/build';
 
   // prettier-ignore
-  type StaticRoutes = `/` | `/(EnvioAutomatico)/envioChecklist/DispositivoEnv` | `/envioChecklist/DispositivoEnv` | `/(EnvioAutomatico)/` | `/(EnvioAutomatico)` | `/(EnvioAutomatico)/_layout` | `/_layout` | `/(Escaneamento)/components/Dispositivos` | `/components/Dispositivos` | `/(Escaneamento)/` | `/(Escaneamento)` | `/(Escaneamento)/_layout` | `/(tabs)/components/dispositivosSalvos/Dispositivos` | `/components/dispositivosSalvos/Dispositivos` | `/(tabs)/components/listaDeEnvioChecklist/Dispositivos` | `/components/listaDeEnvioChecklist/Dispositivos` | `/(tabs)/dispositivosSalvos` | `/dispositivosSalvos` | `/(tabs)/` | `/(tabs)` | `/(tabs)/listaDeEnvioChecklist` | `/listaDeEnvioChecklist` | `/(tabs)/_layout`;
+  type StaticRoutes = `/` | `/(EnvioAutomatico)/` | `/(EnvioAutomatico)` | `/(EnvioAutomatico)/_layout` | `/_layout` | `/(Escaneamento)/` | `/(Escaneamento)` | `/(Escaneamento)/_layout` | `/(tabs)/dispositivosSalvos` | `/dispositivosSalvos` | `/(tabs)/` | `/(tabs)` | `/(tabs)/listaDeEnvioChecklist` | `/listaDeEnvioChecklist` | `/(tabs)/_layout` | `/(Escaneamento)/components/Dispositivos` | `/components/Dispositivos` | `/(EnvioAutomatico)/envioChecklist/DispositivoEnv` | `/envioChecklist/DispositivoEnv` | `/(tabs)/components/dispositivosSalvos/Dispositivos` | `/components/dispositivosSalvos/Dispositivos` | `/(tabs)/components/listaDeEnvioChecklist/Dispositivos` | `/components/listaDeEnvioChecklist/Dispositivos`;
   // prettier-ignore
   type DynamicRoutes<T extends string> = `/${CatchAllRoutePart<T>}`;
   // prettier-ignore
