@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
-import { DispositivoEnv } from "@/components/envioChecklist/DispositivoEnv";
+import { DispositivoEnv } from "@/app/(EnvioAutomatico)/envioChecklist/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
 import { FetchListaDeEnvio } from "@/hooks/dispositivos";
 import { Container } from "@/components/ui/Container";
 import { MaterialIcons } from "@expo/vector-icons";
-import { fetchChecklistEnviado } from "@/hooks/arquivoCK";
+import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string;

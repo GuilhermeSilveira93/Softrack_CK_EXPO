@@ -9,7 +9,7 @@ export default function TelaNaoEncontrada() {
         <Text style={styles.title}>Tela não encontrada</Text>
 
         <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen!</Text>
+          <Text style={styles.linkText}>Voltar para Home</Text>
         </Link>
       </View>
     </>

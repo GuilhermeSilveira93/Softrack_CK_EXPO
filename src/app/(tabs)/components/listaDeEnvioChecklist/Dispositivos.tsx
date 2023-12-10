@@ -3,7 +3,7 @@ import { Pressable, } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { List } from "react-native-paper";
-import { Container } from "../ui/Container";
+import { Container } from "../../../../components/ui/Container";
 type DispositivosProps = {
   ID: string;
   name: string;

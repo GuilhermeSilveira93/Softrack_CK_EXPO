@@ -1,4 +1,4 @@
-import { Stack, useFocusEffect } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import React, { useState, useCallback } from "react";
 import {
   View,
@@ -11,9 +11,8 @@ import { fetchDevices } from "@/hooks/dispositivos";
 import { Link } from "expo-router";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
-import Dispositivos from "@/components/dispositivosSalvos/Dispositivos";
+import Dispositivos from "@/app/(tabs)/components/dispositivosSalvos/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
-import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();

@@ -1,16 +1,15 @@
-import { Stack, useFocusEffect, useRouter } from "expo-router";
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { fetchDevices } from "@/hooks/dispositivos";
+import { Stack, useFocusEffect, useRouter } from "expo-router";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { Link } from "expo-router";
+import { fetchDevices } from "@/hooks/dispositivos";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
-import Dispositivos from "@/components/listaDeEnvioChecklist/Dispositivos";
+import Dispositivos from "@/app/(tabs)/components/listaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchNomeArquivo } from "@/hooks/arquivoCK";
-import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 export const listaDeEnvioChecklist = () => {
   const router = useRouter();
   const [localDevices, setLocalDevices] = useState<
@@ -18,7 +17,6 @@ export const listaDeEnvioChecklist = () => {
   >([]);
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
   const [nomeArquivo, setNomeArquivo] =useState<string>('')
-  const [checklistsEnviados, setChecklistsEnviados] = useState([]);
   useFocusEffect(
     useCallback(() => {
       Promise.all([
@@ -31,7 +29,6 @@ export const listaDeEnvioChecklist = () => {
             }
           }
         ),
-        fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
         setListaDeEnvio([]),
         fetchNomeArquivo().then((res) => setNomeArquivo(res))
       ]);

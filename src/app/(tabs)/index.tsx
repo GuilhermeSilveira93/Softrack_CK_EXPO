@@ -1,5 +1,10 @@
-import { useState, useCallback, Suspense } from "react";import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
-import { carregarArquivo, deleteFile, fetchStrings } from "../../hooks/arquivoCK";
+import { useState, useCallback, Suspense } from "react";
+import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  carregarArquivo,
+  deleteFile,
+  fetchStrings,
+} from "../../hooks/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
 import { fetchNomeArquivo } from "../../hooks/arquivoCK";
 import { useFocusEffect } from "expo-router";
@@ -10,8 +15,9 @@ export default function LocalFile() {
     useCallback(() => {
       Promise.all([
         fetchNomeArquivo().then((res: string) => setFileName(res)),
-        fetchStrings().then((res) => setStrings(res))])
-    }, [filename,strings])
+        fetchStrings().then((res) => setStrings(res)),
+      ]);
+    }, [filename, strings])
   );
   return (
     <>

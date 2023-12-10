@@ -11,7 +11,6 @@ import {
   validaGravado,
 } from "@/hooks/envioAutomatico";
 import { Container } from "@/components/ui/Container";
-import { ChecklistEnviado } from "@/types/checklistsEnviados";
 import { checklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 type DispositivoEnvProps = {
   devices: {
