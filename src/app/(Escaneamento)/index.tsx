@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Container } from "@/components/ui/Container";
+import React, { useState, useEffect, useCallback } from "react";import { Container } from "@/components/ui/Container";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
-import {
-  ActivityIndicator,
-  StyleSheet,
-} from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { fetchDevices } from "@/libs/dispositivos";
 import Dispositivos from "@/components/Escaneamento/Dispositivos";
 import { Scroll } from "@/components/ui/Scroll";
@@ -22,7 +18,7 @@ export type EscanearDispositivosProps = {
   localDevices: {
     ID: string;
     name: string;
-    nomeArquivo?:string;
+    nomeArquivo?: string;
   }[];
   scanning: boolean;
   showModal: boolean;
@@ -30,6 +26,7 @@ export type EscanearDispositivosProps = {
   handleDeviceNAME: string;
 };
 export const EscanearDispositivos = () => {
+  const [bloqueio, setBloqueio] = useState<boolean>(false);
   const [dispositivos, setDispositivos] = useState<
     EscanearDispositivosProps["dispositivos"]
   >([]);
@@ -42,6 +39,9 @@ export const EscanearDispositivos = () => {
     fetchDevices().then((res) => setLocalDevices(res));
     startScan();
   }, []);
+  const setaBloqueio = () => {
+    setBloqueio(prev => !prev)
+  }
   const startScan = useCallback(async () => {
     try {
       setScanning(true);
@@ -50,7 +50,7 @@ export const EscanearDispositivos = () => {
         .then((res: EscanearDispositivosProps["dispositivos"]) => {
           setDispositivos(
             res.filter((devices) => devices.name.includes("SFTK_BT"))
-          )
+          );
         })
         .catch((err) => {
           alert(err);
@@ -77,7 +77,17 @@ export const EscanearDispositivos = () => {
   if (!scanning && dispositivos.length < 1) {
     return (
       <Container>
-        <Button mode="contained-tonal" style={{backgroundColor:"#1c73d2", paddingVertical:5,paddingHorizontal:15}} textColor="#fff" onPress={() => startScan()}>Escanear</Button>
+        <Button
+          mode="contained-tonal"
+          style={{
+            backgroundColor: "#1c73d2",
+            paddingVertical: 5,
+            paddingHorizontal: 15,
+          }}
+          textColor="#fff"
+          onPress={() => startScan()}>
+          Escanear
+        </Button>
       </Container>
     );
   }
@@ -88,6 +98,8 @@ export const EscanearDispositivos = () => {
           {dispositivos?.map((device) => {
             return (
               <Dispositivos
+                setaBloqueio={setaBloqueio}
+                bloqueio={bloqueio}
                 key={device.id}
                 dispositivosSalvos={localDevices}
                 name={device.name}
@@ -97,23 +109,22 @@ export const EscanearDispositivos = () => {
             );
           })}
           {dispositivos.length > 0 && (
-            <Button disabled={scanning} mode="contained-tonal" style={{backgroundColor:"#1c73d2", paddingVertical:5,paddingHorizontal:15}} textColor="#fff" onPress={() => setDispositivos([])}>Limpar Lista</Button>
+            <Button
+              disabled={scanning}
+              mode="contained-tonal"
+              style={{
+                backgroundColor: "#1c73d2",
+                paddingVertical: 5,
+                paddingHorizontal: 15,
+              }}
+              textColor="#fff"
+              onPress={() => setDispositivos([])}>
+              Limpar Lista
+            </Button>
           )}
         </Container>
       </Scroll>
     </>
   );
 };
-const styles = StyleSheet.create({
-  textWhite: {
-    color: "#fff",
-    textAlign: "center",
-  },
-  botao: {
-    backgroundColor: "#1c73d2",
-    width: "50%",
-    paddingVertical: 25,
-    paddingHorizontal: 10,
-  },
-});
 export default EscanearDispositivos;

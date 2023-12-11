@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Pressable, ActivityIndicator, Text } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";import { Pressable, ActivityIndicator, Text } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { List } from "react-native-paper";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
@@ -8,9 +7,7 @@ import { dispositivosPareados } from "@/libs/localDataBase/st_dispositivo/dispos
 import { Container } from "@/components/ui/Container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchChecklistEnviado } from "@/libs/localDataBase/st_dispositivo_checklist";
-import {
-  ChecklistEnviado,
-} from "@/types/checklistsEnviados";
+import { ChecklistEnviado } from "@/types/checklistsEnviados";
 import { stringData } from "@/libs/dispositivos";
 type DispositivosProps = {
   ID: string;
@@ -19,7 +16,6 @@ type DispositivosProps = {
     ID: string;
     name: string;
   }[];
-  setaBloqueio?: () => void;
   bloqueio?: boolean;
   attLocalDevices: (
     novosDispositivos: DispositivosProps["dispositivosSalvos"]
@@ -30,7 +26,6 @@ const Dispositivos = ({
   name,
   dispositivosSalvos,
   attLocalDevices,
-  setaBloqueio,
   bloqueio,
 }: DispositivosProps) => {
   const [pareado, setPareado] = useState<boolean>(false);
@@ -51,38 +46,11 @@ const Dispositivos = ({
     useCallback(() => {
       dispositivosPareados(ID).then((res) => setPareado(res));
       fetchChecklistEnviado(ID).then((res) => {
-        setChecklistEnviado(res[0])
+        setChecklistEnviado(res[0]);
       });
     }, [pareado]),
     []
   );
-
-  const parear = async () => {
-    if (setaBloqueio) {
-      setaBloqueio();
-    }
-    setPareando(true);
-    await RNBluetoothClassic.pairDevice(ID)
-      .then(async (res) => {
-        if (res.bonded) {
-          setPareado(true);
-          setPareando(false);
-        } else {
-          alert(
-            "Só é possivel adicionar na lista, se o dispositivo estiver pareado."
-          );
-          setPareando(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setPareando(false);
-      });
-    setPareando(false);
-    if (setaBloqueio) {
-      setaBloqueio();
-    }
-  };
   const addDispositivoNaLista = async () => {
     if (!pareado) {
       alert("Faça o pareamento da máquina antes de adicionar na lista.");
@@ -135,15 +103,7 @@ const Dispositivos = ({
         }}
         left={() => (
           <Pressable
-            style={{ display: "flex", justifyContent: "space-evenly" }}
-            disabled={bloqueio}
-            onPress={
-              !pareado
-                ? () => {
-                    parear();
-                  }
-                : () => {}
-            }>
+            style={{ display: "flex", justifyContent: "space-evenly" }}>
             {pareando ? (
               <ActivityIndicator size="large" color="#1c73d2" />
             ) : (

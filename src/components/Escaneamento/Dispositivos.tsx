@@ -10,7 +10,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchChecklistEnviado } from "@/libs/localDataBase/st_dispositivo_checklist";
 import {
   ChecklistEnviado,
-  ChecklistsEnviados,
 } from "@/types/checklistsEnviados";
 type DispositivosProps = {
   ID: string;
@@ -19,7 +18,7 @@ type DispositivosProps = {
     ID: string;
     name: string;
   }[];
-  setaBloqueio?: () => void;
+  setaBloqueio: () => void;
   bloqueio?: boolean;
   attLocalDevices: (
     novosDispositivos: DispositivosProps["dispositivosSalvos"]
@@ -131,7 +130,7 @@ const Dispositivos = ({
             ) : (
               <>
                 <MaterialCommunityIcons
-                  name={!pareado ? "link-off" : "bluetooth-connect"}
+                  name={!pareado ? "bluetooth-connect" : "bluetooth-connect"}
                   size={40}
                   color={!pareado ? "#aaa" : "#1c73d2"}
                 />

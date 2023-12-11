@@ -9,6 +9,7 @@ import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchNomeArquivo } from "@/libs/localDataBase/st_checklist";
+import { useFocusEffect } from "expo-router/src/useFocusEffect";
 export const listaDeEnvioChecklist = () => {
   const router = useRouter();
   const [localDevices, setLocalDevices] = useState<
@@ -16,8 +17,8 @@ export const listaDeEnvioChecklist = () => {
   >([]);
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
   const [nomeArquivo, setNomeArquivo] = useState<string>("");
-
-  useEffect(
+  
+  useFocusEffect(
     useCallback(() => {
       Promise.all([
         fetchDevices().then(
@@ -32,8 +33,7 @@ export const listaDeEnvioChecklist = () => {
         fetchNomeArquivo().then((res) => setNomeArquivo(res)),
         setListaDeEnvio([])
       ])
-    },[]),[]
-  );
+    },[]));
   const ListaDeEnvio = useCallback(
     async (ID: string, name: string, nomeArquivo:string) => {
     let existe = false;
@@ -53,7 +53,7 @@ export const listaDeEnvioChecklist = () => {
       await AsyncStorage.removeItem("listaDeEnvio");
       await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
     }
-  }, []);
+  }, [listaDeEnvio]);
   return (
     <>
       <ScrollView

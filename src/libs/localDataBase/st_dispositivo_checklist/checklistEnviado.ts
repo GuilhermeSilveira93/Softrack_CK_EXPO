@@ -18,9 +18,7 @@ export const checklistEnviado = async (name:string, id:string, nomeArquivo:strin
       await AsyncStorage.setItem("ChecklistEnviado", JSON.stringify(dispositivosNovos));
     } else {
       let dispositivosNovos = [{ id, name, nomeArquivo, data }];
-      if (checklistsEnviados.length === 0) {
-        dispositivosNovos = [...checklistsEnviados, ...dispositivosNovos];
-      }
+      dispositivosNovos = [...checklistsEnviados, ...dispositivosNovos];
       await AsyncStorage.setItem(
         "ChecklistEnviado",
         JSON.stringify(dispositivosNovos)

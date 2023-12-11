@@ -17,7 +17,6 @@ export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] =
     useState<EscanearDispositivosProps["localDevices"]>();
   const [loadingDevices, setLoadingDevices] = useState<boolean>(true);
-  const [bloqueio, setBloqueio] = useState<boolean>(false);
   useFocusEffect(
     useCallback(() => {
       Promise.all([
@@ -27,9 +26,6 @@ export const DispositivosSalvos = () => {
       })])
     }, [])
   );
-  const setaBloqueio = () => {
-    setBloqueio(prev => !prev)
-  }
   const attLocalDevices = async (
     novosDispositivos: EscanearDispositivosProps["localDevices"]
   ) => {
@@ -74,8 +70,6 @@ export const DispositivosSalvos = () => {
                   dispositivosSalvos={localDevices}
                   key={devices.ID}
                   attLocalDevices={attLocalDevices}
-                  setaBloqueio={setaBloqueio}
-                  bloqueio={bloqueio}
                 />
               </Container>
             );

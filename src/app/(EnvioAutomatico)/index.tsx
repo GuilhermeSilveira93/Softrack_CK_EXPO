@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
 import DispositivoEnv from "@/components/EnvioAutomatico/DispositivoEnv";
@@ -15,13 +15,17 @@ type EnvioAutomaticoProps = {
 };
 export const EnvioAutomatico = () => {
   const [strings, setStrings] = useState<string[]>([]);
-  const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
+  const [contagemDeEnvio, setContagemDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [atualizarTudo, setAtualizarTudo] = useState<boolean>(false);
   const [listaDeEnvio, setListaDeEnvio] = useState<
     EnvioAutomaticoProps["listaDeEnvio"]
   >([]);
-  useFocusEffect(
+  const [filaDeEnvio, setFilaDeEnvio] = useState<
+    EnvioAutomaticoProps["listaDeEnvio"]
+  >([]);
+
+  useEffect(
     useCallback(() => {
       Promise.all([
         FetchListaDeEnvio().then((res) => {
@@ -29,17 +33,39 @@ export const EnvioAutomatico = () => {
         }),
         fetchArquivo().then((res) => setStrings(res)),
       ]);
-    }, [atualizarTudo])
+    }, [atualizarTudo, filaDeEnvio]),
+    [filaDeEnvio]
   );
-  const atualizaFilaDeEnvio = (valor: boolean) => {
-    if (valor) {
-      setFilaDeEnvio((prev) => prev + 1);
+  const attFilaDeEnvio = (
+    ID: string,
+    name: string,
+    nomeArquivo: string,
+    retirar: boolean
+  ) => {
+    if (!retirar) {
+      let existe = false;
+      if (filaDeEnvio.length > 0) {
+        filaDeEnvio.forEach((item) => {
+          existe = item.ID === ID || existe;
+        });
+      }
+      const fila = [{ ID, name, nomeArquivo }];
+      if (!existe) {
+        setFilaDeEnvio((prev) => [...prev, ...fila]);
+      }
     } else {
-      setFilaDeEnvio((prev) => prev - 1);
+      setFilaDeEnvio(prev => prev.filter(item => item.ID !== ID))
+    }
+  };
+  const atualizaContagemDeEnvio = (valor: boolean) => {
+    if (valor) {
+      setContagemDeEnvio((prev) => prev + 1);
+    } else {
+      setContagemDeEnvio((prev) => prev - 1);
     }
   };
   const onRefresh = useCallback(() => {
-    if (filaDeEnvio === 0) {
+    if (contagemDeEnvio === 0) {
       setRefreshing(true);
       setListaDeEnvio([]);
       setAtualizarTudo(!atualizarTudo);
@@ -47,14 +73,14 @@ export const EnvioAutomatico = () => {
         setRefreshing(false);
       }, 2000);
     }
-  }, [atualizarTudo, filaDeEnvio]);
+  }, [atualizarTudo, contagemDeEnvio]);
 
   if (listaDeEnvio?.length > 0 && strings?.length > 0) {
     return (
       <>
         <Stack.Screen
           options={{
-            title: `Enviar Checklist ${filaDeEnvio}`,
+            title: `Enviar Checklist ${contagemDeEnvio}`,
             headerRight: () => (
               <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
                 {({ pressed }) => (
@@ -78,8 +104,11 @@ export const EnvioAutomatico = () => {
             return (
               <DispositivoEnv
                 devices={dispositivo}
+                contagemDeEnvio={contagemDeEnvio}
                 strings={strings}
-                atualizaFilaDeEnvio={atualizaFilaDeEnvio}
+                filaDeEnvio={filaDeEnvio}
+                atualizaContagemDeEnvio={atualizaContagemDeEnvio}
+                attFilaDeEnvio={attFilaDeEnvio}
                 key={dispositivo.ID}
               />
             );

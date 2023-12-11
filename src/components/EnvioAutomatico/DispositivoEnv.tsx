@@ -19,33 +19,51 @@ type DispositivoEnvProps = {
     nomeArquivo: string;
   };
   strings: string[];
-  atualizaFilaDeEnvio: (valor: boolean) => void;
+  contagemDeEnvio: number;
+  atualizaContagemDeEnvio: (valor: boolean) => void;
+  attFilaDeEnvio: (ID: string, name: string, nomeArquivo: string, retirar: boolean) => void;
+  filaDeEnvio: DispositivoEnvProps["devices"][];
 };
 export const DispositivoEnv = ({
   devices,
   strings,
-  atualizaFilaDeEnvio,
+  atualizaContagemDeEnvio,
+  contagemDeEnvio,
+  attFilaDeEnvio,
+  filaDeEnvio,
 }: DispositivoEnvProps) => {
   const [progressBar, setProgressBar] = useState<number>(0);
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false);
   const [mensagem, setMensagem] = useState<string>("");
   const [tentativasConexoes, setTentativasConexoes] = useState<number>(0);
+  const [enviado, setEnviado] = useState<boolean>(false);
+  const [enviando, setEnviando] = useState<boolean>(false);
 
   useEffect(() => {
-    if (tentativasConexoes > 3) {
-      setMensagem("Tentativas automaticas excedidas");
-      setEnviarNovamente(true);
-    } else {
-      atualizaFilaDeEnvio(true);
-      console.log('devices.nomeArquivo')
-      console.log(devices.nomeArquivo)
-      console.log('devices.nomeArquivo')
-      conectarDispositivo(devices.ID);
+    let index = -1;
+    let existe = false;
+    filaDeEnvio.forEach((item, i) => {
+      index = item.ID === devices.ID ? i : index;
+      existe = item.ID === devices.ID || existe;
+    });
+    if (index > -1 && index < 5 && !enviando && !enviado && contagemDeEnvio <= 5) {
+      setEnviando(true);
+      console.log(
+        "entrei " + devices.ID + " - " + contagemDeEnvio + "/" + enviado
+      );
+      if (tentativasConexoes > 3) {
+        setMensagem("Tentativas automaticas excedidas");
+        setEnviarNovamente(true);
+      } else {
+        atualizaContagemDeEnvio(true);
+        conectarDispositivo(devices.ID);
+      }
+    } else if (index === -1 && !enviado) {
+      attFilaDeEnvio(devices.ID, devices.name, devices.nomeArquivo, false);
     }
-  }, [tentativasConexoes]);
+  }, [tentativasConexoes, contagemDeEnvio, filaDeEnvio]);
 
   const conectarDispositivo = async (address: string) => {
-    console.log("iniciando");
     setMensagem("Iniciando...");
     setProgressBar(0);
     setEnviarNovamente(false);
@@ -62,9 +80,10 @@ export const DispositivoEnv = ({
         })
         .catch(async (err) => {
           console.log(devices.name + " erro conectarDipositivo " + err);
-          atualizaFilaDeEnvio(false);
+          atualizaContagemDeEnvio(false);
           setMensagem("Erro ao conectar o dispositivo");
           setTentativasConexoes(tentativasConexoes + 1);
+          setEnviando(false);
         });
     } else {
       await enviosLeituras(address);
@@ -84,14 +103,16 @@ export const DispositivoEnv = ({
       } else {
         console.log(devices.name + " Erro ao limpar o modulo");
         setMensagem("Erro ao limpar o modulo");
-        atualizaFilaDeEnvio(false);
+        atualizaContagemDeEnvio(false);
         setTentativasConexoes(tentativasConexoes + 1);
+        setEnviando(false);
       }
     } else {
       console.log(devices.name + " Erro de autenticação com o Módulo");
       setMensagem("Erro de autenticação com o Módulo");
-      atualizaFilaDeEnvio(false);
+      atualizaContagemDeEnvio(false);
       setTentativasConexoes(tentativasConexoes + 1);
+      setEnviando(false);
     }
   };
   const envioArquivo = async (address: string) => {
@@ -135,7 +156,7 @@ export const DispositivoEnv = ({
         } while (tentativas <= 3);
         if (tentativas === 4) {
           setMensagem(`Não foi possivel enviar a linha: ${i + 1}`);
-          atualizaFilaDeEnvio(false);
+          atualizaContagemDeEnvio(false);
           setTentativasConexoes(tentativasConexoes + 1);
           break;
         }
@@ -146,8 +167,11 @@ export const DispositivoEnv = ({
     setProgressBar(strings.length);
     await enviar(address, "43480102030405060708");
     await RNBluetoothClassic.disconnectFromDevice(address);
-    atualizaFilaDeEnvio(false);
+    atualizaContagemDeEnvio(false);
     setEnviarNovamente(false);
+    setEnviado(true);
+    setEnviando(false);
+    attFilaDeEnvio(devices.ID, devices.name, devices.nomeArquivo, true);
   };
   return (
     <>
@@ -162,9 +186,10 @@ export const DispositivoEnv = ({
           title={`${devices.name}`}
           description={() => (
             <>
-              {mensagem?.length > 0 && (
+              <Text>{Math.floor((progressBar * 100) / strings.length)}%</Text>
+              {/* {mensagem?.length > 0 && (
                 <Text style={styles.texto}>{mensagem}</Text>
-              )}
+              )} */}
               {progressBar > 0 && progressBar < strings.length && (
                 <ProgressBar
                   progress={(progressBar * 100) / strings.length / 100}
