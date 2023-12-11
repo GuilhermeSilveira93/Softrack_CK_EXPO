@@ -11,6 +11,7 @@ import { fetchChecklistEnviado } from "@/libs/localDataBase/st_dispositivo_check
 import {
   ChecklistEnviado,
 } from "@/types/checklistsEnviados";
+import { stringData } from "@/libs/dispositivos";
 type DispositivosProps = {
   ID: string;
   name: string;
@@ -37,7 +38,15 @@ const Dispositivos = ({
   const [pareando, setPareando] = useState<boolean>(false);
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>();
   const existe = dispositivosSalvos.filter((item) => item.ID === ID);
-  const subtitle = checklistEnviado?.nomeArquivo ? `${checklistEnviado?.nomeArquivo.substring(0,checklistEnviado?.nomeArquivo.length - 3)} já enviado` : `Nenhum arquivo enviado`
+  const dataFormatada = checklistEnviado?.data
+    ? stringData(checklistEnviado?.data)
+    : "";
+  const subtitle = checklistEnviado?.nomeArquivo
+    ? `${checklistEnviado?.nomeArquivo.substring(
+        0,
+        checklistEnviado?.nomeArquivo.length - 3
+      )}`
+    : `Esse dispositivo ainda não enviou arquivo.`;
   useEffect(
     useCallback(() => {
       dispositivosPareados(ID).then((res) => setPareado(res));
@@ -108,9 +117,25 @@ const Dispositivos = ({
         }}
         titleStyle={{ fontWeight: "700" }}
         title={`${name}`}
-        description={subtitle}
+        description={() => {
+          if (!dataFormatada) {
+            return (
+              <>
+                <Text>{subtitle}</Text>
+              </>
+            );
+          }
+          return (
+            <>
+              <Text>Ultimo Envio Deste Dispositivo: </Text>
+              <Text>{dataFormatada}</Text>
+              <Text>{subtitle}</Text>
+            </>
+          );
+        }}
         left={() => (
           <Pressable
+            style={{ display: "flex", justifyContent: "space-evenly" }}
             disabled={bloqueio}
             onPress={
               !pareado
@@ -133,14 +158,16 @@ const Dispositivos = ({
           </Pressable>
         )}
         right={() => (
-          <Pressable onPress={() => addDispositivoNaLista()}>
+          <Pressable
+            style={{ display: "flex", justifyContent: "space-evenly" }}
+            onPress={() => addDispositivoNaLista()}>
             {adicionando ? (
               <ActivityIndicator size="large" color="#1c73d2" />
             ) : (
               <AntDesign
                 name={existe.length > 0 ? "checkcircle" : "checkcircleo"}
                 color="rgb(0,150,255)"
-                size={32}
+                size={40}
               />
             )}
           </Pressable>
