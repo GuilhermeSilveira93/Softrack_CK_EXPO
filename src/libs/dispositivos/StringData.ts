@@ -5,6 +5,6 @@ export const stringData = (format:Date) => {
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
-  }).format(format)
+  }).format(new Date(format))
   return dataString
 }

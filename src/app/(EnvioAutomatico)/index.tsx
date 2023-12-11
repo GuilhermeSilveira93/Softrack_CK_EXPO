@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
+import React, { useState, useCallback } from "react";
+import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
 import DispositivoEnv from "@/components/EnvioAutomatico/DispositivoEnv";
 import { fetchArquivo } from "@/libs/localDataBase/st_checklist";
@@ -20,14 +21,16 @@ export const EnvioAutomatico = () => {
   const [listaDeEnvio, setListaDeEnvio] = useState<
     EnvioAutomaticoProps["listaDeEnvio"]
   >([]);
-  useFocusEffect(() => {
-    Promise.all([
-      FetchListaDeEnvio().then((res) => {
-        setListaDeEnvio(res);
-      }),
-      fetchArquivo().then((res) => setStrings(res)),
-    ]);
-  });
+  useFocusEffect(
+    useCallback(() => {
+      Promise.all([
+        FetchListaDeEnvio().then((res) => {
+          setListaDeEnvio(res);
+        }),
+        fetchArquivo().then((res) => setStrings(res)),
+      ]);
+    }, [atualizarTudo])
+  );
   const atualizaFilaDeEnvio = (valor: boolean) => {
     if (valor) {
       setFilaDeEnvio((prev) => prev + 1);

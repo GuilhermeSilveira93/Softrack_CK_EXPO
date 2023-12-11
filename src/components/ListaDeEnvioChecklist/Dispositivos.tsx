@@ -14,7 +14,7 @@ type DispositivosProps = {
     ID: string;
     name: string;
   }[];
-  listaDeEnvio: (ID: string, name: string) => {};
+  listaDeEnvio: (ID: string, name: string, nomeArquivo:string) => {};
   nomeArquivo: string;
 };
 const Dispositivos = ({
@@ -22,18 +22,18 @@ const Dispositivos = ({
   name,
   listaDeEnvio,
   existe,
+  nomeArquivo
 }: DispositivosProps) => {
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>();
-  const dataFormatada = checklistEnviado?.data
+   const dataFormatada = checklistEnviado?.data
     ? stringData(checklistEnviado?.data)
     : "";
   const subtitle = checklistEnviado?.nomeArquivo
     ? `${checklistEnviado?.nomeArquivo.substring(
         0,
         checklistEnviado?.nomeArquivo.length - 3
-      )} já enviado`
-    : `Nenhum arquivo enviado`;
-
+      )}`
+    : `Nenhum arquivo enviado`; 
   useEffect(() => {
     fetchChecklistEnviado(ID).then((res) => {
       setChecklistEnviado(res[0]);
@@ -71,7 +71,7 @@ const Dispositivos = ({
           />
         )}
         right={() => (
-          <Pressable onPress={() => listaDeEnvio(ID, name)}>
+          <Pressable onPress={() => listaDeEnvio(ID, name, nomeArquivo)}>
             <AntDesign
               name={existe ? "checkcircle" : "checkcircleo"}
               color="rgb(0,150,255)"

@@ -10,7 +10,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchChecklistEnviado } from "@/libs/localDataBase/st_dispositivo_checklist";
 import {
   ChecklistEnviado,
-  ChecklistsEnviados,
 } from "@/types/checklistsEnviados";
 type DispositivosProps = {
   ID: string;

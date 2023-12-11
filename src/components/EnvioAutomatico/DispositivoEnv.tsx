@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";import { StyleSheet, Text, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, Pressable } from "react-native";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ProgressBar, List } from "react-native-paper";
@@ -30,20 +31,21 @@ export const DispositivoEnv = ({
   const [mensagem, setMensagem] = useState<string>("");
   const [tentativasConexoes, setTentativasConexoes] = useState<number>(0);
 
-  useEffect(
-    useCallback(() => {
-      if (tentativasConexoes > 3) {
-        setMensagem("Tentativas automaticas excedidas");
-        setEnviarNovamente(true);
-      } else {
-        atualizaFilaDeEnvio(true);
-        conectarDispositivo(devices.ID);
-      }
-    }, [tentativasConexoes]),
-    [tentativasConexoes]
-  );
+  useEffect(() => {
+    if (tentativasConexoes > 3) {
+      setMensagem("Tentativas automaticas excedidas");
+      setEnviarNovamente(true);
+    } else {
+      atualizaFilaDeEnvio(true);
+      console.log('devices.nomeArquivo')
+      console.log(devices.nomeArquivo)
+      console.log('devices.nomeArquivo')
+      conectarDispositivo(devices.ID);
+    }
+  }, [tentativasConexoes]);
+
   const conectarDispositivo = async (address: string) => {
-    console.log('iniciando')
+    console.log("iniciando");
     setMensagem("Iniciando...");
     setProgressBar(0);
     setEnviarNovamente(false);
@@ -53,7 +55,7 @@ export const DispositivoEnv = ({
       }
     );
     if (!conectado) {
-      console.log('conectado')
+      console.log("conectado");
       await RNBluetoothClassic.connectToDevice(address)
         .then(async () => {
           await enviosLeituras(address);
@@ -69,15 +71,15 @@ export const DispositivoEnv = ({
     }
   };
   const enviosLeituras = async (address: string) => {
-    console.log('solicitando conexão')
+    console.log("solicitando conexão");
     const conexao = await solicitarConexao(address);
     if (conexao === "OK") {
-      console.log('conexão OK')
+      console.log("conexão OK");
       setMensagem("OK");
       await enviar(address, "524D");
       const resposta = await validaResposta(address);
       if (resposta === "apagado") {
-        console.log('apagado')
+        console.log("apagado");
         await envioArquivo(address);
       } else {
         console.log(devices.name + " Erro ao limpar o modulo");

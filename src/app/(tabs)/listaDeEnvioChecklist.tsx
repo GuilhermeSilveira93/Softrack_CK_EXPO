@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { useFocusEffect, useRouter } from "expo-router";
+import React, { useState, useCallback, useEffect } from "react";import { useRouter } from "expo-router";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { fetchDevices } from "@/libs/dispositivos";
@@ -16,8 +15,9 @@ export const listaDeEnvioChecklist = () => {
     EscanearDispositivosProps["localDevices"]
   >([]);
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([]);
-  const [nomeArquivo, setNomeArquivo] =useState<string>('')
-  useFocusEffect(
+  const [nomeArquivo, setNomeArquivo] = useState<string>("");
+
+  useEffect(
     useCallback(() => {
       Promise.all([
         fetchDevices().then(
@@ -29,39 +29,31 @@ export const listaDeEnvioChecklist = () => {
             }
           }
         ),
-        setListaDeEnvio([]),
-        fetchNomeArquivo().then((res) => setNomeArquivo(res))
-      ]);
-    }, [])
+        fetchNomeArquivo().then((res) => setNomeArquivo(res)),
+        setListaDeEnvio([])
+      ])
+    },[]),[]
   );
   const ListaDeEnvio = useCallback(
-    async (ID: string, name: string) => {
-      let existe = false;
-      listaDeEnvio.forEach((item) => {
-        if (item.ID === ID) {
-          existe = true;
-        }
-      });
-      if (existe) {
-        const dispositivos = listaDeEnvio.filter((item) => item.ID !== ID);
-        setListaDeEnvio(dispositivos);
-        await AsyncStorage.removeItem("listaDeEnvio");
-        await AsyncStorage.setItem(
-          "listaDeEnvio",
-          JSON.stringify(dispositivos)
-        );
-      } else {
-        const dispositivos = [...listaDeEnvio, { ID, name, nomeArquivo }];
-        setListaDeEnvio(dispositivos);
-        await AsyncStorage.removeItem("listaDeEnvio");
-        await AsyncStorage.setItem(
-          "listaDeEnvio",
-          JSON.stringify(dispositivos)
-        );
+    async (ID: string, name: string, nomeArquivo:string) => {
+    let existe = false;
+    listaDeEnvio.forEach((item) => {
+      if (item.ID === ID) {
+        existe = true;
       }
-    },
-    [listaDeEnvio]
-  );
+    });
+    if (existe) {
+      const dispositivos = listaDeEnvio.filter((item) => item.ID !== ID);
+      setListaDeEnvio(dispositivos);
+      await AsyncStorage.removeItem("listaDeEnvio");
+      await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
+    } else {
+      const dispositivos = [...listaDeEnvio, { ID, name, nomeArquivo }];
+      setListaDeEnvio(dispositivos);
+      await AsyncStorage.removeItem("listaDeEnvio");
+      await AsyncStorage.setItem("listaDeEnvio", JSON.stringify(dispositivos));
+    }
+  }, []);
   return (
     <>
       <ScrollView

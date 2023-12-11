@@ -26,8 +26,10 @@ export const checklistEnviado = async (name:string, id:string, nomeArquivo:strin
         JSON.stringify(dispositivosNovos)
       );
     }
+    console.log('gravado')
     return true;
   } catch (error) {
+    console.log(error)
     return false;
   }
 };
