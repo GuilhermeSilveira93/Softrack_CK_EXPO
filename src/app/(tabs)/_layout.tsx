@@ -17,7 +17,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Checklist",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-home" size={size} color={color} />
           ),
@@ -35,9 +35,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="listaDeEnvioChecklist"
         options={{
-          title: "Lista de Envio",
+          title: "Enviar",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="abacus" size={size} color={color} />
+            <MaterialCommunityIcons name="cube-send" size={size} color={color} />
           ),
         }}
       />

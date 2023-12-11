@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from "react";
-import { Stack, useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Link } from "expo-router";
-import { fetchDevices } from "@/hooks/dispositivos";
+import { fetchDevices } from "@/libs/dispositivos";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
 import Dispositivos from "@/components/ListaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { fetchNomeArquivo } from "@/hooks/arquivoCK";
+import { fetchNomeArquivo } from "@/libs/localDataBase/st_checklist";
 export const listaDeEnvioChecklist = () => {
   const router = useRouter();
   const [localDevices, setLocalDevices] = useState<
@@ -64,7 +64,6 @@ export const listaDeEnvioChecklist = () => {
   );
   return (
     <>
-      <Stack.Screen options={{ title: "Dispositivos para Enviar" }} />
       <ScrollView
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}>

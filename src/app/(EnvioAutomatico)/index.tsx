@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
 import DispositivoEnv from "@/components/EnvioAutomatico/DispositivoEnv";
-import { fetchStrings } from "@/libs/arquivoCK/fetchStrings";
+import { fetchArquivo } from "@/libs/localDataBase/st_checklist";
 import { FetchListaDeEnvio } from "@/libs/dispositivos";
 import { Container } from "@/components/ui/Container";
 import { MaterialIcons } from "@expo/vector-icons";
-import { fetchChecklistEnviado } from "@/libs/localDataBase/st_dispositivo_checklist";
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string;
@@ -17,9 +16,6 @@ export const EnvioAutomatico = () => {
   const [strings, setStrings] = useState<string[]>([]);
   const [filaDeEnvio, setFilaDeEnvio] = useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [checklistsEnviados, setChecklistsEnviados] = useState<
-    EnvioAutomaticoProps["listaDeEnvio"]
-  >([]);
   const [atualizarTudo, setAtualizarTudo] = useState<boolean>(false);
   const [listaDeEnvio, setListaDeEnvio] = useState<
     EnvioAutomaticoProps["listaDeEnvio"]
@@ -29,11 +25,9 @@ export const EnvioAutomatico = () => {
       FetchListaDeEnvio().then((res) => {
         setListaDeEnvio(res);
       }),
-      fetchStrings().then((res) => setStrings(res)),
-      fetchChecklistEnviado().then((res) => setChecklistsEnviados(res)),
+      fetchArquivo().then((res) => setStrings(res)),
     ]);
   });
-  console.log(checklistsEnviados);
   const atualizaFilaDeEnvio = (valor: boolean) => {
     if (valor) {
       setFilaDeEnvio((prev) => prev + 1);

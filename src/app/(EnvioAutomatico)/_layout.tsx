@@ -9,12 +9,6 @@ export const EnvioDeChecklist = () => {
           title: "Envio de Checklist",
         }}
       />
-      <Stack.Screen
-        name="index"
-        options={{
-          title: "Envio de Checklist",
-        }}
-      />
     </Stack>
   );
 };

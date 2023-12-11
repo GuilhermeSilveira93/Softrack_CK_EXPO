@@ -1,34 +1,30 @@
 import { useState, useCallback, Suspense } from "react";
 import { View, Pressable, StyleSheet, ActivityIndicator } from "react-native";
-import {
-  carregarArquivo,
-  deleteFile,
-  fetchStrings,
-  fetchNomeArquivo,
-} from "@/libs/arquivoCK";
+import { fetchNomeArquivo, fetchArquivo } from "@/libs/localDataBase/st_checklist";
+import { carregarArquivo, deleteFile } from "@/libs/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
 import { useFocusEffect } from "expo-router";
 export default function LocalFile() {
-  const [filename, setFileName] = useState<string>("");
-  const [strings, setStrings] = useState<string[]>([]);
+  const [nomeArquivo, setNomeArquivo] = useState<string>("");
+  const [linhas, setLinhas] = useState<string[]>([]);
   useFocusEffect(
     useCallback(() => {
       Promise.all([
-        fetchNomeArquivo().then((res: string) => setFileName(res)),
-        fetchStrings().then((res) => setStrings(res)),
+        fetchNomeArquivo().then((res: string) => setNomeArquivo(res)),
+        fetchArquivo().then((res) => setLinhas(res)),
       ]);
-    }, [filename, strings])
+    }, [nomeArquivo, linhas])
   );
   return (
     <>
       <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
         <Banner
-          visible={filename?.length > 0}
+          visible={nomeArquivo?.length > 0}
           actions={[
             {
               label: "Remover arquivo",
               onPress: async () => {
-                await deleteFile().then((res) => setFileName(res));
+                await deleteFile().then((res) => setNomeArquivo(res));
               },
             },
           ]}
@@ -39,13 +35,13 @@ export default function LocalFile() {
               icon="file"
             />
           )}>
-          Arquivo {filename} na memória
+          Arquivo {nomeArquivo} na memória
         </Banner>
       </Suspense>
       <View style={styles.centeredView}>
         <Pressable
           onPress={async () => {
-            await carregarArquivo().then((res: string) => setFileName(res));
+            await carregarArquivo().then((res: string) => setNomeArquivo(res));
           }}>
           <Avatar.Icon
             size={80}

@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export const fetchStrings = async () => {
+export const fetchArquivo = async () => {
   const file: string[] = await AsyncStorage.getItem("File").then(
     (res) => {
       if (res) {

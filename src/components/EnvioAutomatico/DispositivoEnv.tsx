@@ -148,7 +148,6 @@ export const DispositivoEnv = ({
             borderRadius: 10,
             minHeight: 80,
           }}
-          //     descriptionStyle={{ color: "#fff" }}
           titleStyle={{ fontWeight: "700" }}
           title={`${devices.name}`}
           description={() => (

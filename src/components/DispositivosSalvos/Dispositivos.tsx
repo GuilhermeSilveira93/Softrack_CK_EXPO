@@ -38,13 +38,12 @@ const Dispositivos = ({
   const [pareando, setPareando] = useState<boolean>(false);
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>();
   const existe = dispositivosSalvos.filter((item) => item.ID === ID);
-
+  const subtitle = checklistEnviado?.nomeArquivo ? `${checklistEnviado?.nomeArquivo.substring(0,checklistEnviado?.nomeArquivo.length - 3)} já enviado` : `Nenhum arquivo enviado`
   useEffect(
     useCallback(() => {
       dispositivosPareados(ID).then((res) => setPareado(res));
-      fetchChecklistEnviado().then((res: ChecklistsEnviados) => {
-        const checklist = res.filter((item) => item.id === ID);
-        setChecklistEnviado(checklist[0]);
+      fetchChecklistEnviado(ID).then((res) => {
+        setChecklistEnviado(res[0])
       });
     }, [pareado]),
     []
@@ -110,10 +109,7 @@ const Dispositivos = ({
         }}
         titleStyle={{ fontWeight: "700" }}
         title={`${name}`}
-        description={`${checklistEnviado?.nomeArquivo.substring(
-          0,
-          checklistEnviado?.nomeArquivo.length - 3
-        )} já enviado`}
+        description={subtitle}
         left={() => (
           <Pressable
             disabled={bloqueio}
