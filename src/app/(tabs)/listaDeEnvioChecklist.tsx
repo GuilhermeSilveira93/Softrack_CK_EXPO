@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 import { fetchDevices } from "@/hooks/dispositivos";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
-import Dispositivos from "@/app/(tabs)/components/listaDeEnvioChecklist/Dispositivos";
+import Dispositivos from "@/components/ListaDeEnvioChecklist/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 import { LocalDevices } from "@/types/localDevices";
 import AsyncStorage from "@react-native-async-storage/async-storage";

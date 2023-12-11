@@ -202,3 +202,4 @@ const styles = StyleSheet.create({
     right: 40,
   },
 });
+export default DispositivoEnv

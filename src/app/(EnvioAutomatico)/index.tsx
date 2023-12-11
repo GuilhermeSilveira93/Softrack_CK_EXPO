@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";import { Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, ScrollView, RefreshControl } from "react-native";
-import { DispositivoEnv } from "@/app/(EnvioAutomatico)/envioChecklist/DispositivoEnv";
+import DispositivoEnv from "@/components/EnvioAutomatico/DispositivoEnv";
 import { fetchStrings } from "@/hooks/arquivoCK/fetchStrings";
 import { FetchListaDeEnvio } from "@/hooks/dispositivos";
 import { Container } from "@/components/ui/Container";

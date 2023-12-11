@@ -11,7 +11,7 @@ import { fetchDevices } from "@/hooks/dispositivos";
 import { Link } from "expo-router";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
-import Dispositivos from "@/app/(tabs)/components/dispositivosSalvos/Dispositivos";
+import Dispositivos from "@/components/DispositivosSalvos/Dispositivos";
 import { EscanearDispositivosProps } from "../(Escaneamento)";
 export const DispositivosSalvos = () => {
   const [localDevices, setLocalDevices] =

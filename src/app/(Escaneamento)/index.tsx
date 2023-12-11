@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { fetchDevices } from "@/hooks/dispositivos";
-import Dispositivos from "./components/Dispositivos";
+import Dispositivos from "@/components/Escaneamento/Dispositivos";
 import { Scroll } from "@/components/ui/Scroll";
 import { Button } from "react-native-paper";
 export type EscanearDispositivosProps = {

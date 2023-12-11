@@ -5,7 +5,7 @@ import { List } from "react-native-paper";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { dispositivosPareados } from "@/hooks/localDataBase/st_dispositivo/dispositivosPareados";
-import { Container } from "../../../../components/ui/Container";
+import { Container } from "@/components/ui/Container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
 import {
