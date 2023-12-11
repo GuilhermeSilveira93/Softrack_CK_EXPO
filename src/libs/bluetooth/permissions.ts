@@ -1,6 +1,6 @@
 import { PermissionsAndroid } from 'react-native';
 export const requestAccessFineLocationPermission = async () => {
-  const location = await PermissionsAndroid.request(
+  await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     {
       title: 'Localização necessaria para Bluetooth',
@@ -11,7 +11,7 @@ export const requestAccessFineLocationPermission = async () => {
       buttonPositive: 'OK'
     }
   )
-  const bluetoothConnect = await PermissionsAndroid.request(
+  await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
     {
       title: 'BLUETOOTH_CONNECT necessario',
@@ -22,7 +22,7 @@ export const requestAccessFineLocationPermission = async () => {
       buttonPositive: 'OK'
     }
   )
-  const bluetoothScan = await PermissionsAndroid.request(
+  await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
     {
       title: 'BLUETOOTH_SCAN necessario',
@@ -33,7 +33,7 @@ export const requestAccessFineLocationPermission = async () => {
       buttonPositive: 'OK'
     }
   )
-  const bluetoothAdvertise = await PermissionsAndroid.request(
+  await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.BLUETOOTH_ADVERTISE,
     {
       title: 'BLUETOOTH_ADVERTISE necessario',
@@ -44,7 +44,7 @@ export const requestAccessFineLocationPermission = async () => {
       buttonPositive: 'OK'
     }
   )
-  const leitura = await PermissionsAndroid.request(
+  await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     {
       title: 'Permição para ler arquivo do celular',

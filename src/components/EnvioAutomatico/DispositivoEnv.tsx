@@ -9,9 +9,9 @@ import {
   validaResposta,
   ler,
   validaGravado,
-} from "@/hooks/envioAutomatico";
+} from "@/libs/envioAutomatico";
 import { Container } from "@/components/ui/Container";
-import { checklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
+import { checklistEnviado } from "@/libs/localDataBase/st_dispositivo_checklist";
 type DispositivoEnvProps = {
   devices: {
     name: string;

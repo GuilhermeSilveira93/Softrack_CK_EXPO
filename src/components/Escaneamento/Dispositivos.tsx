@@ -3,11 +3,11 @@ import { Pressable, ActivityIndicator, Text } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import RNBluetoothClassic from "react-native-bluetooth-classic";
-import { dispositivosPareados } from "@/hooks/localDataBase/st_dispositivo/dispositivosPareados";
+import { dispositivosPareados } from "@/libs/localDataBase/st_dispositivo/dispositivosPareados";
 import { List } from "react-native-paper";
 import { Container } from "@/components/ui/Container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { fetchChecklistEnviado } from "@/hooks/localDataBase/st_dispositivo_checklist";
+import { fetchChecklistEnviado } from "@/libs/localDataBase/st_dispositivo_checklist";
 import {
   ChecklistEnviado,
   ChecklistsEnviados,

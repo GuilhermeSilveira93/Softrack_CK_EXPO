@@ -4,9 +4,9 @@ import {
   carregarArquivo,
   deleteFile,
   fetchStrings,
-} from "../../hooks/arquivoCK";
+  fetchNomeArquivo,
+} from "@/libs/arquivoCK";
 import { Banner, Avatar } from "react-native-paper";
-import { fetchNomeArquivo } from "../../hooks/arquivoCK";
 import { useFocusEffect } from "expo-router";
 export default function LocalFile() {
   const [filename, setFileName] = useState<string>("");

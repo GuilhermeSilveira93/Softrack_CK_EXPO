@@ -3,7 +3,7 @@ import { SplashScreen, Stack } from "expo-router";
 import {
   isBluetoothEnable,
   requestAccessFineLocationPermission,
-} from "../hooks/bluetooth";
+} from "@/libs/bluetooth";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";

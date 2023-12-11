@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { fetchDevices } from "@/hooks/dispositivos";
+import { fetchDevices } from "@/libs/dispositivos";
 import { Link } from "expo-router";
 import { Divider, Button } from "react-native-paper";
 import { Container } from "@/components/ui/Container";

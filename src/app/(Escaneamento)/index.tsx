@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import { fetchDevices } from "@/hooks/dispositivos";
+import { fetchDevices } from "@/libs/dispositivos";
 import Dispositivos from "@/components/Escaneamento/Dispositivos";
 import { Scroll } from "@/components/ui/Scroll";
 import { Button } from "react-native-paper";
