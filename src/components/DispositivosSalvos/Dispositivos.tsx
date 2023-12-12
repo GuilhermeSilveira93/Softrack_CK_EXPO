@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, ActivityIndicator, Text } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { List } from 'react-native-paper'
-import RNBluetoothClassic from 'react-native-bluetooth-classic'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
 import { Container } from '@/components/ui/Container'
@@ -41,20 +40,7 @@ const Dispositivos = ({
         checklistEnviado?.nomeArquivo.length - 3,
       )}`
     : `Esse dispositivo ainda não enviou arquivo.`
-  useEffect(
-    useCallback(() => {
-      dispositivosPareados(ID).then((res) => setPareado(res))
-      fetchChecklistEnviado(ID).then((res) => {
-        setChecklistEnviado(res[0])
-      })
-    }, [ID]),
-    [],
-  )
-  const addDispositivoNaLista = async () => {
-    if (!pareado) {
-      alert('Faça o pareamento da máquina antes de adicionar na lista.')
-      return
-    }
+  const addDispositivoNaLista = useCallback(async () => {
     setAdicionando(true)
     if (existe.length > 0) {
       const resto = dispositivosSalvos?.filter((item) => item.ID !== ID)
@@ -74,7 +60,24 @@ const Dispositivos = ({
       setAdicionando(false)
       attLocalDevices(dispositivosNovos)
     }
-  }
+  }, [ID, attLocalDevices, dispositivosSalvos, existe.length, name])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(
+    useCallback(() => {
+      dispositivosPareados(ID).then((res) => {
+        if (res) {
+          setPareado(res)
+        } else {
+          addDispositivoNaLista()
+        }
+      })
+      fetchChecklistEnviado(ID).then((res) => {
+        setChecklistEnviado(res[0])
+      })
+    }, [ID, addDispositivoNaLista]),
+    [],
+  )
   return (
     <Container key={ID}>
       <List.Item
@@ -104,13 +107,11 @@ const Dispositivos = ({
           <Pressable
             style={{ display: 'flex', justifyContent: 'space-evenly' }}
           >
-            <>
-              <MaterialCommunityIcons
-                name={!pareado ? 'link-off' : 'bluetooth-connect'}
-                size={40}
-                color={!pareado ? '#aaa' : '#1c73d2'}
-              />
-            </>
+            <MaterialCommunityIcons
+              name={!pareado ? 'link-off' : 'bluetooth-connect'}
+              size={40}
+              color={!pareado ? '#aaa' : '#1c73d2'}
+            />
           </Pressable>
         )}
         right={() => (

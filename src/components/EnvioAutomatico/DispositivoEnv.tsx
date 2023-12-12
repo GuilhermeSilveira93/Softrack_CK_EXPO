@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { StyleSheet, Text, Pressable, View } from 'react-native'
 import RNBluetoothClassic from 'react-native-bluetooth-classic'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { ProgressBar, List } from 'react-native-paper'
 import {
   solicitarConexao,
@@ -40,21 +41,23 @@ export const DispositivoEnv = ({
   const [progressBar, setProgressBar] = useState<number>(0)
   const [enviarNovamente, setEnviarNovamente] = useState<boolean>(false)
   const [tentativasConexoes, setTentativasConexoes] = useState<number>(0)
+  const [status, setStatus] = useState<string>('')
   const [enviado, setEnviado] = useState<boolean>(false)
   const [enviando, setEnviando] = useState<boolean>(false)
+  const tipo = 'hex'
 
   const envioArquivo = useCallback(
     async (address: string) => {
+      setStatus('Enviando.')
       for (let i = 0; i < strings.length; i++) {
         let enviarLinha = true
-        console.log(devices.name + ' Começando linha ' + (i + 1))
         let tentativas = 0
         let nullos = 0
         const linha = strings[i]
         if (linha.length > 0) {
           do {
             if (enviarLinha) {
-              await enviar(address, linha)
+              await enviar(address, linha, tipo)
               enviarLinha = false
             }
             const resposta = await ler(address)
@@ -89,8 +92,9 @@ export const DispositivoEnv = ({
       }
       await checklistEnviado(devices.name, address, devices.nomeArquivo)
       setProgressBar(strings.length)
-      await enviar(address, '43480102030405060708')
+      await enviar(address, '43480102030405060708', tipo)
       await RNBluetoothClassic.disconnectFromDevice(address)
+      setStatus('Enviado.')
       atualizaContagemDeEnvio(false)
       setEnviarNovamente(false)
       setEnviado(true)
@@ -109,11 +113,11 @@ export const DispositivoEnv = ({
   )
   const enviosLeituras = useCallback(
     async (address: string) => {
-      console.log('solicitando conexão')
+      setStatus('Conectando...')
       const conexao = await solicitarConexao(address)
       if (conexao === 'OK') {
         console.log('conexão OK')
-        await enviar(address, '524D')
+        await enviar(address, '524D', tipo)
         const resposta = await validaResposta(address)
         if (resposta === 'apagado') {
           console.log('apagado')
@@ -175,11 +179,9 @@ export const DispositivoEnv = ({
       contagemDeEnvio <= 5
     ) {
       setEnviando(true)
-      console.log(
-        'entrei ' + devices.ID + ' - ' + contagemDeEnvio + '/' + enviado,
-      )
       if (tentativasConexoes > 3) {
         setEnviarNovamente(true)
+        setStatus('Envio Falhou')
       } else {
         atualizaContagemDeEnvio(true)
         conectarDispositivo(devices.ID)
@@ -213,7 +215,18 @@ export const DispositivoEnv = ({
           title={`${devices.name}`}
           description={() => (
             <>
-              <Text>{Math.floor((progressBar * 100) / strings.length)}%</Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Text style={{ flex: 2 }}>
+                  {Math.floor((progressBar * 100) / strings.length)}%
+                </Text>
+                <Text style={{ flex: 1 }}>Status: {status}</Text>
+              </View>
               {progressBar > 0 && progressBar < strings.length && (
                 <ProgressBar
                   progress={(progressBar * 100) / strings.length / 100}
@@ -223,7 +236,20 @@ export const DispositivoEnv = ({
               )}
             </>
           )}
-          left={() => <List.Icon icon="bluetooth" />}
+          left={() => (
+            <View
+              style={{
+                display: 'flex',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              <MaterialCommunityIcons
+                name={'bluetooth-connect'}
+                size={40}
+                color={'#1c73d2'}
+              />
+            </View>
+          )}
           right={() => (
             <>
               {enviarNovamente && (
@@ -249,6 +275,7 @@ const styles = StyleSheet.create({
   progress: {
     height: 10,
     width: '100%',
+    borderRadius: 10,
   },
 })
 export default DispositivoEnv
