@@ -27,8 +27,8 @@ keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg
  
  MYAPP_UPLOAD_STORE_FILE=my-upload-key.keystore
  MYAPP_UPLOAD_KEY_ALIAS=my-key-alias
- MYAPP_UPLOAD_STORE_PASSWORD=***Senha que vc digitou antes***
- MYAPP_UPLOAD_KEY_PASSWORD=***Senha que vc digitou antes***
+ MYAPP_UPLOAD_STORE_PASSWORD=softrack
+ MYAPP_UPLOAD_KEY_PASSWORD=softrack
 
 5 - Na pasta ( {seuApp}\android\app ) no arquivo build.gradle insira os comandos dentro de android {signingConfigs}
 
