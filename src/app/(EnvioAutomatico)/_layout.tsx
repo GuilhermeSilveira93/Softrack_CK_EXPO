@@ -1,4 +1,4 @@
-import Stack from "expo-router/stack";
+import Stack from 'expo-router/stack'
 
 export const EnvioDeChecklist = () => {
   return (
@@ -6,10 +6,10 @@ export const EnvioDeChecklist = () => {
       <Stack.Screen
         name="index"
         options={{
-          title: "Envio de Checklist",
+          title: 'Envio de Checklist',
         }}
       />
     </Stack>
-  );
-};
-export default EnvioDeChecklist;
+  )
+}
+export default EnvioDeChecklist

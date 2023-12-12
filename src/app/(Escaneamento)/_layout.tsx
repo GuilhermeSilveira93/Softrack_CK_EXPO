@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack } from 'expo-router'
 
 export const Escanemento = () => {
   return (
@@ -6,10 +6,10 @@ export const Escanemento = () => {
       <Stack.Screen
         name="index"
         options={{
-          title: "Escaneando Dispositivos"
+          title: 'Escaneando Dispositivos',
         }}
       />
     </Stack>
-  );
-};
-export default Escanemento;
+  )
+}
+export default Escanemento

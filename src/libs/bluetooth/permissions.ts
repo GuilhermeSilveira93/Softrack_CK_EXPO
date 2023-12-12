@@ -1,15 +1,14 @@
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid } from 'react-native'
 export const requestAccessFineLocationPermission = async () => {
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     {
       title: 'Localização necessaria para Bluetooth',
-      message:
-        'Para executar o aplicativo, a localização é necessaria ',
+      message: 'Para executar o aplicativo, a localização é necessaria ',
       buttonNeutral: 'Lembrar depois',
       buttonNegative: 'Cancelar',
-      buttonPositive: 'OK'
-    }
+      buttonPositive: 'OK',
+    },
   )
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
@@ -19,19 +18,18 @@ export const requestAccessFineLocationPermission = async () => {
         'Para executar o aplicativo, permita o uso do BLUETOOTH_CONNECT ',
       buttonNeutral: 'Lembrar depois',
       buttonNegative: 'Cancelar',
-      buttonPositive: 'OK'
-    }
+      buttonPositive: 'OK',
+    },
   )
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
     {
       title: 'BLUETOOTH_SCAN necessario',
-      message:
-        'Para executar o aplicativo, permita o uso do BLUETOOTH_SCAN ',
+      message: 'Para executar o aplicativo, permita o uso do BLUETOOTH_SCAN ',
       buttonNeutral: 'Lembrar depois',
       buttonNegative: 'Cancelar',
-      buttonPositive: 'OK'
-    }
+      buttonPositive: 'OK',
+    },
   )
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.BLUETOOTH_ADVERTISE,
@@ -41,18 +39,17 @@ export const requestAccessFineLocationPermission = async () => {
         'Para executar o aplicativo, permita o uso do BLUETOOTH_ADVERTISE ',
       buttonNeutral: 'Lembrar depois',
       buttonNegative: 'Cancelar',
-      buttonPositive: 'OK'
-    }
+      buttonPositive: 'OK',
+    },
   )
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     {
       title: 'Permição para ler arquivo do celular',
-      message:
-        'Para ler e atualizar o checklist',
+      message: 'Para ler e atualizar o checklist',
       buttonNeutral: 'Lembrar depois',
       buttonNegative: 'Cancelar',
-      buttonPositive: 'OK'
-    }
+      buttonPositive: 'OK',
+    },
   )
 }

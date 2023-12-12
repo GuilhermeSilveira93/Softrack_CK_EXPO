@@ -1,32 +1,27 @@
-import RNBluetoothClassic from 'react-native-bluetooth-classic';
-export const enviar = async (
-  address: string,
-  msg: string,
-  tipo: string = 'hex',
-) => {
-  
+import RNBluetoothClassic from 'react-native-bluetooth-classic'
+export const enviar = async (address: string, msg: string, tipo: 'hex') => {
   return await RNBluetoothClassic.writeToDevice(address, msg, tipo)
-    .then(res => {
-      return res;
+    .then((res) => {
+      return res
     })
-    .catch(err => {
-      return null;
-    });
-};
+    .catch((err) => {
+      return err
+    })
+}
 export const ler = async (address: string) => {
-  let data = new Date();
-  let segundos = data.getTime();
-  let resposta = null;
+  const data = new Date()
+  const segundos = data.getTime()
+  let resposta = null
   do {
     resposta = await RNBluetoothClassic.readFromDevice(address)
-      .then(res => {
+      .then((res) => {
         if (res) {
-          return res.substring(0, res.length - 1);
+          return res.substring(0, res.length - 1)
         } else {
-          return null;
+          return null
         }
       })
-      .catch(err => err);
-  } while (new Date().getTime() - segundos < 2000 && resposta === null);
-  return resposta;
-};
+      .catch((err) => err)
+  } while (new Date().getTime() - segundos < 2000 && resposta === null)
+  return resposta
+}

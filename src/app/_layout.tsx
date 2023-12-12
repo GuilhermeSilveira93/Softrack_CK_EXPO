@@ -1,38 +1,40 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { useFonts } from 'expo-font'
+import { SplashScreen, Stack } from 'expo-router'
 import {
   isBluetoothEnable,
   requestAccessFineLocationPermission,
-} from "@/libs/bluetooth";
-import { useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { ThemeProvider } from "react-native-paper";
-export { ErrorBoundary } from "expo-router";
+} from '@/libs/bluetooth'
+import { useEffect } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { ThemeProvider } from 'react-native-paper'
+export { ErrorBoundary } from 'expo-router'
 
+// eslint-disable-next-line camelcase
 export const unstable_settings = {
-  initialRouteName: "/(tabs)/index",
-};
-SplashScreen.preventAutoHideAsync();
+  initialRouteName: '/(tabs)/index',
+}
+SplashScreen.preventAutoHideAsync()
 export default function RootLayout() {
-  const [loaded, error] = useFonts({ ...FontAwesome.font });
+  const [loaded, error] = useFonts({ ...FontAwesome.font })
   useEffect(() => {
-    isBluetoothEnable();
-    requestAccessFineLocationPermission();
-    if (error) throw error;
-  }, [error]);
+    isBluetoothEnable()
+    requestAccessFineLocationPermission()
+    if (error) throw error
+  }, [error])
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded]);
+  }, [loaded])
 
   if (!loaded) {
-    return null;
+    return null
   }
 
-  return <RootLayoutNav />;
+  return <RootLayoutNav />
 }
 
 function RootLayoutNav() {
@@ -55,5 +57,5 @@ function RootLayoutNav() {
         </ThemeProvider>
       </SafeAreaProvider>
     </>
-  );
+  )
 }

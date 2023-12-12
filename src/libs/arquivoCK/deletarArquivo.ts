@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const deleteFile = async () => {
   try {
@@ -8,5 +8,4 @@ export const deleteFile = async () => {
     console.log(error)
     return ''
   }
-  
 }

@@ -1,78 +1,72 @@
-import React, { useState, useEffect, useCallback } from "react";import { Container } from "@/components/ui/Container";
-import RNBluetoothClassic from "react-native-bluetooth-classic";
-import { ActivityIndicator, StyleSheet } from "react-native";
-import { fetchDevices } from "@/libs/dispositivos";
-import Dispositivos from "@/components/Escaneamento/Dispositivos";
-import { Scroll } from "@/components/ui/Scroll";
-import { Button } from "react-native-paper";
+import React, { useState, useEffect, useCallback } from 'react'
+import { Container } from '@/components/ui/Container'
+import RNBluetoothClassic, {
+  BluetoothDevice,
+} from 'react-native-bluetooth-classic'
+import { ActivityIndicator } from 'react-native'
+import { fetchDevices } from '@/libs/dispositivos'
+import Dispositivos from '@/components/Escaneamento/Dispositivos'
+import { Scroll } from '@/components/ui/Scroll'
+import { Button } from 'react-native-paper'
 export type EscanearDispositivosProps = {
-  dispositivos: {
-    name: string;
-    address: string;
-    id: string;
-    bonded?: Boolean;
-    deviceClass?: string;
-    rssi: Number;
-    extra: Map<string, Object>;
-  }[];
   localDevices: {
-    ID: string;
-    name: string;
-    nomeArquivo?: string;
-  }[];
-  scanning: boolean;
-  showModal: boolean;
-  handleDeviceID: string;
-  handleDeviceNAME: string;
-};
+    ID: string
+    name: string
+    nomeArquivo?: string
+  }[]
+  scanning: boolean
+  showModal: boolean
+  handleDeviceID: string
+  handleDeviceNAME: string
+}
 export const EscanearDispositivos = () => {
-  const [bloqueio, setBloqueio] = useState<boolean>(false);
-  const [dispositivos, setDispositivos] = useState<
-    EscanearDispositivosProps["dispositivos"]
-  >([]);
+  const [bloqueio, setBloqueio] = useState<boolean>(false)
+  const [dispositivos, setDispositivos] = useState<BluetoothDevice[]>([])
   const [localDevices, setLocalDevices] = useState<
-    EscanearDispositivosProps["localDevices"]
-  >([]);
+    EscanearDispositivosProps['localDevices']
+  >([])
   const [scanning, setScanning] =
-    useState<EscanearDispositivosProps["scanning"]>(false);
-  useEffect(() => {
-    fetchDevices().then((res) => setLocalDevices(res));
-    startScan();
-  }, []);
-  const setaBloqueio = () => {
-    setBloqueio(prev => !prev)
-  }
+    useState<EscanearDispositivosProps['scanning']>(false)
+
   const startScan = useCallback(async () => {
     try {
-      setScanning(true);
-      console.log("Iniciando escaneamento...");
+      setScanning(true)
+      console.log('Iniciando escaneamento...')
       await RNBluetoothClassic.startDiscovery()
-        .then((res: EscanearDispositivosProps["dispositivos"]) => {
+        .then((res: BluetoothDevice[]) => {
           setDispositivos(
-            res.filter((devices) => devices.name.includes("SFTK_BT"))
-          );
+            res.filter((devices) => devices.name.includes('SFTK_BT')),
+          )
         })
         .catch((err) => {
-          alert(err);
-        });
-      console.log("Escaneado");
+          alert(err)
+        })
+      console.log('Escaneado')
     } catch (error) {
-      console.log(error);
+      console.log(error)
     } finally {
-      setScanning(false);
+      setScanning(false)
     }
-  }, [dispositivos]);
+  }, [])
+  useEffect(() => {
+    fetchDevices().then((res) => setLocalDevices(res))
+    startScan()
+  }, [startScan])
+  const setaBloqueio = () => {
+    setBloqueio((prev) => !prev)
+  }
+
   const attLocalDevices = async (
-    novosDispositivos: EscanearDispositivosProps["localDevices"]
+    novosDispositivos: EscanearDispositivosProps['localDevices'],
   ) => {
-    setLocalDevices(novosDispositivos);
-  };
+    setLocalDevices(novosDispositivos)
+  }
   if (scanning) {
     return (
       <Container>
         <ActivityIndicator size="large" color="#1c73d2" />
       </Container>
-    );
+    )
   }
   if (!scanning && dispositivos.length < 1) {
     return (
@@ -80,16 +74,17 @@ export const EscanearDispositivos = () => {
         <Button
           mode="contained-tonal"
           style={{
-            backgroundColor: "#1c73d2",
+            backgroundColor: '#1c73d2',
             paddingVertical: 5,
             paddingHorizontal: 15,
           }}
           textColor="#fff"
-          onPress={() => startScan()}>
+          onPress={() => startScan()}
+        >
           Escanear
         </Button>
       </Container>
-    );
+    )
   }
   return (
     <>
@@ -106,25 +101,26 @@ export const EscanearDispositivos = () => {
                 ID={device.id}
                 attLocalDevices={attLocalDevices}
               />
-            );
+            )
           })}
           {dispositivos.length > 0 && (
             <Button
               disabled={scanning}
               mode="contained-tonal"
               style={{
-                backgroundColor: "#1c73d2",
+                backgroundColor: '#1c73d2',
                 paddingVertical: 5,
                 paddingHorizontal: 15,
               }}
               textColor="#fff"
-              onPress={() => setDispositivos([])}>
+              onPress={() => setDispositivos([])}
+            >
               Limpar Lista
             </Button>
           )}
         </Container>
       </Scroll>
     </>
-  );
-};
-export default EscanearDispositivos;
+  )
+}
+export default EscanearDispositivos
