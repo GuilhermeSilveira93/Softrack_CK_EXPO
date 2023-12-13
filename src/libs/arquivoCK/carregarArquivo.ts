@@ -17,6 +17,7 @@ export const carregarArquivo = async () => {
         await AsyncStorage.setItem('FileName', res.name!)
         return res.name
       }
+      return ''
     })
   } catch (error) {
     if (DocumentPicker.isCancel(error)) {
@@ -24,6 +25,7 @@ export const carregarArquivo = async () => {
       return ''
     } else {
       console.log(error)
+      return ''
     }
   }
 }

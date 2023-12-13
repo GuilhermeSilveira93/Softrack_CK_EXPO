@@ -41,7 +41,8 @@ export default function LocalFile() {
       <Container>
         <Pressable
           onPress={async () => {
-            await carregarArquivo().then((res: string) => setNomeArquivo(res))
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            await carregarArquivo().then((res) => setNomeArquivo(res!))
           }}
         >
           <Avatar.Icon
