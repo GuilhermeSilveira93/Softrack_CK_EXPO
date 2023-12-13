@@ -1,5 +1,5 @@
 import { useState, useCallback, Suspense } from 'react'
-import { View, Pressable, StyleSheet, ActivityIndicator } from 'react-native'
+import { Pressable, ActivityIndicator } from 'react-native'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { carregarArquivo, deleteFile } from '@/libs/arquivoCK'
 import { Banner, Avatar } from 'react-native-paper'

@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Stack } from 'expo-router'
 import { Pressable, Text, ScrollView, RefreshControl } from 'react-native'
-// import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
+import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
 import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { FetchListaDeEnvio } from '@/libs/dispositivos'
 import { Container } from '@/components/ui/Container'
 import { MaterialIcons } from '@expo/vector-icons'
-import DispositivoEnvTeste from '@/components/EnvioAutomatico/DispositivoEnvTeste'
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string
@@ -38,27 +37,25 @@ export const EnvioAutomatico = () => {
     }, []),
     [filaDeEnvio],
   )
-  const attFilaDeEnvio = (
-    ID: string,
-    name: string,
-    nomeArquivo: string,
-    retirar: boolean,
-  ) => {
-    if (!retirar) {
-      let existe = false
-      if (filaDeEnvio.length > 0) {
-        filaDeEnvio.forEach((item) => {
-          existe = item.ID === ID || existe
-        })
+  const attFilaDeEnvio = useCallback(
+    (ID: string, name: string, nomeArquivo: string, retirar: boolean) => {
+      if (!retirar) {
+        let existe = false
+        if (filaDeEnvio.length > 0) {
+          filaDeEnvio.forEach((item) => {
+            existe = item.ID === ID || existe
+          })
+        }
+        const fila = [{ ID, name, nomeArquivo }]
+        if (!existe) {
+          setFilaDeEnvio((prev) => [...prev, ...fila])
+        }
+      } else {
+        setFilaDeEnvio((prev) => prev.filter((item) => item.ID !== ID))
       }
-      const fila = [{ ID, name, nomeArquivo }]
-      if (!existe) {
-        setFilaDeEnvio((prev) => [...prev, ...fila])
-      }
-    } else {
-      setFilaDeEnvio((prev) => prev.filter((item) => item.ID !== ID))
-    }
-  }
+    },
+    [filaDeEnvio],
+  )
   const atualizaContagemDeEnvio = (valor: boolean) => {
     if (valor) {
       setContagemDeEnvio((prev) => prev + 1)
@@ -105,7 +102,7 @@ export const EnvioAutomatico = () => {
         >
           {listaDeEnvio.map((dispositivo) => {
             return (
-              <DispositivoEnvTeste
+              <DispositivoEnv
                 devices={dispositivo}
                 contagemDeEnvio={contagemDeEnvio}
                 strings={strings}
