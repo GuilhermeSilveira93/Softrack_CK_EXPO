@@ -57,19 +57,23 @@ export const DispositivoEnv = ({
         if (linha.length > 0) {
           do {
             if (enviarLinha) {
+              console.log('Enviando linha ' + linha)
               await enviar(address, linha, tipo)
               enviarLinha = false
             }
             const resposta = await ler(address)
-            console.log(devices.name + ' tentativa ' + tentativas)
+            console.log(
+              devices.name + ' tentativa ' + tentativas + ' - ' + resposta,
+            )
             if (resposta === null) {
               nullos++
               console.log(devices.name + ' nullos ' + nullos)
               if (nullos > 3) {
                 enviarLinha = true
                 nullos = 0
+                setTentativasConexoes((prev) => prev + 1)
               }
-            } else if (resposta === 'ER grava') {
+            } else if (resposta.includes('ER grava')) {
               enviarLinha = true
               tentativas++
             } else {
@@ -85,21 +89,25 @@ export const DispositivoEnv = ({
           } while (tentativas <= 3)
           if (tentativas === 4) {
             atualizaContagemDeEnvio(false)
-            setTentativasConexoes(tentativasConexoes + 1)
+            setTentativasConexoes((prev) => prev + 1)
             break
           }
         }
       }
-      await checklistEnviado(devices.name, address, devices.nomeArquivo)
-      setProgressBar(strings.length)
-      await enviar(address, '43480102030405060708', tipo)
-      await RNBluetoothClassic.disconnectFromDevice(address)
-      setStatus('Enviado.')
-      atualizaContagemDeEnvio(false)
-      setEnviarNovamente(false)
-      setEnviado(true)
-      setEnviando(false)
-      attFilaDeEnvio(devices.ID, devices.name, devices.nomeArquivo, true)
+      if (tentativasConexoes > 3) {
+        console.log('Falha ' + (tentativasConexoes === 5 ? 'CRC' : 'Envio'))
+      } else {
+        await checklistEnviado(devices.name, address, devices.nomeArquivo)
+        setProgressBar(strings.length)
+        await enviar(address, '43480102030405060708', tipo)
+        await RNBluetoothClassic.disconnectFromDevice(address)
+        setStatus('Enviado.')
+        atualizaContagemDeEnvio(false)
+        setEnviarNovamente(false)
+        setEnviado(true)
+        setEnviando(false)
+        attFilaDeEnvio(devices.ID, devices.name, devices.nomeArquivo, true)
+      }
     },
     [
       attFilaDeEnvio,
@@ -125,17 +133,17 @@ export const DispositivoEnv = ({
         } else {
           console.log(devices.name + ' Erro ao limpar o modulo')
           atualizaContagemDeEnvio(false)
-          setTentativasConexoes(tentativasConexoes + 1)
+          setTentativasConexoes((prev) => prev + 1)
           setEnviando(false)
         }
       } else {
         console.log(devices.name + ' Erro de autenticação com o Módulo')
         atualizaContagemDeEnvio(false)
-        setTentativasConexoes(tentativasConexoes + 1)
+        setTentativasConexoes((prev) => prev + 1)
         setEnviando(false)
       }
     },
-    [atualizaContagemDeEnvio, devices.name, tentativasConexoes, envioArquivo],
+    [atualizaContagemDeEnvio, devices.name, envioArquivo],
   )
   const conectarDispositivo = useCallback(
     async (address: string) => {
@@ -155,14 +163,14 @@ export const DispositivoEnv = ({
           .catch(async (err) => {
             console.log(devices.name + ' erro conectarDipositivo ' + err)
             atualizaContagemDeEnvio(false)
-            setTentativasConexoes(tentativasConexoes + 1)
+            setTentativasConexoes((prev) => prev + 1)
             setEnviando(false)
           })
       } else {
         await enviosLeituras(address)
       }
     },
-    [atualizaContagemDeEnvio, devices.name, enviosLeituras, tentativasConexoes],
+    [atualizaContagemDeEnvio, devices.name, enviosLeituras],
   )
   useEffect(() => {
     let index = -1
