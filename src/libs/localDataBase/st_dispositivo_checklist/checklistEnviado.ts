@@ -32,7 +32,6 @@ export const checklistEnviado = async (
         JSON.stringify(dispositivosNovos),
       )
     }
-    console.log('gravado')
     return true
   } catch (error) {
     console.log(error)
