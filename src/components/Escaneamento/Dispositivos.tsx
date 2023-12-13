@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Pressable, ActivityIndicator, Text } from 'react-native'
-import AntDesign from '@expo/vector-icons/AntDesign'
+import { Pressable, ActivityIndicator, View } from 'react-native'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import RNBluetoothClassic from 'react-native-bluetooth-classic'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
@@ -31,7 +30,6 @@ const Dispositivos = ({
   bloqueio,
 }: DispositivosProps) => {
   const [pareado, setPareado] = useState<boolean>(false)
-  const [adicionando, setAdicionando] = useState<boolean>(false)
   const [pareando, setPareando] = useState<boolean>(false)
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>()
   const existe = dispositivosSalvos.filter((item) => item.ID === ID)
@@ -82,12 +80,10 @@ const Dispositivos = ({
       alert('Faça o pareamento da máquina antes de adicionar na lista.')
       return
     }
-    setAdicionando(true)
     if (existe.length > 0) {
       const resto = dispositivosSalvos?.filter((item) => item.ID !== ID)
       await AsyncStorage.removeItem('listaDispositivos')
       await AsyncStorage.setItem('listaDispositivos', JSON.stringify(resto))
-      setAdicionando(false)
       attLocalDevices(resto)
     } else {
       let dispositivosNovos = [{ ID, name }]
@@ -98,58 +94,66 @@ const Dispositivos = ({
         'listaDispositivos',
         JSON.stringify(dispositivosNovos),
       )
-      setAdicionando(false)
       attLocalDevices(dispositivosNovos)
     }
   }
   return (
     <Container key={ID}>
-      <List.Item
-        style={{
-          backgroundColor: 'rgba(0,170,255,0.2)',
-          borderRadius: 10,
+      <Pressable
+        disabled={bloqueio}
+        style={{ minWidth: '100%' }}
+        onPress={() => {
+          if (!pareado) {
+            parear()
+          } else {
+            addDispositivoNaLista()
+          }
         }}
-        titleStyle={{ fontWeight: '700' }}
-        title={`${name}`}
-        description={subtitle}
-        left={() => (
-          <Pressable
-            disabled={bloqueio}
-            onPress={
-              !pareado
-                ? () => {
-                    parear()
-                  }
-                : () => null
-            }
-          >
-            {pareando ? (
-              <ActivityIndicator size="large" color="#1c73d2" />
-            ) : (
-              <>
-                <MaterialCommunityIcons
-                  name={!pareado ? 'bluetooth-connect' : 'bluetooth-connect'}
-                  size={40}
-                  color={!pareado ? '#aaa' : '#1c73d2'}
-                />
-              </>
-            )}
-          </Pressable>
-        )}
-        right={() => (
-          <Pressable onPress={() => addDispositivoNaLista()}>
-            {adicionando ? (
-              <ActivityIndicator size="large" color="#1c73d2" />
-            ) : (
-              <AntDesign
-                name={existe.length > 0 ? 'checkcircle' : 'checkcircleo'}
-                color="rgb(0,150,255)"
-                size={32}
-              />
-            )}
-          </Pressable>
-        )}
-      />
+      >
+        <List.Item
+          style={{
+            backgroundColor: 'rgba(0,170,255,0.2)',
+            borderRadius: 10,
+          }}
+          titleStyle={{ fontWeight: '700' }}
+          title={`${name}`}
+          description={subtitle}
+          left={() => (
+            <View>
+              {pareando ? (
+                <ActivityIndicator size="large" color="#1c73d2" />
+              ) : (
+                <>
+                  <MaterialCommunityIcons
+                    name={!pareado ? 'bluetooth-connect' : 'bluetooth-connect'}
+                    size={40}
+                    color={!pareado ? '#aaa' : '#1c73d2'}
+                  />
+                </>
+              )}
+            </View>
+          )}
+          right={
+            pareado
+              ? () => (
+                  <View>
+                    <MaterialCommunityIcons
+                      name={
+                        existe.length > 0
+                          ? 'toggle-switch'
+                          : 'toggle-switch-off'
+                      }
+                      color={existe.length > 0 ? 'rgb(0,150,255)' : '#aaa'}
+                      size={40}
+                    />
+                  </View>
+                )
+              : () => {
+                  return null
+                }
+          }
+        />
+      </Pressable>
     </Container>
   )
 }

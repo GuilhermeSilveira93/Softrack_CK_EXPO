@@ -3,7 +3,7 @@ import { Container } from '@/components/ui/Container'
 import RNBluetoothClassic, {
   BluetoothDevice,
 } from 'react-native-bluetooth-classic'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, RefreshControl } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import Dispositivos from '@/components/Escaneamento/Dispositivos'
 import { Scroll } from '@/components/ui/Scroll'
@@ -88,7 +88,13 @@ export const EscanearDispositivos = () => {
   }
   return (
     <>
-      <Scroll>
+      <Scroll
+        contentContainerStyle={{ minHeight: 'auto' }}
+        fadingEdgeLength={1}
+        refreshControl={
+          <RefreshControl refreshing={scanning} onRefresh={startScan} />
+        }
+      >
         <Container>
           {dispositivos?.map((device) => {
             return (
@@ -107,6 +113,7 @@ export const EscanearDispositivos = () => {
             <Button
               disabled={scanning}
               mode="contained-tonal"
+              icon="trash-can"
               style={{
                 backgroundColor: '#1c73d2',
                 paddingVertical: 5,

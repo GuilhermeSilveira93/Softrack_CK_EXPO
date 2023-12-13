@@ -19,12 +19,10 @@ export const DispositivosSalvos = () => {
   const [loadingDevices, setLoadingDevices] = useState<boolean>(true)
   useFocusEffect(
     useCallback(() => {
-      Promise.all([
-        fetchDevices().then((res) => {
-          setLocalDevices(res)
-          setLoadingDevices(false)
-        }),
-      ])
+      fetchDevices().then((res) => {
+        setLocalDevices(res)
+        setLoadingDevices(false)
+      })
     }, []),
   )
   const attLocalDevices = async (
