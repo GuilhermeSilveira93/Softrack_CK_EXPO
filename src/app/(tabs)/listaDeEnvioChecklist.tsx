@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useRouter, Link } from 'expo-router'
 import { View, StyleSheet, ScrollView } from 'react-native'
-
 import { fetchDevices } from '@/libs/dispositivos'
 import { Divider, Button } from 'react-native-paper'
 import { Container } from '@/components/ui/Container'
@@ -18,7 +17,6 @@ export const ListaDeEnvioChecklist = () => {
   >([])
   const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([])
   const [nomeArquivo, setNomeArquivo] = useState<string>('')
-
   useFocusEffect(
     useCallback(() => {
       Promise.all([

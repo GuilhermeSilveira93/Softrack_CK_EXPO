@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Stack } from 'expo-router'
 import { Pressable, Text, ScrollView, RefreshControl } from 'react-native'
-import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
+// import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
 import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { FetchListaDeEnvio } from '@/libs/dispositivos'
 import { Container } from '@/components/ui/Container'
 import { MaterialIcons } from '@expo/vector-icons'
+import DispositivoEnvTeste from '@/components/EnvioAutomatico/DispositivoEnvTeste'
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string
@@ -104,7 +105,7 @@ export const EnvioAutomatico = () => {
         >
           {listaDeEnvio.map((dispositivo) => {
             return (
-              <DispositivoEnv
+              <DispositivoEnvTeste
                 devices={dispositivo}
                 contagemDeEnvio={contagemDeEnvio}
                 strings={strings}

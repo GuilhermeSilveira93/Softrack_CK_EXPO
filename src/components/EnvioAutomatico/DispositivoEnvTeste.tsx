@@ -22,44 +22,7 @@ export const DispositivoEnvTeste = ({
       contagemDeEnvio,
       attFilaDeEnvio,
       filaDeEnvio,
-    }) /* 
-  useEffect(() => {
-    let index = -1
-    let existe = false
-    filaDeEnvio.forEach((item, i) => {
-      index = item.ID === devices.ID ? i : index
-      existe = item.ID === devices.ID || existe
     })
-    if (
-      index > -1 &&
-      index < 5 &&
-      !enviando &&
-      !enviado &&
-      contagemDeEnvio <= 5
-    ) {
-      if (tentativasConexoes > 3) {
-        setEnviarNovamente(true)
-        setStatus('Envio Falhou')
-      } else {
-        atualizaContagemDeEnvio(true)
-        conectarDispositivo(devices.ID)
-      }
-    } else if (index === -1 && !enviado) {
-      attFilaDeEnvio(devices.ID, devices.name, devices.nomeArquivo, false)
-    }
-  }, [
-    attFilaDeEnvio,
-    atualizaContagemDeEnvio,
-    contagemDeEnvio,
-    conectarDispositivo,
-    devices.ID,
-    devices.name,
-    devices.nomeArquivo,
-    enviado,
-    enviando,
-    filaDeEnvio,
-    tentativasConexoes,
-  ]) */
   return (
     <Container key={devices.ID}>
       <List.Item
