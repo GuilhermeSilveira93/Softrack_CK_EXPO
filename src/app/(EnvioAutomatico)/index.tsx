@@ -4,6 +4,7 @@ import { Pressable, Text, ScrollView, RefreshControl } from 'react-native'
 import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
 import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { FetchListaDeEnvio } from '@/libs/dispositivos'
+import DispositivoEnvTeste from '@/components/EnvioAutomatico/DispositivoEnvTeste'
 import { Container } from '@/components/ui/Container'
 import { MaterialIcons } from '@expo/vector-icons'
 type EnvioAutomaticoProps = {
