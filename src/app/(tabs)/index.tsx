@@ -1,9 +1,9 @@
-import { useState, useCallback, Suspense } from 'react'
+import React, { useState, useCallback, Suspense } from 'react'
 import { Pressable, ActivityIndicator } from 'react-native'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { carregarArquivo, deleteFile } from '@/libs/arquivoCK'
 import { Banner, Avatar } from 'react-native-paper'
-import { useFocusEffect } from 'expo-router'
+import { Stack, useFocusEffect } from 'expo-router'
 import { Container } from '@/components/ui/Container'
 export default function LocalFile() {
   const [nomeArquivo, setNomeArquivo] = useState<string>('')
@@ -16,6 +16,7 @@ export default function LocalFile() {
   )
   return (
     <>
+      <Stack.Screen options={{ contentStyle: { backgroundColor: 'red' } }} />
       <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
         <Banner
           visible={nomeArquivo?.length > 0}

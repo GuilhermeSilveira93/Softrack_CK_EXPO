@@ -29,16 +29,9 @@ export const Scroll = ({
       contentContainerStyle={contentContainerStyle}
       fadingEdgeLength={fadingEdgeLength}
       refreshControl={refreshControl}
-      style={styles.container}
+      className="p-2 flex-1"
     >
       {children}
     </ScrollView>
   )
 }
-const styles = StyleSheet.create({
-  container: {
-    padding: 2,
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-})

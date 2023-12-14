@@ -7,6 +7,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Checklist',
+
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-home" size={size} color={color} />
           ),

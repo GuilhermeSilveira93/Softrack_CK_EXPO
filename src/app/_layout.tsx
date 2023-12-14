@@ -8,7 +8,7 @@ import {
 import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { ThemeProvider } from 'react-native-paper'
+import { useColorScheme } from 'nativewind'
 export { ErrorBoundary } from 'expo-router'
 
 // eslint-disable-next-line camelcase
@@ -18,11 +18,14 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync()
 export default function RootLayout() {
   const [loaded, error] = useFonts({ ...FontAwesome.font })
+  const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme()
   useEffect(() => {
+    toggleColorScheme()
+    setColorScheme('system')
     isBluetoothEnable()
     requestAccessFineLocationPermission()
     if (error) throw error
-  }, [error])
+  }, [error, setColorScheme, colorScheme, toggleColorScheme])
 
   useEffect(() => {
     if (loaded) {
@@ -41,32 +44,27 @@ function RootLayoutNav() {
   return (
     <>
       <SafeAreaProvider>
-        <ThemeProvider>
-          <Stack>
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: false,
-                contentStyle: { backgroundColor: '#3d3d3d' },
-              }}
-            />
-            <Stack.Screen
-              name="(Escaneamento)"
-              options={{
-                headerShown: false,
-                contentStyle: { backgroundColor: '#3d3d3d' },
-              }}
-            />
-            <Stack.Screen
-              name="(EnvioAutomatico)"
-              options={{
-                headerShown: false,
-                contentStyle: { backgroundColor: '#3d3d3d' },
-              }}
-            />
-          </Stack>
-          <StatusBar animated translucent={false} />
-        </ThemeProvider>
+        <Stack>
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(Escaneamento)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(EnvioAutomatico)"
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack>
+        <StatusBar />
       </SafeAreaProvider>
     </>
   )
