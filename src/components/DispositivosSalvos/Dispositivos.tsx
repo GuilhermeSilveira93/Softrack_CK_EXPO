@@ -76,7 +76,7 @@ const Dispositivos = ({
         setChecklistEnviado(res[0])
       })
     }, [ID, addDispositivoNaLista]),
-    [],
+    [dispositivosSalvos],
   )
   return (
     <Container key={ID}>

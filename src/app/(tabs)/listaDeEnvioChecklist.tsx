@@ -6,7 +6,7 @@ import { Divider, Button } from 'react-native-paper'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
 import { EscanearDispositivosProps } from '../(Escaneamento)'
-import { LocalDevices } from '@/types/localDevices'
+import { LocalDevicesProps } from '@/types/localDevicesProps'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
@@ -15,7 +15,7 @@ export const ListaDeEnvioChecklist = () => {
   const [localDevices, setLocalDevices] = useState<
     EscanearDispositivosProps['localDevices']
   >([])
-  const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevices[]>([])
+  const [listaDeEnvio, setListaDeEnvio] = useState<LocalDevicesProps[]>([])
   const [nomeArquivo, setNomeArquivo] = useState<string>('')
   useFocusEffect(
     useCallback(() => {

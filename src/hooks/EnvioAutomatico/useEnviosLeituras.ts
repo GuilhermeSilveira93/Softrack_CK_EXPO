@@ -3,9 +3,19 @@ import {
   enviar,
   validaResposta,
 } from '@/libs/envioAutomatico'
+import { enviosLeiturasProps } from '@/types/enviosLeituras'
 import { useCallback } from 'react'
 
-export const useEnviosLeituras = () => {
+export const useEnviosLeituras = ({
+  setStatus,
+  envioArquivo,
+  atualizaContagemDeEnvio,
+  setTentativasConexoes,
+  setEnviando,
+  devices,
+}: enviosLeiturasProps) => {
+  const tipo = 'hex'
+
   const enviosLeituras = useCallback(
     async (address: string) => {
       setStatus('Conectando...')
@@ -30,7 +40,14 @@ export const useEnviosLeituras = () => {
         setEnviando(false)
       }
     },
-    [atualizaContagemDeEnvio, devices.name, envioArquivo],
+    [
+      atualizaContagemDeEnvio,
+      devices.name,
+      envioArquivo,
+      setEnviando,
+      setStatus,
+      setTentativasConexoes,
+    ],
   )
   return {
     enviosLeituras,

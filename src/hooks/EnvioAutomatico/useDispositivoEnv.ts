@@ -1,12 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import RNBluetoothClassic from 'react-native-bluetooth-classic'
-import {
-  solicitarConexao,
-  enviar,
-  validaResposta,
-} from '@/libs/envioAutomatico'
 import { DispositivoEnvProps } from '@/types/dispositivoEnv'
 import { useEnvioArquivo } from './useEnvioArquivo'
+import { useEnviosLeituras } from './useEnviosLeituras'
 export const useDispositivoEnv = ({
   devices,
   strings,
@@ -32,33 +28,14 @@ export const useDispositivoEnv = ({
     setEnviando,
     attFilaDeEnvio,
   })
-  const tipo = 'hex'
-  const enviosLeituras = useCallback(
-    async (address: string) => {
-      setStatus('Conectando...')
-      const conexao = await solicitarConexao(address)
-      if (conexao === 'OK') {
-        console.log('conexão OK')
-        await enviar(address, '524D', tipo)
-        const resposta = await validaResposta(address)
-        if (resposta === 'apagado') {
-          console.log('apagado')
-          await envioArquivo(address)
-        } else {
-          console.log(devices.name + ' Erro ao limpar o modulo')
-          atualizaContagemDeEnvio(false)
-          setTentativasConexoes((prev) => prev + 1)
-          setEnviando(false)
-        }
-      } else {
-        console.log(devices.name + ' Erro de autenticação com o Módulo')
-        atualizaContagemDeEnvio(false)
-        setTentativasConexoes((prev) => prev + 1)
-        setEnviando(false)
-      }
-    },
-    [atualizaContagemDeEnvio, devices.name, envioArquivo],
-  )
+  const { enviosLeituras } = useEnviosLeituras({
+    setStatus,
+    envioArquivo,
+    atualizaContagemDeEnvio,
+    setTentativasConexoes,
+    setEnviando,
+    devices,
+  })
   const conectarDispositivo = useCallback(
     async (address: string) => {
       setProgressBar(0)

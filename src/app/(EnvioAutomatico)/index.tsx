@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Stack } from 'expo-router'
 import { Pressable, Text, ScrollView, RefreshControl } from 'react-native'
 import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
@@ -6,6 +6,7 @@ import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { FetchListaDeEnvio } from '@/libs/dispositivos'
 import { Container } from '@/components/ui/Container'
 import { MaterialIcons } from '@expo/vector-icons'
+import { useFocusEffect } from 'expo-router/src/useFocusEffect'
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string
@@ -26,7 +27,7 @@ export const EnvioAutomatico = () => {
   >([])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(
+  useFocusEffect(
     useCallback(() => {
       Promise.all([
         FetchListaDeEnvio().then((res) => {
@@ -35,7 +36,6 @@ export const EnvioAutomatico = () => {
         fetchArquivo().then((res) => setStrings(res)),
       ])
     }, []),
-    [filaDeEnvio],
   )
   const attFilaDeEnvio = useCallback(
     (ID: string, name: string, nomeArquivo: string, retirar: boolean) => {
