@@ -43,17 +43,29 @@ function RootLayoutNav() {
       <SafeAreaProvider>
         <ThemeProvider>
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false,
+                contentStyle: { backgroundColor: '#3d3d3d' },
+              }}
+            />
             <Stack.Screen
               name="(Escaneamento)"
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                contentStyle: { backgroundColor: '#3d3d3d' },
+              }}
             />
             <Stack.Screen
               name="(EnvioAutomatico)"
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                contentStyle: { backgroundColor: '#3d3d3d' },
+              }}
             />
           </Stack>
-          <StatusBar animated />
+          <StatusBar animated translucent={false} />
         </ThemeProvider>
       </SafeAreaProvider>
     </>
