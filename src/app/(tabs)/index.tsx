@@ -1,12 +1,14 @@
 import React, { useState, useCallback, Suspense } from 'react'
 import { Pressable, ActivityIndicator } from 'react-native'
+import { useColorScheme } from 'nativewind'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { carregarArquivo, deleteFile } from '@/libs/arquivoCK'
 import { Banner, Avatar } from 'react-native-paper'
-import { Stack, useFocusEffect } from 'expo-router'
+import { useFocusEffect } from 'expo-router'
 import { Container } from '@/components/ui/Container'
 export default function LocalFile() {
   const [nomeArquivo, setNomeArquivo] = useState<string>('')
+  const { colorScheme } = useColorScheme()
   useFocusEffect(
     useCallback(() => {
       Promise.all([
@@ -16,7 +18,6 @@ export default function LocalFile() {
   )
   return (
     <>
-      <Stack.Screen options={{ contentStyle: { backgroundColor: 'red' } }} />
       <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
         <Banner
           visible={nomeArquivo?.length > 0}
@@ -48,7 +49,12 @@ export default function LocalFile() {
         >
           <Avatar.Icon
             size={80}
-            style={{ backgroundColor: 'blue' }}
+            color={`${colorScheme === 'dark' ? '#fff' : '#465DFF'}`}
+            style={{
+              backgroundColor: `${
+                colorScheme === 'dark' ? '#465DFF' : '#293541'
+              }`,
+            }}
             icon="folder"
           />
         </Pressable>

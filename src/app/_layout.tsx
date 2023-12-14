@@ -8,7 +8,6 @@ import {
 import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { useColorScheme } from 'nativewind'
 export { ErrorBoundary } from 'expo-router'
 
 // eslint-disable-next-line camelcase
@@ -18,15 +17,11 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync()
 export default function RootLayout() {
   const [loaded, error] = useFonts({ ...FontAwesome.font })
-  const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme()
   useEffect(() => {
-    toggleColorScheme()
-    setColorScheme('system')
     isBluetoothEnable()
-    console.log(colorScheme)
     requestAccessFineLocationPermission()
     if (error) throw error
-  }, [error, setColorScheme, colorScheme, toggleColorScheme])
+  }, [error])
 
   useEffect(() => {
     if (loaded) {
