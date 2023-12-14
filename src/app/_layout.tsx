@@ -23,6 +23,7 @@ export default function RootLayout() {
     toggleColorScheme()
     setColorScheme('system')
     isBluetoothEnable()
+    console.log(colorScheme)
     requestAccessFineLocationPermission()
     if (error) throw error
   }, [error, setColorScheme, colorScheme, toggleColorScheme])
