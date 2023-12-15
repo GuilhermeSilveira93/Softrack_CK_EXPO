@@ -3,9 +3,9 @@ import { StyleSheet, Text, Pressable, View } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { ProgressBar, List } from 'react-native-paper'
-import { Container } from '@/components/ui/Container'
 import { useDispositivoEnv } from '@/hooks/EnvioAutomatico/useDispositivoEnv'
 import { DispositivoEnvProps } from '@/types/dispositivoEnv'
+import { Content } from '../ui/Content'
 export const DispositivoEnvTeste = ({
   devices,
   strings,
@@ -24,12 +24,13 @@ export const DispositivoEnvTeste = ({
       filaDeEnvio,
     })
   return (
-    <Container key={devices.ID}>
+    <Content key={devices.ID}>
       <List.Item
         style={{
           backgroundColor: 'rgba(0,170,255,0.2)',
           borderRadius: 10,
           minHeight: 80,
+          maxWidth: '100%',
         }}
         titleStyle={{ fontWeight: '700' }}
         title={`${devices.name}`}
@@ -82,12 +83,16 @@ export const DispositivoEnvTeste = ({
               </Pressable>
             )}
             {progressBar === strings.length && (
-              <FontAwesome name="check-circle" color="#66aa66" size={30} />
+              <FontAwesome
+                name="check-circle"
+                color="rgb(0, 255, 159)"
+                size={30}
+              />
             )}
           </>
         )}
       />
-    </Container>
+    </Content>
   )
 }
 const styles = StyleSheet.create({

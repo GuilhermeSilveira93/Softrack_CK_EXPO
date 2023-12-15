@@ -7,12 +7,9 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: '#465DFF',
-        tabBarActiveBackgroundColor: `${
-          colorScheme === 'dark' ? '#293541' : '#ccc'
-        }`,
-        tabBarInactiveBackgroundColor: `${
-          colorScheme === 'dark' ? '#293541' : '#ccc'
-        }`,
+        tabBarItemStyle: {
+          backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+        },
       }}
     >
       <Tabs.Screen
@@ -22,7 +19,7 @@ export default function TabLayout() {
           headerStyle: {
             backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
           },
-          headerTintColor: `${colorScheme === 'dark' ? '#465DFF' : '#293541'}`,
+          headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-home" size={size} color={color} />
           ),
@@ -35,7 +32,7 @@ export default function TabLayout() {
           headerStyle: {
             backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
           },
-          headerTintColor: `${colorScheme === 'dark' ? '#465DFF' : '#293541'}`,
+          headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="forklift" size={size} color={color} />
           ),
@@ -48,7 +45,7 @@ export default function TabLayout() {
           headerStyle: {
             backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
           },
-          headerTintColor: `${colorScheme === 'dark' ? '#465DFF' : '#293541'}`,
+          headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="cube-send"

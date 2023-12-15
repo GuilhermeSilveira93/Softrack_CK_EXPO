@@ -1,12 +1,6 @@
 import { useFocusEffect, Link } from 'expo-router'
 import React, { useState, useCallback } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native'
+import { Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 
 import { Divider, Button } from 'react-native-paper'
@@ -56,45 +50,41 @@ export const DispositivosSalvos = () => {
     )
   }
   return (
-    <>
+    <Container>
       <ScrollView
         contentContainerStyle={styles.ScrollView}
         fadingEdgeLength={1}
       >
-        <View>
-          {localDevices?.map((devices) => {
-            return (
-              <Container key={devices.ID}>
-                <Dispositivos
-                  name={devices.name}
-                  ID={devices.ID}
-                  dispositivosSalvos={localDevices}
-                  key={devices.ID}
-                  attLocalDevices={attLocalDevices}
-                />
-              </Container>
-            )
-          })}
-          <Divider
-            style={{
-              width: '100%',
-              height: 5,
-              backgroundColor: 'rgb(200,200,200)',
-              marginVertical: 10,
-            }}
-          />
-          <Link href={'/(Escaneamento)'} asChild>
-            <Button
-              icon="magnify-scan"
-              mode="contained"
-              style={{ backgroundColor: '#1c73d2' }}
-            >
-              Escanear Dispositivos
-            </Button>
-          </Link>
-        </View>
+        {localDevices?.map((devices) => {
+          return (
+            <Dispositivos
+              name={devices.name}
+              ID={devices.ID}
+              dispositivosSalvos={localDevices}
+              key={devices.ID}
+              attLocalDevices={attLocalDevices}
+            />
+          )
+        })}
+        <Divider
+          style={{
+            width: '100%',
+            height: 5,
+            backgroundColor: 'rgb(200,200,200)',
+            marginVertical: 10,
+          }}
+        />
+        <Link href={'/(Escaneamento)'} asChild>
+          <Button
+            icon="magnify-scan"
+            mode="contained"
+            style={{ backgroundColor: '#1c73d2' }}
+          >
+            Escanear Dispositivos
+          </Button>
+        </Link>
       </ScrollView>
-    </>
+    </Container>
   )
 }
 const styles = StyleSheet.create({

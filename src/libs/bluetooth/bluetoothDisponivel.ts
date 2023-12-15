@@ -4,6 +4,6 @@ export const isBluetoothEnable = async () => {
     const available = await RNBluetoothClassic.isBluetoothAvailable()
     return available
   } catch (err) {
-    return err
+    return false
   }
 }

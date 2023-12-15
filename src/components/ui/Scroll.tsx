@@ -28,7 +28,6 @@ export const Scroll = ({
       contentContainerStyle={contentContainerStyle}
       fadingEdgeLength={fadingEdgeLength}
       refreshControl={refreshControl}
-      className="p-2 flex-1"
     >
       {children}
     </ScrollView>

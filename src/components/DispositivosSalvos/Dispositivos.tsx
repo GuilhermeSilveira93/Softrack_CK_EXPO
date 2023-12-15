@@ -4,11 +4,11 @@ import AntDesign from '@expo/vector-icons/AntDesign'
 import { List } from 'react-native-paper'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
-import { Container } from '@/components/ui/Container'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { stringData } from '@/libs/dispositivos'
+import { Content } from '../ui/Content'
 type DispositivosProps = {
   ID: string
   name: string
@@ -79,13 +79,13 @@ const Dispositivos = ({
     [dispositivosSalvos],
   )
   return (
-    <Container key={ID}>
+    <Content key={ID}>
       <List.Item
         style={{
           backgroundColor: 'rgba(0,170,255,0.2)',
           borderRadius: 10,
+          maxWidth: '100%',
         }}
-        titleStyle={{ fontWeight: '700' }}
         title={`${name}`}
         description={() => {
           if (!dataFormatada) {
@@ -103,6 +103,8 @@ const Dispositivos = ({
             </>
           )
         }}
+        titleStyle={{ fontWeight: '700', color: '#465DFF' }}
+        descriptionStyle={{ color: '#fff' }}
         left={() => (
           <Pressable
             style={{ display: 'flex', justifyContent: 'space-evenly' }}
@@ -131,7 +133,7 @@ const Dispositivos = ({
           </Pressable>
         )}
       />
-    </Container>
+    </Content>
   )
 }
 export default Dispositivos

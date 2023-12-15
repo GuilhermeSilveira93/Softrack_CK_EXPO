@@ -7,6 +7,7 @@ import { FetchListaDeEnvio } from '@/libs/dispositivos'
 import { Container } from '@/components/ui/Container'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
+import { useColorScheme } from 'nativewind'
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string
@@ -25,7 +26,7 @@ export const EnvioAutomatico = () => {
   const [filaDeEnvio, setFilaDeEnvio] = useState<
     EnvioAutomaticoProps['listaDeEnvio']
   >([])
-
+  const { colorScheme } = useColorScheme()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useFocusEffect(
     useCallback(() => {
@@ -76,10 +77,14 @@ export const EnvioAutomatico = () => {
 
   if (listaDeEnvio?.length > 0 && strings?.length > 0) {
     return (
-      <>
+      <Container>
         <Stack.Screen
           options={{
-            title: `Enviar Checklist ${contagemDeEnvio}`,
+            title: `Atualizando dispositivos`,
+            headerStyle: {
+              backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+            },
+            headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
             headerRight: () => (
               <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
                 {({ pressed }) => (
@@ -114,7 +119,7 @@ export const EnvioAutomatico = () => {
             )
           })}
         </ScrollView>
-      </>
+      </Container>
     )
   } else {
     return (

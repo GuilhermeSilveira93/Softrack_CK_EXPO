@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import { useRouter, Link } from 'expo-router'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { useRouter, Link, Stack } from 'expo-router'
+import { Pressable } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import { Divider, Button } from 'react-native-paper'
+import RNBluetoothClassic from 'react-native-bluetooth-classic'
+import AntDesign from '@expo/vector-icons/AntDesign'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
 import { EscanearDispositivosProps } from '../(Escaneamento)'
@@ -10,6 +12,7 @@ import { LocalDevicesProps } from '@/types/localDevicesProps'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
+import { Scroll } from '@/components/ui/Scroll'
 export const ListaDeEnvioChecklist = () => {
   const router = useRouter()
   const [localDevices, setLocalDevices] = useState<
@@ -31,6 +34,7 @@ export const ListaDeEnvioChecklist = () => {
         ),
         fetchNomeArquivo().then((res) => setNomeArquivo(res)),
         setListaDeEnvio([]),
+        RNBluetoothClassic.requestBluetoothEnabled(),
       ])
     }, [router]),
   )
@@ -56,59 +60,74 @@ export const ListaDeEnvioChecklist = () => {
     },
     [listaDeEnvio],
   )
+  const incluirTodos = async () => {
+    if (listaDeEnvio.length === localDevices.length) {
+      await AsyncStorage.removeItem('listaDeEnvio')
+      await AsyncStorage.setItem('listaDeEnvio', '')
+      setListaDeEnvio([])
+    } else {
+      await AsyncStorage.removeItem('listaDeEnvio')
+      await AsyncStorage.setItem('listaDeEnvio', JSON.stringify(localDevices))
+      setListaDeEnvio(localDevices)
+    }
+  }
   return (
-    <>
-      <ScrollView
-        contentContainerStyle={styles.ScrollView}
-        fadingEdgeLength={1}
-      >
-        <View>
-          {localDevices?.map((devices) => {
-            let existe = false
-            listaDeEnvio.forEach((dispositivo) => {
-              if (dispositivo.ID === devices.ID) {
-                existe = true
-              }
-            })
-            return (
-              <Container key={devices.ID}>
-                <Dispositivos
-                  name={devices.name}
-                  ID={devices.ID}
-                  dispositivosSalvos={localDevices}
-                  key={devices.ID}
-                  listaDeEnvio={ListaDeEnvio}
-                  nomeArquivo={nomeArquivo}
-                  existe={existe}
+    <Container>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <Pressable onPress={() => incluirTodos()}>
+              {({ pressed }) => (
+                <AntDesign
+                  name="checkcircle"
+                  color={'rgb(0, 255, 159)'}
+                  size={25}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
-              </Container>
-            )
-          })}
-          <Divider
-            style={{
-              width: '100%',
-              height: 5,
-              backgroundColor: 'rgb(200,200,200)',
-              marginVertical: 10,
-            }}
-          />
-          <Link href={'/(EnvioAutomatico)'} asChild>
-            <Button
-              icon="magnify-scan"
-              mode="contained"
-              style={{ backgroundColor: '#1c73d2' }}
-            >
-              Enviar para Dispositivos Selecionados
-            </Button>
-          </Link>
-        </View>
-      </ScrollView>
-    </>
+              )}
+            </Pressable>
+          ),
+        }}
+      />
+      <Scroll>
+        {localDevices?.map((devices) => {
+          let existe = false
+          listaDeEnvio.forEach((dispositivo) => {
+            if (dispositivo.ID === devices.ID) {
+              existe = true
+            }
+          })
+          return (
+            <Dispositivos
+              name={devices.name}
+              ID={devices.ID}
+              dispositivosSalvos={localDevices}
+              key={devices.ID}
+              listaDeEnvio={ListaDeEnvio}
+              nomeArquivo={nomeArquivo}
+              existe={existe}
+            />
+          )
+        })}
+        <Divider
+          style={{
+            width: '100%',
+            height: 5,
+            backgroundColor: 'rgb(200,200,200)',
+            marginVertical: 10,
+          }}
+        />
+        <Link href={'/(EnvioAutomatico)'} asChild>
+          <Button
+            icon="magnify-scan"
+            mode="contained"
+            style={{ backgroundColor: '#1c73d2' }}
+          >
+            Enviar para Dispositivos Selecionados
+          </Button>
+        </Link>
+      </Scroll>
+    </Container>
   )
 }
-const styles = StyleSheet.create({
-  ScrollView: {
-    minHeight: '100%',
-  },
-})
 export default ListaDeEnvioChecklist

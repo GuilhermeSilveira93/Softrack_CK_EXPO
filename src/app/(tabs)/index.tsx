@@ -2,10 +2,11 @@ import React, { useState, useCallback, Suspense } from 'react'
 import { Pressable, ActivityIndicator } from 'react-native'
 import { useColorScheme } from 'nativewind'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
-import { carregarArquivo, deleteFile } from '@/libs/arquivoCK'
-import { Banner, Avatar } from 'react-native-paper'
+import { carregarArquivo } from '@/libs/arquivoCK'
+import { Avatar } from 'react-native-paper'
 import { useFocusEffect } from 'expo-router'
 import { Container } from '@/components/ui/Container'
+import { Banner } from '@/components/Index/Banner'
 export default function LocalFile() {
   const [nomeArquivo, setNomeArquivo] = useState<string>('')
   const { colorScheme } = useColorScheme()
@@ -16,11 +17,21 @@ export default function LocalFile() {
       ])
     }, []),
   )
+  const deletarArquivo = () => {
+    setNomeArquivo('')
+  }
   return (
     <>
       <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
         <Banner
+          text={`Arquivo ${nomeArquivo} Carregado}`}
+          deletarArquivo={deletarArquivo}
+        />
+        {/* <Banner
           visible={nomeArquivo?.length > 0}
+          contentStyle={{
+            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
+          }}
           actions={[
             {
               label: 'Remover arquivo',
@@ -38,7 +49,7 @@ export default function LocalFile() {
           )}
         >
           Arquivo {nomeArquivo} na memória
-        </Banner>
+        </Banner> */}
       </Suspense>
       <Container>
         <Pressable

@@ -4,10 +4,10 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import RNBluetoothClassic from 'react-native-bluetooth-classic'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
 import { List } from 'react-native-paper'
-import { Container } from '@/components/ui/Container'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
+import { Content } from '../ui/Content'
 type DispositivosProps = {
   ID: string
   name: string
@@ -39,6 +39,7 @@ const Dispositivos = ({
         checklistEnviado?.nomeArquivo.length - 3,
       )} já enviado`
     : `Nenhum arquivo enviado`
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     useCallback(() => {
       dispositivosPareados(ID).then((res) => setPareado(res))
@@ -98,10 +99,9 @@ const Dispositivos = ({
     }
   }
   return (
-    <Container key={ID}>
+    <Content key={ID}>
       <Pressable
         disabled={bloqueio}
-        style={{ minWidth: '100%' }}
         onPress={() => {
           if (!pareado) {
             parear()
@@ -114,10 +114,12 @@ const Dispositivos = ({
           style={{
             backgroundColor: 'rgba(0,170,255,0.2)',
             borderRadius: 10,
+            maxWidth: '100%',
           }}
-          titleStyle={{ fontWeight: '700' }}
           title={`${name}`}
           description={subtitle}
+          titleStyle={{ fontWeight: '700', color: '#465DFF' }}
+          descriptionStyle={{ color: '#fff' }}
           left={() => (
             <View>
               {pareando ? (
@@ -154,7 +156,7 @@ const Dispositivos = ({
           }
         />
       </Pressable>
-    </Container>
+    </Content>
   )
 }
 export default Dispositivos

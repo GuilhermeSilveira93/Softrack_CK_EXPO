@@ -87,7 +87,7 @@ export const EscanearDispositivos = () => {
     )
   }
   return (
-    <>
+    <Container>
       <Scroll
         contentContainerStyle={{ minHeight: 'auto' }}
         fadingEdgeLength={1}
@@ -95,39 +95,37 @@ export const EscanearDispositivos = () => {
           <RefreshControl refreshing={scanning} onRefresh={startScan} />
         }
       >
-        <Container>
-          {dispositivos?.map((device) => {
-            return (
-              <Dispositivos
-                setaBloqueio={setaBloqueio}
-                bloqueio={bloqueio}
-                key={device.id}
-                dispositivosSalvos={localDevices}
-                name={device.name}
-                ID={device.id}
-                attLocalDevices={attLocalDevices}
-              />
-            )
-          })}
-          {dispositivos.length > 0 && (
-            <Button
-              disabled={scanning}
-              mode="contained-tonal"
-              icon="trash-can"
-              style={{
-                backgroundColor: '#1c73d2',
-                paddingVertical: 5,
-                paddingHorizontal: 15,
-              }}
-              textColor="#fff"
-              onPress={() => setDispositivos([])}
-            >
-              Limpar Lista
-            </Button>
-          )}
-        </Container>
+        {dispositivos?.map((device) => {
+          return (
+            <Dispositivos
+              setaBloqueio={setaBloqueio}
+              bloqueio={bloqueio}
+              key={device.id}
+              dispositivosSalvos={localDevices}
+              name={device.name}
+              ID={device.id}
+              attLocalDevices={attLocalDevices}
+            />
+          )
+        })}
+        {dispositivos.length > 0 && (
+          <Button
+            disabled={scanning}
+            mode="contained-tonal"
+            icon="trash-can"
+            style={{
+              backgroundColor: '#1c73d2',
+              paddingVertical: 5,
+              paddingHorizontal: 15,
+            }}
+            textColor="#fff"
+            onPress={() => setDispositivos([])}
+          >
+            Limpar Lista
+          </Button>
+        )}
       </Scroll>
-    </>
+    </Container>
   )
 }
 export default EscanearDispositivos
