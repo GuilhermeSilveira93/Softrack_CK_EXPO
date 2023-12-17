@@ -1,32 +1,31 @@
 import React from 'react'
 import { View, Text, Pressable } from 'react-native'
-import { Container } from '../ui/Container'
 import { deleteFile } from '@/libs/arquivoCK'
 import { Avatar } from 'react-native-paper'
 type BannerProps = {
   text: string
   deletarArquivo: () => void
 }
-export const Banner = ({ text }: BannerProps) => {
+export const Banner = ({ text, deletarArquivo }: BannerProps) => {
   return (
-    <Container>
-      <View className="flex">
+    <View className="bg-dark-5 shadow-md shadow-white p-5 flex flex-row flex-wrap justify-end gap-4">
+      <View className="flex flex-row justify-around items-center flex-wrap w-full">
         <Avatar.Icon
           size={50}
           style={{ backgroundColor: 'blue' }}
           icon="file"
         />
-        <Text>{text}</Text>
+        <Text className="w-56">{text}</Text>
       </View>
-      <View>
-        <Pressable
-          onPress={async () => {
-            await deleteFile()
-          }}
-        >
-          <Text>Remover Arquivo</Text>
-        </Pressable>
-      </View>
-    </Container>
+      <Pressable
+        className="bg-slate-400 p-2 max-w-[35%] rounded-md relative right-0"
+        onPress={async () => {
+          await deleteFile()
+          deletarArquivo()
+        }}
+      >
+        <Text>Remover Arquivo</Text>
+      </Pressable>
+    </View>
   )
 }

@@ -23,33 +23,15 @@ export default function LocalFile() {
   return (
     <>
       <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
-        <Banner
-          text={`Arquivo ${nomeArquivo} Carregado}`}
-          deletarArquivo={deletarArquivo}
-        />
-        {/* <Banner
-          visible={nomeArquivo?.length > 0}
-          contentStyle={{
-            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
-          }}
-          actions={[
-            {
-              label: 'Remover arquivo',
-              onPress: async () => {
-                await deleteFile().then((res) => setNomeArquivo(res))
-              },
-            },
-          ]}
-          icon={() => (
-            <Avatar.Icon
-              size={50}
-              style={{ backgroundColor: 'blue' }}
-              icon="file"
-            />
-          )}
-        >
-          Arquivo {nomeArquivo} na memória
-        </Banner> */}
+        {nomeArquivo.length > 0 && (
+          <Banner
+            text={`${nomeArquivo.substring(
+              0,
+              nomeArquivo.length - 4,
+            )} Carregado`}
+            deletarArquivo={deletarArquivo}
+          />
+        )}
       </Suspense>
       <Container>
         <Pressable

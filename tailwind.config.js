@@ -8,12 +8,15 @@ module.exports = {
           1: 'rgb(0, 255, 159)',
           2: '#465DFF',
           3: '#293541',
+          4: '#061218',
+          5: '#FF0000',
         },
         // eslint-disable-next-line prettier/prettier
         light: {
           1: 'rgb(0, 255, 159)',
           2: '#465DFF',
           3: '#293541',
+          4: '#121824',
         },
       },
     },
