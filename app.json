@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#293541"
+      "backgroundColor": "#0d0d0d"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -21,7 +21,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#293541"
+        "backgroundColor": "#0d0d0d"
       },
       "permissions": [
         "android.permission.BLUETOOTH",
