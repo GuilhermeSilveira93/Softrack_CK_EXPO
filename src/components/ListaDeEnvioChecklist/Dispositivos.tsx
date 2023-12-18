@@ -74,14 +74,14 @@ const Dispositivos = ({
             </>
           )
         }}
-        titleStyle={{ fontWeight: '700', color: '#465DFF' }}
+        titleStyle={{ fontWeight: '700', color: 'rgb(0, 255, 159)' }}
         descriptionStyle={{ color: '#fff' }}
         left={() => (
           <View style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             <MaterialCommunityIcons
               name={'bluetooth-connect'}
               size={40}
-              color={'#1c73d2'}
+              color={'rgb(0, 255, 159)'}
             />
           </View>
         )}
@@ -92,7 +92,7 @@ const Dispositivos = ({
           >
             <AntDesign
               name={existe ? 'checkcircle' : 'checkcircleo'}
-              color="rgb(0,150,255)"
+              color="rgb(0, 255, 159)"
               size={40}
             />
           </Pressable>

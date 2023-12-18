@@ -82,7 +82,7 @@ const Dispositivos = ({
     <Content key={ID}>
       <List.Item
         style={{
-          backgroundColor: 'rgba(0,170,255,0.2)',
+          backgroundColor: '#293541',
           borderRadius: 10,
           maxWidth: '100%',
         }}
@@ -91,7 +91,7 @@ const Dispositivos = ({
           if (!dataFormatada) {
             return (
               <>
-                <Text>{subtitle}</Text>
+                <Text className="dark:text-white">{subtitle}</Text>
               </>
             )
           }
@@ -103,7 +103,7 @@ const Dispositivos = ({
             </>
           )
         }}
-        titleStyle={{ fontWeight: '700', color: '#465DFF' }}
+        titleStyle={{ fontWeight: '700', color: 'rgb(0, 255, 159)' }}
         descriptionStyle={{ color: '#fff' }}
         left={() => (
           <Pressable
@@ -112,7 +112,7 @@ const Dispositivos = ({
             <MaterialCommunityIcons
               name={!pareado ? 'link-off' : 'bluetooth-connect'}
               size={40}
-              color={!pareado ? '#aaa' : '#1c73d2'}
+              color={!pareado ? '#aaa' : 'rgb(0, 255, 159)'}
             />
           </Pressable>
         )}
@@ -122,11 +122,11 @@ const Dispositivos = ({
             onPress={() => addDispositivoNaLista()}
           >
             {adicionando ? (
-              <ActivityIndicator size="large" color="#1c73d2" />
+              <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
             ) : (
               <AntDesign
                 name={existe.length > 0 ? 'checkcircle' : 'checkcircleo'}
-                color="rgb(0,150,255)"
+                color="rgb(0, 255, 159)"
                 size={40}
               />
             )}

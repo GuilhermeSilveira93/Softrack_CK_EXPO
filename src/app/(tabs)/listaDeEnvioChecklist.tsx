@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react'
 import { useRouter, Link, Stack } from 'expo-router'
-import { Pressable } from 'react-native'
+import { Pressable, ScrollView, View, Text } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
-import { Divider, Button } from 'react-native-paper'
+import { Divider } from 'react-native-paper'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
@@ -11,7 +12,6 @@ import { LocalDevicesProps } from '@/types/localDevicesProps'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
-import { Scroll } from '@/components/ui/Scroll'
 export const ListaDeEnvioChecklist = () => {
   const router = useRouter()
   const [localDevices, setLocalDevices] = useState<
@@ -87,7 +87,7 @@ export const ListaDeEnvioChecklist = () => {
           ),
         }}
       />
-      <Scroll>
+      <ScrollView>
         {localDevices?.map((devices) => {
           let existe = false
           listaDeEnvio.forEach((dispositivo) => {
@@ -116,15 +116,21 @@ export const ListaDeEnvioChecklist = () => {
           }}
         />
         <Link href={'/(EnvioAutomatico)'} asChild>
-          <Button
-            icon="magnify-scan"
-            mode="contained"
-            style={{ backgroundColor: '#1c73d2' }}
-          >
-            Enviar para Dispositivos Selecionados
-          </Button>
+          <View className="flex p-4 items-center w-full">
+            <Pressable className="dark:bg-dark-300 max-w-[100%] p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100">
+              <MaterialCommunityIcons
+                name="file-send"
+                size={30}
+                color={'rgb(0, 255, 159)'}
+                style={{ marginRight: 10 }}
+              />
+              <Text className="dark:text-white">
+                Enviar para Dispositivos Selecionados
+              </Text>
+            </Pressable>
+          </View>
         </Link>
-      </Scroll>
+      </ScrollView>
     </Container>
   )
 }

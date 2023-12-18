@@ -2,10 +2,10 @@ import { useFocusEffect, Link } from 'expo-router'
 import React, { useState, useCallback } from 'react'
 import {
   Text,
-  StyleSheet,
   ScrollView,
   ActivityIndicator,
   Pressable,
+  View,
 } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
@@ -33,7 +33,7 @@ export const DispositivosSalvos = () => {
   if (loadingDevices) {
     return (
       <Container>
-        <ActivityIndicator size="large" color="#1c73d2" />
+        <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
       </Container>
     )
   }
@@ -58,10 +58,7 @@ export const DispositivosSalvos = () => {
   }
   return (
     <Container>
-      <ScrollView
-        contentContainerStyle={styles.ScrollView}
-        fadingEdgeLength={1}
-      >
+      <ScrollView fadingEdgeLength={1}>
         {localDevices?.map((devices) => {
           return (
             <Dispositivos
@@ -82,46 +79,20 @@ export const DispositivosSalvos = () => {
           }}
         />
         <Link href={'/(Escaneamento)'} asChild>
-          <Pressable className="bg-red-500">
-            <Text>Escanear Dispositivos</Text>
-          </Pressable>
+          <View className="flex p-4 items-center w-full">
+            <Pressable className="dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100">
+              <MaterialCommunityIcons
+                name="forklift"
+                size={30}
+                color={'rgb(0, 255, 159)'}
+                style={{ marginRight: 10 }}
+              />
+              <Text className="dark:text-white">Escanear Dispositivos</Text>
+            </Pressable>
+          </View>
         </Link>
       </ScrollView>
     </Container>
   )
 }
-const styles = StyleSheet.create({
-  ScrollView: {
-    minHeight: '100%',
-  },
-  centeredView: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-    height: '100%',
-  },
-  textBlack: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  textWhite: {
-    fontSize: 15,
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  maquinas: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  button: {
-    minWidth: '87%',
-    flex: 1,
-    maxHeight: 60,
-    justifyContent: 'space-between',
-  },
-})
 export default DispositivosSalvos

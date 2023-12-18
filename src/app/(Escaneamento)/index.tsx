@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Container } from '@/components/ui/Container'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import RNBluetoothClassic, {
   BluetoothDevice,
 } from 'react-native-bluetooth-classic'
@@ -7,12 +8,12 @@ import {
   ActivityIndicator,
   Pressable,
   RefreshControl,
+  ScrollView,
   Text,
+  View,
 } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import Dispositivos from '@/components/Escaneamento/Dispositivos'
-import { Scroll } from '@/components/ui/Scroll'
-import { Button } from 'react-native-paper'
 export type EscanearDispositivosProps = {
   localDevices: {
     ID: string
@@ -87,8 +88,7 @@ export const EscanearDispositivos = () => {
   }
   return (
     <Container>
-      <Scroll
-        contentContainerStyle={{ minHeight: 'auto' }}
+      <ScrollView
         fadingEdgeLength={1}
         refreshControl={
           <RefreshControl refreshing={scanning} onRefresh={startScan} />
@@ -108,22 +108,23 @@ export const EscanearDispositivos = () => {
           )
         })}
         {dispositivos.length > 0 && (
-          <Button
-            disabled={scanning}
-            mode="contained-tonal"
-            icon="trash-can"
-            style={{
-              backgroundColor: '#1c73d2',
-              paddingVertical: 5,
-              paddingHorizontal: 15,
-            }}
-            textColor="#fff"
-            onPress={() => setDispositivos([])}
-          >
-            Limpar Lista
-          </Button>
+          <View className="flex p-4 items-center w-full">
+            <Pressable
+              className="dark:bg-dark-300 max-w-[60%] p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100"
+              disabled={scanning}
+              onPress={() => setDispositivos([])}
+            >
+              <MaterialCommunityIcons
+                name="trash-can"
+                size={30}
+                color={'#f00'}
+                style={{ marginRight: 10 }}
+              />
+              <Text className="dark:text-white">Limpar Lista</Text>
+            </Pressable>
+          </View>
         )}
-      </Scroll>
+      </ScrollView>
     </Container>
   )
 }

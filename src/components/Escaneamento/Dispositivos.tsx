@@ -114,22 +114,22 @@ const Dispositivos = ({
           style={{
             backgroundColor: 'rgba(0,170,255,0.2)',
             borderRadius: 10,
-            maxWidth: '100%',
+            minWidth: '100%',
           }}
           title={`${name}`}
           description={subtitle}
-          titleStyle={{ fontWeight: '700', color: '#465DFF' }}
+          titleStyle={{ fontWeight: '700', color: 'rgb(0, 255, 159)' }}
           descriptionStyle={{ color: '#fff' }}
           left={() => (
             <View>
               {pareando ? (
-                <ActivityIndicator size="large" color="#1c73d2" />
+                <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
               ) : (
                 <>
                   <MaterialCommunityIcons
                     name={!pareado ? 'bluetooth-connect' : 'bluetooth-connect'}
                     size={40}
-                    color={!pareado ? '#aaa' : '#1c73d2'}
+                    color={!pareado ? '#aaa' : 'rgb(0, 255, 159)'}
                   />
                 </>
               )}
@@ -145,7 +145,7 @@ const Dispositivos = ({
                           ? 'toggle-switch'
                           : 'toggle-switch-off'
                       }
-                      color={existe.length > 0 ? 'rgb(0,150,255)' : '#aaa'}
+                      color={existe.length > 0 ? 'rgb(0, 255, 159)' : '#aaa'}
                       size={40}
                     />
                   </View>
