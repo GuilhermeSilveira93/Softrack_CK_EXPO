@@ -114,14 +114,9 @@ const Dispositivos = ({
       >
         <List.Item
           style={{
-            backgroundColor: `${
-              colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
-            }`,
-            borderRadius: 10,
-            marginBottom: 6,
+            justifyContent: 'center',
             minHeight: 90,
             minWidth: '100%',
-            maxWidth: '100%',
           }}
           title={`${name}`}
           description={subtitle}

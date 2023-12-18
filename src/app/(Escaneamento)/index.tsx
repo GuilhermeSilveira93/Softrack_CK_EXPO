@@ -46,7 +46,8 @@ export const EscanearDispositivos = () => {
       await RNBluetoothClassic.startDiscovery()
         .then((res: BluetoothDevice[]) => {
           setDispositivos(
-            res.filter((devices) => devices.name.includes('SFTK_BT')),
+            res,
+            /* res.filter((devices) => devices.name.includes('SFTK_BT')) */
           )
         })
         .catch((err) => {
@@ -120,38 +121,37 @@ export const EscanearDispositivos = () => {
           ),
         }}
       />
-
+      <TourGuideZone
+        zone={1}
+        tourKey={tourKey}
+        text={
+          'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique em qualquer região do dispositivo desejado para Parear.'
+        }
+        borderRadius={5}
+        style={{
+          position: 'absolute',
+          top: 32,
+          left: 4,
+          height: 127,
+          width: '98%',
+        }}
+      />
+      <TourGuideZone
+        zone={2}
+        tourKey={tourKey}
+        text={
+          'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique em qualquer lugar para alterná-lo para adicionar à lista de Dispositivos.'
+        }
+        borderRadius={5}
+        style={{
+          position: 'absolute',
+          top: 32,
+          left: 4,
+          height: 127,
+          width: '98%',
+        }}
+      />
       <Container>
-        <TourGuideZone
-          zone={1}
-          tourKey={tourKey}
-          text={
-            'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique em qualquer região do dispositivo desejado para Parear.'
-          }
-          borderRadius={5}
-          style={{
-            position: 'absolute',
-            top: 30,
-            left: 10,
-            height: 100,
-            width: '100%',
-          }}
-        />
-        <TourGuideZone
-          zone={2}
-          tourKey={tourKey}
-          text={
-            'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique em qualquer lugar para alterná-lo para adicionar à lista de Dispositivos.'
-          }
-          borderRadius={5}
-          style={{
-            position: 'absolute',
-            top: 30,
-            left: 10,
-            height: 100,
-            width: '100%',
-          }}
-        />
         <ScrollView
           fadingEdgeLength={1}
           refreshControl={

@@ -183,9 +183,8 @@ export const ListaDeEnvioChecklist = () => {
         <Divider
           style={{
             width: '100%',
-            height: 5,
+            height: 2,
             backgroundColor: 'rgb(200,200,200)',
-            marginVertical: 10,
           }}
         />
         <Link href={'/(EnvioAutomatico)'} asChild>

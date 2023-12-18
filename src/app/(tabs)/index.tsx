@@ -64,6 +64,7 @@ export default function LocalFile() {
                 'Navegue até "Dispositivos" para escanear\ne adicionar na lista.'
               }
               borderRadius={5}
+              tooltipBottomOffset={20}
               style={{
                 position: 'absolute',
                 bottom: '-11%',
@@ -79,7 +80,7 @@ export default function LocalFile() {
               borderRadius={5}
               style={{
                 position: 'absolute',
-                top: '16%',
+                top: '17%',
                 right: 17,
                 height: 50,
                 width: 130,
@@ -95,14 +96,21 @@ export default function LocalFile() {
           </>
         )}
       </Suspense>
+
+      <TourGuideZone
+        zone={1}
+        tourKey={tourKey}
+        text={'Para carregar o arquivo, clique aqui.'}
+        borderRadius={50}
+        style={{
+          position: 'absolute',
+          width: 100,
+          height: 100,
+          top: '47%',
+          right: '37.4%',
+        }}
+      />
       <Container>
-        <TourGuideZone
-          zone={1}
-          tourKey={tourKey}
-          text={'Carregue seu arquivo !'}
-          borderRadius={40}
-          style={{ position: 'absolute', width: 80, height: 80, top: '49.3%' }}
-        />
         <Pressable
           onPress={async () => {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
