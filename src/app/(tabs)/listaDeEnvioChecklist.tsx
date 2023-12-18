@@ -3,7 +3,6 @@ import { useRouter, Link, Stack } from 'expo-router'
 import { Pressable } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import { Divider, Button } from 'react-native-paper'
-import RNBluetoothClassic from 'react-native-bluetooth-classic'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
@@ -34,7 +33,6 @@ export const ListaDeEnvioChecklist = () => {
         ),
         fetchNomeArquivo().then((res) => setNomeArquivo(res)),
         setListaDeEnvio([]),
-        RNBluetoothClassic.requestBluetoothEnabled(),
       ])
     }, [router]),
   )

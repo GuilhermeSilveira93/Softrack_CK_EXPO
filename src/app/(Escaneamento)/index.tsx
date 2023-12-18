@@ -3,7 +3,12 @@ import { Container } from '@/components/ui/Container'
 import RNBluetoothClassic, {
   BluetoothDevice,
 } from 'react-native-bluetooth-classic'
-import { ActivityIndicator, RefreshControl } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  RefreshControl,
+  Text,
+} from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import Dispositivos from '@/components/Escaneamento/Dispositivos'
 import { Scroll } from '@/components/ui/Scroll'
@@ -64,25 +69,19 @@ export const EscanearDispositivos = () => {
   if (scanning) {
     return (
       <Container>
-        <ActivityIndicator size="large" color="#1c73d2" />
+        <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
       </Container>
     )
   }
   if (!scanning && dispositivos.length < 1) {
     return (
       <Container>
-        <Button
-          mode="contained-tonal"
-          style={{
-            backgroundColor: '#1c73d2',
-            paddingVertical: 5,
-            paddingHorizontal: 15,
-          }}
-          textColor="#fff"
+        <Pressable
+          className="dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100"
           onPress={() => startScan()}
         >
-          Escanear
-        </Button>
+          <Text className="dark:text-dark-100">Escanear</Text>
+        </Pressable>
       </Container>
     )
   }

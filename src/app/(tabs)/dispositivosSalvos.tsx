@@ -1,9 +1,15 @@
 import { useFocusEffect, Link } from 'expo-router'
 import React, { useState, useCallback } from 'react'
-import { Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+  Pressable,
+} from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
-
-import { Divider, Button } from 'react-native-paper'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { Divider } from 'react-native-paper'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/DispositivosSalvos/Dispositivos'
 import { EscanearDispositivosProps } from '../(Escaneamento)'
@@ -35,15 +41,16 @@ export const DispositivosSalvos = () => {
     return (
       <>
         <Container>
-          <Text>Não existem dispositivos adicionados.</Text>
           <Link href={'/(Escaneamento)'} asChild>
-            <Button
-              icon="magnify-scan"
-              mode="contained"
-              style={{ backgroundColor: '#1c73d2' }}
-            >
-              Escanear Dispositivos
-            </Button>
+            <Pressable className="dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100">
+              <MaterialCommunityIcons
+                name="forklift"
+                size={30}
+                color={'rgb(0, 255, 159)'}
+                style={{ marginRight: 10 }}
+              />
+              <Text className="dark:text-dark-100">Escanear Dispositivos</Text>
+            </Pressable>
           </Link>
         </Container>
       </>
@@ -75,13 +82,9 @@ export const DispositivosSalvos = () => {
           }}
         />
         <Link href={'/(Escaneamento)'} asChild>
-          <Button
-            icon="magnify-scan"
-            mode="contained"
-            style={{ backgroundColor: '#1c73d2' }}
-          >
-            Escanear Dispositivos
-          </Button>
+          <Pressable className="bg-red-500">
+            <Text>Escanear Dispositivos</Text>
+          </Pressable>
         </Link>
       </ScrollView>
     </Container>

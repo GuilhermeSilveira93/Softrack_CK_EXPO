@@ -44,10 +44,15 @@ export default function LocalFile() {
         >
           <Avatar.Icon
             size={80}
-            color={`${colorScheme === 'dark' ? '#465DFF' : 'rgb(0, 255, 159)'}`}
+            color={`${
+              colorScheme === 'dark' ? 'rgb(0, 255, 159)' : 'rgb(0, 255, 159)'
+            }`}
             style={{
+              shadowColor: 'rgb(0, 255, 159)',
+              shadowOpacity: 1,
+              elevation: 10,
               backgroundColor: `${
-                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#293541'
+                colorScheme === 'dark' ? '#293541' : '#293541'
               }`,
             }}
             icon="folder"
