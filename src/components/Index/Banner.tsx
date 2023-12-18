@@ -2,13 +2,14 @@ import React from 'react'
 import { View, Text, Pressable } from 'react-native'
 import { deleteFile } from '@/libs/arquivoCK'
 import { Avatar } from 'react-native-paper'
+import Colors from 'tailwindcss/colors'
 type BannerProps = {
   text: string
   deletarArquivo: () => void
 }
 export const Banner = ({ text, deletarArquivo }: BannerProps) => {
   return (
-    <View className="bg-dark-5 shadow-md shadow-white p-5 flex flex-row flex-wrap justify-end gap-4">
+    <View className="bg-dark-100 shadow-md shadow-white p-5 flex flex-row flex-wrap justify-end gap-4">
       <View className="flex flex-row justify-around items-center flex-wrap w-full">
         <Avatar.Icon
           size={50}

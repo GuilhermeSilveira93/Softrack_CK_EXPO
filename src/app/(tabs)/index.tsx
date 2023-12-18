@@ -22,7 +22,9 @@ export default function LocalFile() {
   }
   return (
     <>
-      <Suspense fallback={<ActivityIndicator size="large" color="#1c73d2" />}>
+      <Suspense
+        fallback={<ActivityIndicator size="large" color="rgb(0, 255, 159)" />}
+      >
         {nomeArquivo.length > 0 && (
           <Banner
             text={`${nomeArquivo.substring(
@@ -42,10 +44,10 @@ export default function LocalFile() {
         >
           <Avatar.Icon
             size={80}
-            color={`${colorScheme === 'dark' ? '#fff' : '#465DFF'}`}
+            color={`${colorScheme === 'dark' ? '#465DFF' : 'rgb(0, 255, 159)'}`}
             style={{
               backgroundColor: `${
-                colorScheme === 'dark' ? '#465DFF' : '#293541'
+                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#293541'
               }`,
             }}
             icon="folder"

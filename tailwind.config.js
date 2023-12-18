@@ -3,16 +3,16 @@ module.exports = {
   theme: {
     extend: {
       dark: {
-        green: 'rgb(0, 255, 159)',
-        blue: '#465DFF',
-        gray: '#293541',
-        darkgray: '#0d0d0d',
+        100: 'rgb(0, 255, 159)',
+        200: '#465DFF',
+        300: '#293541',
+        400: '#0d0d0d',
       },
       light: {
-        green: 'rgb(0, 255, 159)',
-        blue: '#465DFF',
-        gray: '#293541',
-        darkgray: '#0d0d0d',
+        100: 'rgb(0, 255, 159)',
+        200: '#465DFF',
+        300: '#293541',
+        400: '#0d0d0d',
       },
     },
   },
