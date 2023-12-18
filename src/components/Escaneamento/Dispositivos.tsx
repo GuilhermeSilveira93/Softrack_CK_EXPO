@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { Content } from '../ui/Content'
+import { useColorScheme } from 'nativewind'
 type DispositivosProps = {
   ID: string
   name: string
@@ -29,6 +30,7 @@ const Dispositivos = ({
   setaBloqueio,
   bloqueio,
 }: DispositivosProps) => {
+  const { colorScheme } = useColorScheme()
   const [pareado, setPareado] = useState<boolean>(false)
   const [pareando, setPareando] = useState<boolean>(false)
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>()
@@ -112,24 +114,47 @@ const Dispositivos = ({
       >
         <List.Item
           style={{
-            backgroundColor: 'rgba(0,170,255,0.2)',
+            backgroundColor: `${
+              colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
+            }`,
             borderRadius: 10,
+            marginBottom: 6,
+            minHeight: 90,
             minWidth: '100%',
+            maxWidth: '100%',
           }}
           title={`${name}`}
           description={subtitle}
-          titleStyle={{ fontWeight: '700', color: 'rgb(0, 255, 159)' }}
-          descriptionStyle={{ color: '#fff' }}
+          titleStyle={{
+            fontWeight: '700',
+            color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
+          }}
+          descriptionStyle={{
+            color: `${colorScheme === 'dark' ? '#fff' : '#000'}`,
+          }}
           left={() => (
             <View>
               {pareando ? (
-                <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
+                <ActivityIndicator
+                  size="large"
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                  }`}
+                />
               ) : (
                 <>
                   <MaterialCommunityIcons
                     name={!pareado ? 'bluetooth-connect' : 'bluetooth-connect'}
                     size={40}
-                    color={!pareado ? '#aaa' : 'rgb(0, 255, 159)'}
+                    color={
+                      !pareado
+                        ? '#aaa'
+                        : `${
+                            colorScheme === 'dark'
+                              ? 'rgb(0, 255, 159)'
+                              : '#465DFF'
+                          }`
+                    }
                   />
                 </>
               )}
@@ -145,7 +170,15 @@ const Dispositivos = ({
                           ? 'toggle-switch'
                           : 'toggle-switch-off'
                       }
-                      color={existe.length > 0 ? 'rgb(0, 255, 159)' : '#aaa'}
+                      color={
+                        existe.length > 0
+                          ? `${
+                              colorScheme === 'dark'
+                                ? 'rgb(0, 255, 159)'
+                                : '#465DFF'
+                            }`
+                          : '#aaa'
+                      }
                       size={40}
                     />
                   </View>

@@ -6,9 +6,11 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'rgb(0, 255, 159)',
+        tabBarActiveTintColor: `${
+          colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+        }`,
         tabBarItemStyle: {
-          backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+          backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
         },
       }}
     >
@@ -17,7 +19,7 @@ export default function TabLayout() {
         options={{
           title: 'Checklist',
           headerStyle: {
-            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
           },
           headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
           tabBarIcon: ({ color, size }) => (
@@ -30,7 +32,7 @@ export default function TabLayout() {
         options={{
           title: 'Dispositivos',
           headerStyle: {
-            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
           },
           headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
           tabBarIcon: ({ color, size }) => (
@@ -43,7 +45,7 @@ export default function TabLayout() {
         options={{
           title: 'Enviar',
           headerStyle: {
-            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
           },
           headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
           tabBarIcon: ({ color, size }) => (

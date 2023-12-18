@@ -67,7 +67,6 @@ export const EnvioAutomatico = () => {
   const onRefresh = useCallback(() => {
     if (contagemDeEnvio === 0) {
       setRefreshing(true)
-      setListaDeEnvio([])
       setAtualizarTudo(!atualizarTudo)
       setTimeout(() => {
         setRefreshing(false)
@@ -82,7 +81,7 @@ export const EnvioAutomatico = () => {
           options={{
             title: `Atualizando dispositivos`,
             headerStyle: {
-              backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+              backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
             },
             headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
             headerRight: () => (
@@ -91,6 +90,7 @@ export const EnvioAutomatico = () => {
                   <MaterialIcons
                     name="update"
                     size={25}
+                    color={`${colorScheme === 'dark' ? '#fff' : '#293541'}`}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
@@ -132,6 +132,7 @@ export const EnvioAutomatico = () => {
                   <MaterialIcons
                     name="update"
                     size={25}
+                    color={`${colorScheme === 'dark' ? '#293541' : '#ccc'}`}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
@@ -140,7 +141,7 @@ export const EnvioAutomatico = () => {
           }}
         />
         <Container>
-          <Text>
+          <Text className="dark:text-dark-100 light:light-500">
             Para enviar o checklist, é necessario ter uma lista de dispositivos
             e um arquivo previamente carregado.
           </Text>

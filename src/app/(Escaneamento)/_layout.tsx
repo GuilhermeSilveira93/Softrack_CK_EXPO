@@ -10,7 +10,7 @@ export const Escanemento = () => {
         options={{
           title: 'Escaneando Dispositivos',
           headerStyle: {
-            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
           },
           headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
         }}

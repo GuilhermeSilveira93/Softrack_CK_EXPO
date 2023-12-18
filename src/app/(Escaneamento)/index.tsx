@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Container } from '@/components/ui/Container'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { useColorScheme } from 'nativewind'
+import { Stack } from 'expo-router'
 import RNBluetoothClassic, {
   BluetoothDevice,
 } from 'react-native-bluetooth-classic'
@@ -26,6 +29,8 @@ export type EscanearDispositivosProps = {
   handleDeviceNAME: string
 }
 export const EscanearDispositivos = () => {
+  const { canStart, start, tourKey } = useTourGuideController('escaneamento')
+  const { colorScheme } = useColorScheme()
   const [bloqueio, setBloqueio] = useState<boolean>(false)
   const [dispositivos, setDispositivos] = useState<BluetoothDevice[]>([])
   const [localDevices, setLocalDevices] = useState<
@@ -70,7 +75,10 @@ export const EscanearDispositivos = () => {
   if (scanning) {
     return (
       <Container>
-        <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
+        <ActivityIndicator
+          size="large"
+          color={`${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`}
+        />
       </Container>
     )
   }
@@ -78,54 +86,111 @@ export const EscanearDispositivos = () => {
     return (
       <Container>
         <Pressable
-          className="dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100"
+          className="dark:bg-dark-300 bg-dark-200 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100 shadow-dark-200"
           onPress={() => startScan()}
         >
-          <Text className="dark:text-dark-100">Escanear</Text>
+          <Text className="dark:text-dark-100 text-white">Escanear</Text>
         </Pressable>
       </Container>
     )
   }
   return (
-    <Container>
-      <ScrollView
-        fadingEdgeLength={1}
-        refreshControl={
-          <RefreshControl refreshing={scanning} onRefresh={startScan} />
-        }
-      >
-        {dispositivos?.map((device) => {
-          return (
-            <Dispositivos
-              setaBloqueio={setaBloqueio}
-              bloqueio={bloqueio}
-              key={device.id}
-              dispositivosSalvos={localDevices}
-              name={device.name}
-              ID={device.id}
-              attLocalDevices={attLocalDevices}
-            />
-          )
-        })}
-        {dispositivos.length > 0 && (
-          <View className="flex p-4 items-center w-full">
+    <>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
             <Pressable
-              className="dark:bg-dark-300 max-w-[60%] p-4 rounded-2xl flex flex-row items-center shadow-xl shadow-dark-100"
-              disabled={scanning}
-              onPress={() => setDispositivos([])}
+              onPress={() => {
+                if (canStart) {
+                  start()
+                }
+              }}
             >
-              <MaterialCommunityIcons
-                name="trash-can"
-                size={30}
-                color={'#f00'}
-                style={{ marginRight: 10 }}
-              />
-              <Text className="dark:text-white">Limpar Lista</Text>
+              {({ pressed }) => (
+                <MaterialCommunityIcons
+                  name="help-circle-outline"
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                  }`}
+                  size={25}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
             </Pressable>
-          </View>
-        )}
-      </ScrollView>
-    </Container>
+          ),
+        }}
+      />
+
+      <Container>
+        <TourGuideZone
+          zone={1}
+          tourKey={tourKey}
+          text={
+            'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique em qualquer região do dispositivo desejado para Parear.'
+          }
+          borderRadius={5}
+          style={{
+            position: 'absolute',
+            top: 30,
+            left: 10,
+            height: 100,
+            width: '100%',
+          }}
+        />
+        <TourGuideZone
+          zone={2}
+          tourKey={tourKey}
+          text={
+            'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique em qualquer lugar para alterná-lo para adicionar à lista de Dispositivos.'
+          }
+          borderRadius={5}
+          style={{
+            position: 'absolute',
+            top: 30,
+            left: 10,
+            height: 100,
+            width: '100%',
+          }}
+        />
+        <ScrollView
+          fadingEdgeLength={1}
+          refreshControl={
+            <RefreshControl refreshing={scanning} onRefresh={startScan} />
+          }
+        >
+          {dispositivos?.map((device) => {
+            return (
+              <Dispositivos
+                setaBloqueio={setaBloqueio}
+                bloqueio={bloqueio}
+                key={device.id}
+                dispositivosSalvos={localDevices}
+                name={device.name}
+                ID={device.id}
+                attLocalDevices={attLocalDevices}
+              />
+            )
+          })}
+          {dispositivos.length > 0 && (
+            <View className="flex p-4 items-center w-full">
+              <Pressable
+                className="bg-dark-200 shadow-dark-200 dark:shadow-dark-100 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl"
+                disabled={scanning}
+                onPress={() => setDispositivos([])}
+              >
+                <MaterialCommunityIcons
+                  name="trash-can"
+                  size={30}
+                  color={`${colorScheme === 'dark' ? '#f00' : '#fff'}`}
+                  style={{ marginRight: 10 }}
+                />
+                <Text className="text-white">Limpar Lista</Text>
+              </Pressable>
+            </View>
+          )}
+        </ScrollView>
+      </Container>
+    </>
   )
 }
 export default EscanearDispositivos

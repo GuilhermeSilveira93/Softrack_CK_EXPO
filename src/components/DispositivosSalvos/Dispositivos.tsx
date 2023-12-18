@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, ActivityIndicator, Text } from 'react-native'
-import AntDesign from '@expo/vector-icons/AntDesign'
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { List } from 'react-native-paper'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { stringData } from '@/libs/dispositivos'
 import { Content } from '../ui/Content'
+import { useColorScheme } from 'nativewind'
 type DispositivosProps = {
   ID: string
   name: string
@@ -27,6 +27,7 @@ const Dispositivos = ({
   dispositivosSalvos,
   attLocalDevices,
 }: DispositivosProps) => {
+  const { colorScheme } = useColorScheme()
   const [pareado, setPareado] = useState<boolean>(false)
   const [adicionando, setAdicionando] = useState<boolean>(false)
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>()
@@ -34,12 +35,13 @@ const Dispositivos = ({
   const dataFormatada = checklistEnviado?.data
     ? stringData(checklistEnviado?.data)
     : ''
-  const subtitle = checklistEnviado?.nomeArquivo
-    ? `${checklistEnviado?.nomeArquivo.substring(
-        0,
-        checklistEnviado?.nomeArquivo.length - 3,
-      )}`
-    : `Esse dispositivo ainda não enviou arquivo.`
+  const subtitle =
+    checklistEnviado?.nomeArquivo && checklistEnviado?.nomeArquivo?.length > 0
+      ? `${checklistEnviado?.nomeArquivo.substring(
+          0,
+          checklistEnviado?.nomeArquivo.length - 3,
+        )}`
+      : `Esse dispositivo ainda não enviou arquivo.`
   const addDispositivoNaLista = useCallback(async () => {
     setAdicionando(true)
     if (existe.length > 0) {
@@ -82,8 +84,7 @@ const Dispositivos = ({
     <Content key={ID}>
       <List.Item
         style={{
-          backgroundColor: '#293541',
-          borderRadius: 10,
+          marginBottom: 6,
           maxWidth: '100%',
         }}
         title={`${name}`}
@@ -97,13 +98,18 @@ const Dispositivos = ({
           }
           return (
             <>
-              <Text>Ultimo Envio Deste Dispositivo: </Text>
-              <Text>{dataFormatada}</Text>
-              <Text>{subtitle}</Text>
+              <Text className="dark:text-white">
+                Ultimo Envio Deste Dispositivo:{' '}
+              </Text>
+              <Text className="dark:text-white">{dataFormatada}</Text>
+              <Text className="dark:text-white">{subtitle}</Text>
             </>
           )
         }}
-        titleStyle={{ fontWeight: '700', color: 'rgb(0, 255, 159)' }}
+        titleStyle={{
+          fontWeight: '700',
+          color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
+        }}
         descriptionStyle={{ color: '#fff' }}
         left={() => (
           <Pressable
@@ -112,7 +118,11 @@ const Dispositivos = ({
             <MaterialCommunityIcons
               name={!pareado ? 'link-off' : 'bluetooth-connect'}
               size={40}
-              color={!pareado ? '#aaa' : 'rgb(0, 255, 159)'}
+              color={
+                !pareado
+                  ? '#aaa'
+                  : `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`
+              }
             />
           </Pressable>
         )}
@@ -122,11 +132,18 @@ const Dispositivos = ({
             onPress={() => addDispositivoNaLista()}
           >
             {adicionando ? (
-              <ActivityIndicator size="large" color="rgb(0, 255, 159)" />
+              <ActivityIndicator
+                size="large"
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`}
+              />
             ) : (
               <AntDesign
                 name={existe.length > 0 ? 'checkcircle' : 'checkcircleo'}
-                color="rgb(0, 255, 159)"
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`}
                 size={40}
               />
             )}

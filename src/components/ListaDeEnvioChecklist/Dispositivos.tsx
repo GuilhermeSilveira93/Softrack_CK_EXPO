@@ -7,6 +7,7 @@ import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_check
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { stringData } from '@/libs/dispositivos'
 import { Content } from '../ui/Content'
+import { useColorScheme } from 'nativewind'
 
 type DispositivosProps = {
   ID: string
@@ -26,6 +27,7 @@ const Dispositivos = ({
   existe,
   nomeArquivo,
 }: DispositivosProps) => {
+  const { colorScheme } = useColorScheme()
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>()
   const dataFormatada = checklistEnviado?.data
     ? stringData(checklistEnviado?.data)
@@ -45,8 +47,12 @@ const Dispositivos = ({
     <Content key={ID}>
       <List.Item
         style={{
-          backgroundColor: 'rgba(0,170,255,0.2)',
+          backgroundColor: `${
+            colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
+          }`,
           borderRadius: 10,
+          marginBottom: 6,
+          minWidth: '100%',
           maxWidth: '100%',
         }}
         title={`${name}`}
@@ -54,34 +60,33 @@ const Dispositivos = ({
           if (!dataFormatada) {
             return (
               <>
-                <Text className="dark:text-white light:text-light-3">
-                  {subtitle}
-                </Text>
+                <Text className="dark:text-white">{subtitle}</Text>
               </>
             )
           }
           return (
             <>
-              <Text className="dark:text-white light:text-light-3">
+              <Text className="dark:text-white">
                 Ultimo Envio Deste Dispositivo:{' '}
               </Text>
-              <Text className="dark:text-white light:text-light-3">
-                {dataFormatada}
-              </Text>
-              <Text className="dark:text-white light:text-light-3">
-                {subtitle}
-              </Text>
+              <Text className="dark:text-white">{dataFormatada}</Text>
+              <Text className="dark:text-white">{subtitle}</Text>
             </>
           )
         }}
-        titleStyle={{ fontWeight: '700', color: 'rgb(0, 255, 159)' }}
+        titleStyle={{
+          fontWeight: '700',
+          color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
+        }}
         descriptionStyle={{ color: '#fff' }}
         left={() => (
           <View style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             <MaterialCommunityIcons
               name={'bluetooth-connect'}
               size={40}
-              color={'rgb(0, 255, 159)'}
+              color={`${
+                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+              }`}
             />
           </View>
         )}
@@ -92,7 +97,9 @@ const Dispositivos = ({
           >
             <AntDesign
               name={existe ? 'checkcircle' : 'checkcircleo'}
-              color="rgb(0, 255, 159)"
+              color={`${
+                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+              }`}
               size={40}
             />
           </Pressable>

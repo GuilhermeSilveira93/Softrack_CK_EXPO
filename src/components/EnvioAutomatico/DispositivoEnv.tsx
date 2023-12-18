@@ -1,11 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, Pressable, View } from 'react-native'
+import { Text, Pressable, View } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { ProgressBar, List } from 'react-native-paper'
 import { useDispositivoEnv } from '@/hooks/EnvioAutomatico/useDispositivoEnv'
 import { DispositivoEnvProps } from '@/types/dispositivoEnv'
 import { Content } from '../ui/Content'
+import { useColorScheme } from 'nativewind'
 export const DispositivoEnvTeste = ({
   devices,
   strings,
@@ -14,6 +15,7 @@ export const DispositivoEnvTeste = ({
   attFilaDeEnvio,
   filaDeEnvio,
 }: DispositivoEnvProps) => {
+  const { colorScheme } = useColorScheme()
   const { progressBar, enviarNovamente, status, setTentativasConexoes } =
     useDispositivoEnv({
       devices,
@@ -27,12 +29,20 @@ export const DispositivoEnvTeste = ({
     <Content key={devices.ID}>
       <List.Item
         style={{
-          backgroundColor: 'rgba(0,170,255,0.2)',
+          backgroundColor: `${
+            colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
+          }`,
+          marginBottom: 6,
           borderRadius: 10,
           minHeight: 80,
+          minWidth: '100%',
           maxWidth: '100%',
+          flex: 1,
         }}
-        titleStyle={{ fontWeight: '700' }}
+        titleStyle={{
+          fontWeight: '700',
+          color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
+        }}
         title={`${devices.name}`}
         description={() => (
           <>
@@ -43,16 +53,18 @@ export const DispositivoEnvTeste = ({
                 alignItems: 'flex-start',
               }}
             >
-              <Text style={{ flex: 2 }}>
+              <Text className="flex-[2] dark:text-white">
                 {Math.floor((progressBar * 100) / strings.length)}%
               </Text>
-              <Text style={{ flex: 1 }}>Status: {status}</Text>
+              <Text className="flex-1 dark:text-white">Status: {status}</Text>
             </View>
             {progressBar > 0 && progressBar < strings.length && (
               <ProgressBar
                 progress={(progressBar * 100) / strings.length / 100}
-                color="#5E84E2"
-                style={styles.progress}
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`}
+                className="h-3 w-full rounded-xl dark:bg-dark-200"
               />
             )}
           </>
@@ -67,7 +79,9 @@ export const DispositivoEnvTeste = ({
             <MaterialCommunityIcons
               name={'bluetooth-connect'}
               size={40}
-              color={'#1c73d2'}
+              color={`${
+                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+              }`}
             />
           </View>
         )}
@@ -79,13 +93,21 @@ export const DispositivoEnvTeste = ({
                   setTentativasConexoes(0)
                 }}
               >
-                <FontAwesome name="send-o" color="#5E84E2" size={30} />
+                <FontAwesome
+                  name="send-o"
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                  }`}
+                  size={30}
+                />
               </Pressable>
             )}
             {progressBar === strings.length && (
               <FontAwesome
                 name="check-circle"
-                color="rgb(0, 255, 159)"
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`}
                 size={30}
               />
             )}
@@ -95,11 +117,4 @@ export const DispositivoEnvTeste = ({
     </Content>
   )
 }
-const styles = StyleSheet.create({
-  progress: {
-    height: 10,
-    width: '100%',
-    borderRadius: 10,
-  },
-})
 export default DispositivoEnvTeste

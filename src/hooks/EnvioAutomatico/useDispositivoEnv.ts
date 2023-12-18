@@ -77,11 +77,11 @@ export const useDispositivoEnv = ({
       !enviado &&
       contagemDeEnvio <= 5
     ) {
-      setEnviando(true)
       if (tentativasConexoes > 3) {
         setEnviarNovamente(true)
         setStatus('Envio Falhou')
       } else {
+        setEnviando(true)
         atualizaContagemDeEnvio(true)
         conectarDispositivo(devices.ID)
       }

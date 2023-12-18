@@ -21,9 +21,10 @@ export const useEnvioArquivo = ({
   const envioArquivo = useCallback(
     async (address: string) => {
       setStatus('Enviando.')
+      let tentativas = 0
       for (let i = 0; i < strings.length; i++) {
+        tentativas = 0
         let enviarLinha = true
-        let tentativas = 0
         let nullos = 0
         const linha = strings[i]
         if (linha.length > 0) {
@@ -66,7 +67,14 @@ export const useEnvioArquivo = ({
           }
         }
       }
-      if (tentativasConexoes > 3) {
+      if (tentativasConexoes > 3 || tentativas > 3) {
+        setStatus('Falha no envio.')
+        setEnviado(false)
+        setEnviando(false)
+        setEnviarNovamente(true)
+        setProgressBar(0)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        attFilaDeEnvio(devices.ID, devices.name, devices.nomeArquivo!, true)
         console.log('Falha ' + (tentativasConexoes === 5 ? 'CRC' : 'Envio'))
       } else {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

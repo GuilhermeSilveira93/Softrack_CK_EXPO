@@ -10,7 +10,7 @@ export const EnvioDeChecklist = () => {
         options={{
           title: 'Envio de Checklist',
           headerStyle: {
-            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#ccc'}`,
+            backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
           },
           headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
         }}

@@ -5,7 +5,7 @@ type ContainerProps = {
 }
 export const Content = ({ children }: ContainerProps) => {
   return (
-    <View className="w-full flex content-center justify-center items-center gap-1">
+    <View className="w-[99%] min-h-[120px] dark:bg-dark-300 mb-4 rounded-xl flex content-center justify-center items-center gap-1">
       {children}
     </View>
   )
