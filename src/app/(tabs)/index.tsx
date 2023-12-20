@@ -44,7 +44,7 @@ export default function LocalFile() {
                 <MaterialIcons
                   name="help-circle-outline"
                   size={25}
-                  color={`${colorScheme === 'dark' ? '#fff' : '#293541'}`}
+                  color={'#ccc'}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -67,26 +67,14 @@ export default function LocalFile() {
               tooltipBottomOffset={20}
               style={{
                 position: 'absolute',
-                bottom: '-11%',
+                bottom: -55,
                 right: '42%',
                 height: 55,
                 width: 65,
               }}
             />
-            <TourGuideZone
-              zone={2}
-              tourKey={tourKey}
-              text={'Caso queira remover, basta clicar neste botão !'}
-              borderRadius={5}
-              style={{
-                position: 'absolute',
-                top: '17%',
-                right: 17,
-                height: 50,
-                width: 130,
-              }}
-            />
             <Banner
+              tourKey={tourKey}
               text={`${nomeArquivo.substring(
                 0,
                 nomeArquivo.length - 4,
@@ -97,42 +85,36 @@ export default function LocalFile() {
         )}
       </Suspense>
 
-      <TourGuideZone
-        zone={1}
-        tourKey={tourKey}
-        text={'Para carregar o arquivo, clique aqui.'}
-        borderRadius={50}
-        style={{
-          position: 'absolute',
-          width: 100,
-          height: 100,
-          top: '47%',
-          right: '37.4%',
-        }}
-      />
       <Container>
-        <Pressable
-          onPress={async () => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            await carregarArquivo().then((res) => setNomeArquivo(res!))
-          }}
+        <TourGuideZone
+          zone={1}
+          tourKey={tourKey}
+          text={'Para carregar o arquivo, clique aqui.'}
+          shape="circle"
         >
-          <Avatar.Icon
-            size={80}
-            color={`${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#fff'}`}
-            style={{
-              shadowColor: `${
-                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-              }`,
-              shadowOpacity: 1,
-              elevation: 10,
-              backgroundColor: `${
-                colorScheme === 'dark' ? '#293541' : '#465DFF'
-              }`,
+          <Pressable
+            onPress={async () => {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              await carregarArquivo().then((res) => setNomeArquivo(res!))
             }}
-            icon="folder"
-          />
-        </Pressable>
+          >
+            <Avatar.Icon
+              size={80}
+              color={`${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#fff'}`}
+              style={{
+                shadowColor: `${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`,
+                shadowOpacity: 1,
+                elevation: 10,
+                backgroundColor: `${
+                  colorScheme === 'dark' ? '#293541' : '#465DFF'
+                }`,
+              }}
+              icon="folder"
+            />
+          </Pressable>
+        </TourGuideZone>
       </Container>
     </>
   )

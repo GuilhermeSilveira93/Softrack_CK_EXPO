@@ -8,17 +8,16 @@ import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { stringData } from '@/libs/dispositivos'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
+import { TourGuideZone } from 'rn-tourguide'
 
 type DispositivosProps = {
   ID: string
   name: string
   existe: boolean
-  dispositivosSalvos: {
-    ID: string
-    name: string
-  }[]
   listaDeEnvio: (ID: string, name: string, nomeArquivo: string) => void
   nomeArquivo: string
+  index: number
+  tourKey: string
 }
 const Dispositivos = ({
   ID,
@@ -26,6 +25,8 @@ const Dispositivos = ({
   listaDeEnvio,
   existe,
   nomeArquivo,
+  index,
+  tourKey,
 }: DispositivosProps) => {
   const { colorScheme } = useColorScheme()
   const [checklistEnviado, setChecklistEnviado] = useState<ChecklistEnviado>()
@@ -47,11 +48,8 @@ const Dispositivos = ({
     <Content key={ID}>
       <List.Item
         style={{
-          backgroundColor: `${
-            colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
-          }`,
-          borderRadius: 10,
-          marginBottom: 6,
+          minHeight: 90,
+          maxHeight: 90,
           minWidth: '100%',
           maxWidth: '100%',
         }}
@@ -91,18 +89,30 @@ const Dispositivos = ({
           </View>
         )}
         right={() => (
-          <Pressable
-            style={{ display: 'flex', justifyContent: 'space-evenly' }}
-            onPress={() => listaDeEnvio(ID, name, nomeArquivo)}
-          >
-            <AntDesign
-              name={existe ? 'checkcircle' : 'checkcircleo'}
-              color={`${
-                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-              }`}
-              size={40}
-            />
-          </Pressable>
+          <View className="justify-center">
+            <TourGuideZone
+              zone={1}
+              isTourGuide={index === 0}
+              tourKey={tourKey}
+              shape="circle"
+              text={
+                'Selecione individualmente os dispositivos para os quais deseja enviar o arquivo previamente selecionado'
+              }
+            >
+              <Pressable
+                style={{ display: 'flex', justifyContent: 'space-evenly' }}
+                onPress={() => listaDeEnvio(ID, name, nomeArquivo)}
+              >
+                <AntDesign
+                  name={existe ? 'checkcircle' : 'checkcircleo'}
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                  }`}
+                  size={40}
+                />
+              </Pressable>
+            </TourGuideZone>
+          </View>
         )}
       />
     </Content>

@@ -7,6 +7,7 @@ import { useDispositivoEnv } from '@/hooks/EnvioAutomatico/useDispositivoEnv'
 import { DispositivoEnvProps } from '@/types/dispositivoEnv'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
+import { TourGuideZone } from 'rn-tourguide'
 export const DispositivoEnvTeste = ({
   devices,
   strings,
@@ -14,6 +15,8 @@ export const DispositivoEnvTeste = ({
   contagemDeEnvio,
   attFilaDeEnvio,
   filaDeEnvio,
+  index,
+  tourKey,
 }: DispositivoEnvProps) => {
   const { colorScheme } = useColorScheme()
   const { progressBar, enviarNovamente, status, setTentativasConexoes } =
@@ -26,95 +29,124 @@ export const DispositivoEnvTeste = ({
       filaDeEnvio,
     })
   return (
-    <Content key={devices.ID}>
-      <List.Item
-        style={{
-          backgroundColor: `${
-            colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
-          }`,
-          marginBottom: 6,
-          borderRadius: 10,
-          minHeight: 80,
-          minWidth: '100%',
-          maxWidth: '100%',
-          flex: 1,
-        }}
-        titleStyle={{
-          fontWeight: '700',
-          color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
-        }}
-        title={`${devices.name}`}
-        description={() => (
-          <>
+    <TourGuideZone
+      zone={1}
+      isTourGuide={index === 0}
+      tourKey={tourKey}
+      text={'Cada item simboliza um dispositivo que o app está atualizando'}
+    >
+      <Content key={devices.ID}>
+        <List.Item
+          style={{
+            backgroundColor: `${
+              colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
+            }`,
+            minHeight: 90,
+            maxHeight: 90,
+            minWidth: '100%',
+            maxWidth: '100%',
+          }}
+          titleStyle={{
+            fontWeight: '700',
+            color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
+          }}
+          title={`${devices.name}`}
+          description={() => (
+            <>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Text className="flex-[2] dark:text-white">
+                  {Math.floor((progressBar * 100) / strings.length)}%
+                </Text>
+                <Text className="flex-1 dark:text-white">Status: {status}</Text>
+              </View>
+              {progressBar > 0 && progressBar < strings.length && (
+                <TourGuideZone
+                  zone={2}
+                  isTourGuide={index === 0}
+                  tourKey={tourKey}
+                  text={'Progresso de envio do arquivo'}
+                >
+                  <ProgressBar
+                    progress={(progressBar * 100) / strings.length / 100}
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
+                    className="h-3 w-full rounded-xl dark:bg-dark-200"
+                  />
+                </TourGuideZone>
+              )}
+            </>
+          )}
+          left={() => (
             <View
               style={{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'flex-start',
+                justifyContent: 'space-evenly',
               }}
             >
-              <Text className="flex-[2] dark:text-white">
-                {Math.floor((progressBar * 100) / strings.length)}%
-              </Text>
-              <Text className="flex-1 dark:text-white">Status: {status}</Text>
+              <MaterialCommunityIcons
+                name={'bluetooth-connect'}
+                size={40}
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`}
+              />
             </View>
-            {progressBar > 0 && progressBar < strings.length && (
-              <ProgressBar
-                progress={(progressBar * 100) / strings.length / 100}
-                color={`${
-                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                }`}
-                className="h-3 w-full rounded-xl dark:bg-dark-200"
-              />
-            )}
-          </>
-        )}
-        left={() => (
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <MaterialCommunityIcons
-              name={'bluetooth-connect'}
-              size={40}
-              color={`${
-                colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-              }`}
-            />
-          </View>
-        )}
-        right={() => (
-          <>
-            {enviarNovamente && (
-              <Pressable
-                onPress={() => {
-                  setTentativasConexoes(0)
-                }}
-              >
-                <FontAwesome
-                  name="send-o"
-                  color={`${
-                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                  }`}
-                  size={30}
-                />
-              </Pressable>
-            )}
-            {progressBar === strings.length && (
-              <FontAwesome
-                name="check-circle"
-                color={`${
-                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                }`}
-                size={30}
-              />
-            )}
-          </>
-        )}
-      />
-    </Content>
+          )}
+          right={() => (
+            <View className="justify-center">
+              {enviarNovamente && (
+                <TourGuideZone
+                  zone={3}
+                  isTourGuide={index === 0}
+                  shape="circle"
+                  tourKey={tourKey}
+                  text={
+                    'Icone para fazer uma nova tentativa de envio.\nClicando aqui, uma nova tentativa será feita.\nCaso o erro persista, entre em contato com a Softrack.'
+                  }
+                >
+                  <Pressable
+                    onPress={() => {
+                      setTentativasConexoes(0)
+                    }}
+                  >
+                    <FontAwesome
+                      name="send-o"
+                      color={`${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`}
+                      size={30}
+                    />
+                  </Pressable>
+                </TourGuideZone>
+              )}
+              {progressBar === strings.length && (
+                <TourGuideZone
+                  zone={3}
+                  isTourGuide={index === 0}
+                  tourKey={tourKey}
+                  text={'Este icone indica um envio realizado com sucesso.'}
+                >
+                  <FontAwesome
+                    name="check-circle"
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
+                    size={30}
+                  />
+                </TourGuideZone>
+              )}
+            </View>
+          )}
+        />
+      </Content>
+    </TourGuideZone>
   )
 }
 export default DispositivoEnvTeste

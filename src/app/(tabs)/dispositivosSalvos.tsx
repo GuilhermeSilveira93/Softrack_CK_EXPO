@@ -65,7 +65,7 @@ export const DispositivosSalvos = () => {
                   <MaterialCommunityIcons
                     name="help-circle-outline"
                     size={25}
-                    color={`${colorScheme === 'dark' ? '#fff' : '#293541'}`}
+                    color={'#ccc'}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
@@ -133,44 +133,15 @@ export const DispositivosSalvos = () => {
         }}
       />
       <TourGuideZone
-        zone={2}
-        tourKey={tourKey}
-        text={
-          'Os dispositivos salvos, são exibidos nesta tela\nNa tela "Enviar", você poderá\nselecionar os dispositivos que deseja\natualizar.'
-        }
-        style={{
-          position: 'absolute',
-          top: 35,
-          left: 20,
-          height: 90,
-          width: '89%',
-        }}
-      />
-      <TourGuideZone
-        zone={3}
-        tourKey={tourKey}
-        text={'Para remover o dispositivo do aparelho, basta clicar aqui.'}
-        borderRadius={25}
-        tooltipBottomOffset={20}
-        style={{
-          position: 'absolute',
-          top: '8%',
-          right: '7.5%',
-          height: 50,
-          width: 50,
-        }}
-      />
-      <TourGuideZone
         zone={4}
         tourKey={tourKey}
         text={
           'Com dispositivos e arquivo adicionados no Aparelho\nvocê pode seguir para a tela de "Enviar.'
         }
         borderRadius={25}
-        tooltipBottomOffset={20}
         style={{
           position: 'absolute',
-          bottom: '-11%',
+          bottom: -55,
           right: 30,
           height: 55,
           width: 65,
@@ -178,9 +149,11 @@ export const DispositivosSalvos = () => {
       />
       <Container>
         <ScrollView fadingEdgeLength={1}>
-          {localDevices?.map((devices) => {
+          {localDevices?.map((devices, index) => {
             return (
               <Dispositivos
+                tourKey={tourKey}
+                index={index}
                 name={devices.name}
                 ID={devices.ID}
                 dispositivosSalvos={localDevices}

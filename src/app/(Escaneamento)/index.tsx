@@ -43,6 +43,10 @@ export const EscanearDispositivos = () => {
     try {
       setScanning(true)
       console.log('Iniciando escaneamento...')
+      setTimeout(async () => {
+        await RNBluetoothClassic.cancelDiscovery()
+        console.log('escaneamento parado')
+      }, 1000 * 20)
       await RNBluetoothClassic.startDiscovery()
         .then((res: BluetoothDevice[]) => {
           setDispositivos(
@@ -85,14 +89,46 @@ export const EscanearDispositivos = () => {
   }
   if (!scanning && dispositivos.length < 1) {
     return (
-      <Container>
-        <Pressable
-          className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100"
-          onPress={() => startScan()}
-        >
-          <Text className="text-white dark:text-dark-100">Escanear</Text>
-        </Pressable>
-      </Container>
+      <>
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <Pressable
+                onPress={() => {
+                  if (canStart) {
+                    start()
+                  }
+                }}
+              >
+                {({ pressed }) => (
+                  <MaterialCommunityIcons
+                    name="help-circle-outline"
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
+                    size={25}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            ),
+          }}
+        />
+        <Container>
+          <TourGuideZone
+            zone={3}
+            tourKey={tourKey}
+            text={'Caso não esteja vendo dispositivos, escaneie novamente.'}
+          >
+            <Pressable
+              className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100"
+              onPress={() => startScan()}
+            >
+              <Text className="text-white dark:text-dark-100">Escanear</Text>
+            </Pressable>
+          </TourGuideZone>
+        </Container>
+      </>
     )
   }
   return (
@@ -121,36 +157,6 @@ export const EscanearDispositivos = () => {
           ),
         }}
       />
-      <TourGuideZone
-        zone={1}
-        tourKey={tourKey}
-        text={
-          'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique em qualquer região do dispositivo desejado para Parear.'
-        }
-        borderRadius={5}
-        style={{
-          position: 'absolute',
-          top: 32,
-          left: 4,
-          height: 127,
-          width: '98%',
-        }}
-      />
-      <TourGuideZone
-        zone={2}
-        tourKey={tourKey}
-        text={
-          'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique em qualquer lugar para alterná-lo para adicionar à lista de Dispositivos.'
-        }
-        borderRadius={5}
-        style={{
-          position: 'absolute',
-          top: 32,
-          left: 4,
-          height: 127,
-          width: '98%',
-        }}
-      />
       <Container>
         <ScrollView
           fadingEdgeLength={1}
@@ -158,9 +164,11 @@ export const EscanearDispositivos = () => {
             <RefreshControl refreshing={scanning} onRefresh={startScan} />
           }
         >
-          {dispositivos?.map((device) => {
+          {dispositivos?.map((device, index) => {
             return (
               <Dispositivos
+                index={index}
+                tourKey={tourKey}
                 setaBloqueio={setaBloqueio}
                 bloqueio={bloqueio}
                 key={device.id}

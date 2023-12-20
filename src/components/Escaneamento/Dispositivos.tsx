@@ -9,6 +9,7 @@ import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_check
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
+import { TourGuideZone } from 'rn-tourguide'
 type DispositivosProps = {
   ID: string
   name: string
@@ -21,6 +22,8 @@ type DispositivosProps = {
   attLocalDevices: (
     novosDispositivos: DispositivosProps['dispositivosSalvos'],
   ) => void
+  index: number
+  tourKey: string
 }
 const Dispositivos = ({
   ID,
@@ -29,6 +32,8 @@ const Dispositivos = ({
   attLocalDevices,
   setaBloqueio,
   bloqueio,
+  index,
+  tourKey,
 }: DispositivosProps) => {
   const { colorScheme } = useColorScheme()
   const [pareado, setPareado] = useState<boolean>(false)
@@ -101,90 +106,114 @@ const Dispositivos = ({
     }
   }
   return (
-    <Content key={ID}>
-      <Pressable
-        disabled={bloqueio}
-        onPress={() => {
-          if (!pareado) {
-            parear()
-          } else {
-            addDispositivoNaLista()
-          }
-        }}
+    <TourGuideZone
+      zone={1}
+      isTourGuide={index === 0}
+      tourKey={tourKey}
+      text={
+        'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique em qualquer região do dispositivo desejado para Parear.'
+      }
+    >
+      <TourGuideZone
+        zone={2}
+        isTourGuide={index === 0}
+        tourKey={tourKey}
+        text={
+          'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique em qualquer lugar para alterná-lo para adicionar à lista de Dispositivos.'
+        }
       >
-        <List.Item
-          style={{
-            justifyContent: 'center',
-            minHeight: 90,
-            minWidth: '100%',
-          }}
-          title={`${name}`}
-          description={subtitle}
-          titleStyle={{
-            fontWeight: '700',
-            color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
-          }}
-          descriptionStyle={{
-            color: `${colorScheme === 'dark' ? '#fff' : '#000'}`,
-          }}
-          left={() => (
-            <View>
-              {pareando ? (
-                <ActivityIndicator
-                  size="large"
-                  color={`${
-                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                  }`}
-                />
-              ) : (
-                <>
-                  <MaterialCommunityIcons
-                    name={!pareado ? 'bluetooth-connect' : 'bluetooth-connect'}
-                    size={40}
-                    color={
-                      !pareado
-                        ? '#aaa'
-                        : `${
-                            colorScheme === 'dark'
-                              ? 'rgb(0, 255, 159)'
-                              : '#465DFF'
-                          }`
-                    }
-                  />
-                </>
-              )}
-            </View>
-          )}
-          right={
-            pareado
-              ? () => (
-                  <View>
-                    <MaterialCommunityIcons
-                      name={
-                        existe.length > 0
-                          ? 'toggle-switch'
-                          : 'toggle-switch-off'
-                      }
-                      color={
-                        existe.length > 0
-                          ? `${
-                              colorScheme === 'dark'
-                                ? 'rgb(0, 255, 159)'
-                                : '#465DFF'
-                            }`
-                          : '#aaa'
-                      }
-                      size={40}
+        <Content key={ID}>
+          <Pressable
+            disabled={bloqueio}
+            onPress={() => {
+              if (!pareado) {
+                parear()
+              } else {
+                addDispositivoNaLista()
+              }
+            }}
+          >
+            <List.Item
+              style={{
+                justifyContent: 'center',
+                minHeight: 90,
+                maxHeight: 90,
+                minWidth: '100%',
+                maxWidth: '100%',
+              }}
+              title={`${name}`}
+              description={subtitle}
+              titleStyle={{
+                fontWeight: '700',
+                color: `${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                }`,
+              }}
+              descriptionStyle={{
+                color: `${colorScheme === 'dark' ? '#fff' : '#000'}`,
+              }}
+              left={() => (
+                <View>
+                  {pareando ? (
+                    <ActivityIndicator
+                      size="large"
+                      color={`${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`}
                     />
-                  </View>
-                )
-              : () => {
-                  return null
-                }
-          }
-        />
-      </Pressable>
-    </Content>
+                  ) : (
+                    <>
+                      <MaterialCommunityIcons
+                        name={
+                          !pareado ? 'bluetooth-connect' : 'bluetooth-connect'
+                        }
+                        size={40}
+                        color={
+                          !pareado
+                            ? '#aaa'
+                            : `${
+                                colorScheme === 'dark'
+                                  ? 'rgb(0, 255, 159)'
+                                  : '#465DFF'
+                              }`
+                        }
+                      />
+                    </>
+                  )}
+                </View>
+              )}
+              right={
+                pareado
+                  ? () => (
+                      <View>
+                        <MaterialCommunityIcons
+                          name={
+                            existe.length > 0
+                              ? 'toggle-switch'
+                              : 'toggle-switch-off'
+                          }
+                          color={
+                            existe.length > 0
+                              ? `${
+                                  colorScheme === 'dark'
+                                    ? 'rgb(0, 255, 159)'
+                                    : '#465DFF'
+                                }`
+                              : '#aaa'
+                          }
+                          size={40}
+                        />
+                      </View>
+                    )
+                  : () => {
+                      return null
+                    }
+              }
+            />
+          </Pressable>
+        </Content>
+      </TourGuideZone>
+    </TourGuideZone>
   )
 }
 export default Dispositivos

@@ -75,21 +75,6 @@ export const ListaDeEnvioChecklist = () => {
   return (
     <Container>
       <TourGuideZone
-        zone={1}
-        tourKey={tourKey}
-        text={
-          'Selecione individualmente os dispositivos para os quais deseja enviar o arquivo previamente selecionado'
-        }
-        borderRadius={20}
-        style={{
-          position: 'absolute',
-          top: 70,
-          right: 33,
-          height: 40,
-          width: 40,
-        }}
-      />
-      <TourGuideZone
         zone={2}
         tourKey={tourKey}
         text={
@@ -98,26 +83,10 @@ export const ListaDeEnvioChecklist = () => {
         borderRadius={17}
         style={{
           position: 'absolute',
-          top: -15,
+          top: -40,
           right: 52,
           height: 30,
           width: 30,
-        }}
-      />
-      <TourGuideZone
-        zone={3}
-        tourKey={tourKey}
-        text={
-          'Com os dispositivos selecionados, clique aqui para iniciar o processo de envio.'
-        }
-        borderRadius={15}
-        tooltipBottomOffset={20}
-        style={{
-          position: 'absolute',
-          bottom: -12,
-          right: 25,
-          height: 70,
-          width: '90%',
         }}
       />
       <Stack.Screen
@@ -146,9 +115,7 @@ export const ListaDeEnvioChecklist = () => {
                 {({ pressed }) => (
                   <MaterialCommunityIcons
                     name="help-circle-outline"
-                    color={`${
-                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                    }`}
+                    color={'#ccc'}
                     size={25}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
@@ -159,7 +126,7 @@ export const ListaDeEnvioChecklist = () => {
         }}
       />
       <ScrollView>
-        {localDevices?.map((devices) => {
+        {localDevices?.map((devices, index) => {
           let existe = false
           listaDeEnvio.forEach((dispositivo) => {
             if (dispositivo.ID === devices.ID) {
@@ -168,9 +135,10 @@ export const ListaDeEnvioChecklist = () => {
           })
           return (
             <Dispositivos
+              index={index}
+              tourKey={tourKey}
               name={devices.name}
               ID={devices.ID}
-              dispositivosSalvos={localDevices}
               key={devices.ID}
               listaDeEnvio={ListaDeEnvio}
               nomeArquivo={nomeArquivo}
@@ -187,19 +155,29 @@ export const ListaDeEnvioChecklist = () => {
             backgroundColor: 'rgb(200,200,200)',
           }}
         />
-        <Link href={'/(EnvioAutomatico)'} asChild>
-          <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
-            <MaterialCommunityIcons
-              name="file-send"
-              size={30}
-              color={`${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#FFF'}`}
-              style={{ marginRight: 10 }}
-            />
-            <Text className="text-white">
-              Enviar para Dispositivos Selecionados
-            </Text>
-          </Pressable>
-        </Link>
+        <TourGuideZone
+          zone={3}
+          tourKey={tourKey}
+          text={
+            'Com os dispositivos selecionados, clique aqui para iniciar o processo de envio.'
+          }
+        >
+          <Link href={'/(EnvioAutomatico)'} asChild>
+            <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
+              <MaterialCommunityIcons
+                name="file-send"
+                size={30}
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#FFF'
+                }`}
+                style={{ marginRight: 10 }}
+              />
+              <Text className="text-white">
+                Enviar para Dispositivos Selecionados
+              </Text>
+            </Pressable>
+          </Link>
+        </TourGuideZone>
       </View>
     </Container>
   )

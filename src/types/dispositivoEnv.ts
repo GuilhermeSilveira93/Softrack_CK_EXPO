@@ -14,4 +14,6 @@ export type DispositivoEnvProps = {
     retirar: boolean,
   ) => void
   filaDeEnvio: DispositivoEnvProps['devices'][]
+  index?: number
+  tourKey?: string
 }

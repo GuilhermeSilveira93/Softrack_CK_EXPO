@@ -48,7 +48,9 @@ function RootLayoutNav() {
                 ? 'rgba(255,255,255,0.4)'
                 : 'rgba(0,0,0,0.4)'
             }`,
-            borderRadius: 16,
+            maskOffset: 2,
+            verticalOffset: 25,
+            borderRadius: 10,
             labels: {
               previous: 'Voltar',
               next: 'Próximo',

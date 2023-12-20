@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Pressable, ActivityIndicator, Text } from 'react-native'
+import { Pressable, ActivityIndicator, Text, View } from 'react-native'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { List } from 'react-native-paper'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
@@ -9,6 +9,7 @@ import { ChecklistEnviado } from '@/types/checklistsEnviados'
 import { stringData } from '@/libs/dispositivos'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
+import { TourGuideZone } from 'rn-tourguide'
 type DispositivosProps = {
   ID: string
   name: string
@@ -20,12 +21,16 @@ type DispositivosProps = {
   attLocalDevices: (
     novosDispositivos: DispositivosProps['dispositivosSalvos'],
   ) => void
+  index: number
+  tourKey: string
 }
 const Dispositivos = ({
   ID,
   name,
   dispositivosSalvos,
   attLocalDevices,
+  index,
+  tourKey,
 }: DispositivosProps) => {
   const { colorScheme } = useColorScheme()
   const [pareado, setPareado] = useState<boolean>(false)
@@ -41,7 +46,7 @@ const Dispositivos = ({
           0,
           checklistEnviado?.nomeArquivo.length - 3,
         )}`
-      : `Esse dispositivo ainda não enviou arquivo.`
+      : `Esse aparelho ainda não enviou um arquivo.`
   const addDispositivoNaLista = useCallback(async () => {
     setAdicionando(true)
     if (existe.length > 0) {
@@ -81,76 +86,103 @@ const Dispositivos = ({
     [dispositivosSalvos],
   )
   return (
-    <Content key={ID}>
-      <List.Item
-        style={{
-          marginBottom: 6,
-          maxWidth: '100%',
-        }}
-        title={`${name}`}
-        description={() => {
-          if (!dataFormatada) {
+    <TourGuideZone
+      zone={2}
+      tourKey={tourKey}
+      shape="rectangle"
+      isTourGuide={index === 0}
+      text={
+        'Os dispositivos salvos, são exibidos nesta tela\nNa tela "Enviar", você poderá\nselecionar os dispositivos que deseja\natualizar.'
+      }
+    >
+      <Content key={ID}>
+        <List.Item
+          style={{
+            minHeight: 90,
+            maxHeight: 90,
+            minWidth: '100%',
+            maxWidth: '100%',
+          }}
+          title={`${name}`}
+          description={() => {
+            if (!dataFormatada) {
+              return (
+                <>
+                  <Text className="dark:text-white">{subtitle}</Text>
+                </>
+              )
+            }
             return (
               <>
+                <Text className="dark:text-white">
+                  Ultimo Envio Deste Dispositivo:{' '}
+                </Text>
+                <Text className="dark:text-white">{dataFormatada}</Text>
                 <Text className="dark:text-white">{subtitle}</Text>
               </>
             )
-          }
-          return (
-            <>
-              <Text className="dark:text-white">
-                Ultimo Envio Deste Dispositivo:{' '}
-              </Text>
-              <Text className="dark:text-white">{dataFormatada}</Text>
-              <Text className="dark:text-white">{subtitle}</Text>
-            </>
-          )
-        }}
-        titleStyle={{
-          fontWeight: '700',
-          color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
-        }}
-        descriptionStyle={{ color: '#fff' }}
-        left={() => (
-          <Pressable
-            style={{ display: 'flex', justifyContent: 'space-evenly' }}
-          >
-            <MaterialCommunityIcons
-              name={!pareado ? 'link-off' : 'bluetooth-connect'}
-              size={40}
-              color={
-                !pareado
-                  ? '#aaa'
-                  : `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`
-              }
-            />
-          </Pressable>
-        )}
-        right={() => (
-          <Pressable
-            style={{ display: 'flex', justifyContent: 'space-evenly' }}
-            onPress={() => addDispositivoNaLista()}
-          >
-            {adicionando ? (
-              <ActivityIndicator
-                size="large"
-                color={`${
-                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                }`}
-              />
-            ) : (
-              <AntDesign
-                name={existe.length > 0 ? 'checkcircle' : 'checkcircleo'}
-                color={`${
-                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                }`}
+          }}
+          titleStyle={{
+            fontWeight: '700',
+            color: `${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`,
+          }}
+          descriptionStyle={{ color: '#fff' }}
+          left={() => (
+            <Pressable
+              style={{ display: 'flex', justifyContent: 'space-evenly' }}
+            >
+              <MaterialCommunityIcons
+                name={!pareado ? 'link-off' : 'bluetooth-connect'}
                 size={40}
+                color={
+                  !pareado
+                    ? '#aaa'
+                    : `${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`
+                }
               />
-            )}
-          </Pressable>
-        )}
-      />
-    </Content>
+            </Pressable>
+          )}
+          right={() => (
+            <View className="justify-center">
+              <TourGuideZone
+                zone={3}
+                shape="circle"
+                isTourGuide={index === 0}
+                tourKey={tourKey}
+                text={
+                  'Para remover o dispositivo do aparelho, basta clicar aqui.'
+                }
+                style={{
+                  justifyContent: 'center',
+                }}
+              >
+                <Pressable onPress={() => addDispositivoNaLista()}>
+                  {adicionando ? (
+                    <ActivityIndicator
+                      size="large"
+                      color={`${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`}
+                    />
+                  ) : (
+                    <AntDesign
+                      name={existe.length > 0 ? 'checkcircle' : 'checkcircleo'}
+                      color={`${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`}
+                      size={40}
+                    />
+                  )}
+                </Pressable>
+              </TourGuideZone>
+            </View>
+          )}
+        />
+      </Content>
+    </TourGuideZone>
   )
 }
+
 export default Dispositivos

@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react'
 import { Stack } from 'expo-router'
-import { Pressable, Text, ScrollView, RefreshControl } from 'react-native'
+import { Pressable, Text, ScrollView, RefreshControl, View } from 'react-native'
 import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
 import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { FetchListaDeEnvio } from '@/libs/dispositivos'
 import { Container } from '@/components/ui/Container'
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
 import { useColorScheme } from 'nativewind'
+import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
 type EnvioAutomaticoProps = {
   listaDeEnvio: {
     ID: string
@@ -27,6 +28,7 @@ export const EnvioAutomatico = () => {
     EnvioAutomaticoProps['listaDeEnvio']
   >([])
   const { colorScheme } = useColorScheme()
+  const { canStart, start, tourKey } = useTourGuideController('envioChecklist')
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useFocusEffect(
     useCallback(() => {
@@ -77,24 +79,59 @@ export const EnvioAutomatico = () => {
   if (listaDeEnvio?.length > 0 && strings?.length > 0) {
     return (
       <Container>
+        <TourGuideZone
+          zone={2}
+          tourKey={tourKey}
+          text={
+            'Icone para tentar novamente.\nPS: Clicando aqui, será enviado o arquivo previamente carregado para TODOS da lista.'
+          }
+          borderRadius={17}
+          style={{
+            position: 'absolute',
+            top: -40,
+            right: 52,
+            height: 30,
+            width: 30,
+          }}
+        />
         <Stack.Screen
           options={{
-            title: `Atualizando dispositivos`,
+            title: `Enviando Arquivo`,
             headerStyle: {
               backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
             },
             headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
             headerRight: () => (
-              <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
-                {({ pressed }) => (
-                  <MaterialIcons
-                    name="update"
-                    size={25}
-                    color={`${colorScheme === 'dark' ? '#fff' : '#293541'}`}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
+              <View style={{ flexDirection: 'row' }}>
+                <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
+                  {({ pressed }) => (
+                    <MaterialCommunityIcons
+                      name="update"
+                      size={25}
+                      color={`${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`}
+                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    if (canStart) {
+                      start()
+                    }
+                  }}
+                >
+                  {({ pressed }) => (
+                    <MaterialCommunityIcons
+                      name="help-circle-outline"
+                      color={'#ccc'}
+                      size={25}
+                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              </View>
             ),
           }}
         />
@@ -105,10 +142,12 @@ export const EnvioAutomatico = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          {listaDeEnvio.map((dispositivo) => {
+          {listaDeEnvio.map((dispositivo, index) => {
             return (
               <DispositivoEnv
                 devices={dispositivo}
+                index={index}
+                tourKey={tourKey}
                 contagemDeEnvio={contagemDeEnvio}
                 strings={strings}
                 filaDeEnvio={filaDeEnvio}
@@ -129,10 +168,12 @@ export const EnvioAutomatico = () => {
             headerRight: () => (
               <Pressable onPress={() => setAtualizarTudo(!atualizarTudo)}>
                 {({ pressed }) => (
-                  <MaterialIcons
+                  <MaterialCommunityIcons
                     name="update"
                     size={25}
-                    color={`${colorScheme === 'dark' ? '#293541' : '#ccc'}`}
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
