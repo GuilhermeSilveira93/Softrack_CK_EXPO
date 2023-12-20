@@ -125,7 +125,9 @@ export const EnvioAutomatico = () => {
                   {({ pressed }) => (
                     <MaterialCommunityIcons
                       name="help-circle-outline"
-                      color={'#ccc'}
+                      color={`${
+                        colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                      }`}
                       size={25}
                       style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                     />

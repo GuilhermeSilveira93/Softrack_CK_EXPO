@@ -6,7 +6,7 @@ import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispos
 import { List } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
-import { ChecklistEnviado } from '@/types/checklistsEnviados'
+import { ChecklistEnviado } from '@/@types/checklistsEnviados'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'

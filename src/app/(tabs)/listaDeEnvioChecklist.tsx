@@ -8,7 +8,7 @@ import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
 import { EscanearDispositivosProps } from '../(Escaneamento)'
-import { LocalDevicesProps } from '@/types/localDevicesProps'
+import { LocalDevicesProps } from '@/@types/localDevicesProps'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
@@ -115,7 +115,9 @@ export const ListaDeEnvioChecklist = () => {
                 {({ pressed }) => (
                   <MaterialCommunityIcons
                     name="help-circle-outline"
-                    color={'#ccc'}
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
                     size={25}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />

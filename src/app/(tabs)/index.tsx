@@ -44,7 +44,9 @@ export default function LocalFile() {
                 <MaterialIcons
                   name="help-circle-outline"
                   size={25}
-                  color={'#ccc'}
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                  }`}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -67,8 +69,8 @@ export default function LocalFile() {
               tooltipBottomOffset={20}
               style={{
                 position: 'absolute',
-                bottom: -55,
-                right: '42%',
+                bottom: '-9%',
+                right: '41.5%',
                 height: 55,
                 width: 65,
               }}

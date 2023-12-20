@@ -4,7 +4,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { ProgressBar, List } from 'react-native-paper'
 import { useDispositivoEnv } from '@/hooks/EnvioAutomatico/useDispositivoEnv'
-import { DispositivoEnvProps } from '@/types/dispositivoEnv'
+import { DispositivoEnvProps } from '@/@types/dispositivoEnv'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
@@ -38,9 +38,6 @@ export const DispositivoEnvTeste = ({
       <Content key={devices.ID}>
         <List.Item
           style={{
-            backgroundColor: `${
-              colorScheme === 'dark' ? '#293541' : 'rgb(222, 222, 222)'
-            }`,
             minHeight: 90,
             maxHeight: 90,
             minWidth: '100%',

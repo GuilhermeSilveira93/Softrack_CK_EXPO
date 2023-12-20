@@ -65,7 +65,9 @@ export const DispositivosSalvos = () => {
                   <MaterialCommunityIcons
                     name="help-circle-outline"
                     size={25}
-                    color={'#ccc'}
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
@@ -78,28 +80,21 @@ export const DispositivosSalvos = () => {
             zone={1}
             tourKey={tourKey}
             text={'Clique para escanear os dispositivos próximos.'}
-            borderRadius={5}
-            style={{
-              position: 'absolute',
-              bottom: '42%',
-              right: '20%',
-              height: 70,
-              width: '65%',
-            }}
-          />
-          <Link href={'/(Escaneamento)'} asChild>
-            <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
-              <MaterialCommunityIcons
-                name="forklift"
-                size={30}
-                color={`${
-                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#FFF'
-                }`}
-                style={{ marginRight: 10 }}
-              />
-              <Text className="text-white">Escanear Dispositivos</Text>
-            </Pressable>
-          </Link>
+          >
+            <Link href={'/(Escaneamento)'} asChild>
+              <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
+                <MaterialCommunityIcons
+                  name="forklift"
+                  size={30}
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#FFF'
+                  }`}
+                  style={{ marginRight: 10 }}
+                />
+                <Text className="text-white">Escanear Dispositivos</Text>
+              </Pressable>
+            </Link>
+          </TourGuideZone>
         </Container>
       </>
     )
@@ -124,7 +119,9 @@ export const DispositivosSalvos = () => {
                 <MaterialCommunityIcons
                   name="help-circle-outline"
                   size={25}
-                  color={`${colorScheme === 'dark' ? '#fff' : '#293541'}`}
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                  }`}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -138,11 +135,10 @@ export const DispositivosSalvos = () => {
         text={
           'Com dispositivos e arquivo adicionados no Aparelho\nvocê pode seguir para a tela de "Enviar.'
         }
-        borderRadius={25}
         style={{
           position: 'absolute',
-          bottom: -55,
-          right: 30,
+          bottom: '-9%',
+          right: '8%',
           height: 55,
           width: 65,
         }}
