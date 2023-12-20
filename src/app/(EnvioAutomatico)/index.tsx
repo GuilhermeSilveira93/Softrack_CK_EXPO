@@ -141,11 +141,13 @@ export const EnvioAutomatico = () => {
           }}
         />
         <Container>
-          <Text className="dark:text-dark-100 light:light-500">
+          <Text className="dark:text-dark-100">
             Para enviar o checklist, é necessario ter uma lista de dispositivos
             e um arquivo previamente carregado.
           </Text>
-          <Text>Navegue para as abas anteriores e faça o processo.</Text>
+          <Text className="dark:text-dark-100">
+            Navegue para as abas anteriores e faça o processo.
+          </Text>
         </Container>
       </>
     )

@@ -121,6 +121,13 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    applicationVariants.all {
+            variant -> variant.outputs.all {
+                  output -> 
+                  def dt = new Date().format('yyMMdd.HHmmss')
+                  output.outputFileName = new File("./","Softrack_CH.${dt}.apk")
+            }
+        }
 }
 
 // Apply static values from `gradle.properties` to the `android.packagingOptions`

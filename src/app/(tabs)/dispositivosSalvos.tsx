@@ -88,7 +88,7 @@ export const DispositivosSalvos = () => {
             }}
           />
           <Link href={'/(Escaneamento)'} asChild>
-            <Pressable className="dark:bg-dark-300 bg-dark-200 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100 shadow-dark-200">
+            <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
               <MaterialCommunityIcons
                 name="forklift"
                 size={30}
@@ -199,7 +199,7 @@ export const DispositivosSalvos = () => {
           />
           <View className="flex p-4 items-center w-full">
             <Link href={'/(Escaneamento)'} asChild>
-              <Pressable className="bg-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100 shadow-dark-200">
+              <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
                 <MaterialCommunityIcons
                   name="forklift"
                   size={30}

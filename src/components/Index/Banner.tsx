@@ -25,7 +25,7 @@ export const Banner = ({ text, deletarArquivo }: BannerProps) => {
         <Text className="w-56 dark:text-dark-100">{text}</Text>
       </View>
       <Pressable
-        className="bg-dark-500 p-2 max-w-[35%] rounded-md relative right-0"
+        className="bg-dark-500 p-2 max-w-[55%] rounded-md relative right-0"
         onPress={async () => {
           await deleteFile()
           deletarArquivo()

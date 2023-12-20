@@ -46,8 +46,8 @@ export const EscanearDispositivos = () => {
       await RNBluetoothClassic.startDiscovery()
         .then((res: BluetoothDevice[]) => {
           setDispositivos(
-            res,
-            /* res.filter((devices) => devices.name.includes('SFTK_BT')) */
+            /* res, */
+            res.filter((devices) => devices.name.includes('SFTK_BT')),
           )
         })
         .catch((err) => {
@@ -87,10 +87,10 @@ export const EscanearDispositivos = () => {
     return (
       <Container>
         <Pressable
-          className="dark:bg-dark-300 bg-dark-200 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100 shadow-dark-200"
+          className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100"
           onPress={() => startScan()}
         >
-          <Text className="dark:text-dark-100 text-white">Escanear</Text>
+          <Text className="text-white dark:text-dark-100">Escanear</Text>
         </Pressable>
       </Container>
     )
