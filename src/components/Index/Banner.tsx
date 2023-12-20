@@ -4,6 +4,7 @@ import { deleteFile } from '@/libs/arquivoCK'
 import { Avatar } from 'react-native-paper'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+import { P } from '../ui/P'
 type BannerProps = {
   text: string
   deletarArquivo: () => void
@@ -24,7 +25,7 @@ export const Banner = ({ text, deletarArquivo, tourKey }: BannerProps) => {
           }}
           icon="file"
         />
-        <Text className="w-56 dark:text-dark-100">{text}</Text>
+        <P className="w-56 dark:text-dark-100">{text}</P>
       </View>
       <TourGuideZone
         zone={2}
