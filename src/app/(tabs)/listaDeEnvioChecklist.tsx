@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import { useRouter, Link, Stack } from 'expo-router'
-import { Pressable, ScrollView, View, Text } from 'react-native'
+import { Pressable, ScrollView, View } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import { Divider } from 'react-native-paper'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
 import { Container } from '@/components/ui/Container'
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
+import { P, Button } from '@/components/ui'
 import { EscanearDispositivosProps } from '../(Escaneamento)'
 import { LocalDevicesProps } from '@/@types/localDevicesProps'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -149,14 +150,15 @@ export const ListaDeEnvioChecklist = () => {
           )
         })}
       </ScrollView>
-      <View className="flex p-4 items-center w-full absolute bottom-0">
-        <Divider
-          style={{
-            width: '100%',
-            height: 2,
-            backgroundColor: 'rgb(200,200,200)',
-          }}
-        />
+      <Divider
+        style={{
+          width: '100%',
+          height: 5,
+          backgroundColor: 'rgb(200,200,200)',
+          marginVertical: 10,
+        }}
+      />
+      <View className="flex p-3 items-center w-full">
         <TourGuideZone
           zone={3}
           tourKey={tourKey}
@@ -165,7 +167,7 @@ export const ListaDeEnvioChecklist = () => {
           }
         >
           <Link href={'/(EnvioAutomatico)'} asChild>
-            <Pressable className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100">
+            <Button variant="normal">
               <MaterialCommunityIcons
                 name="file-send"
                 size={30}
@@ -174,10 +176,8 @@ export const ListaDeEnvioChecklist = () => {
                 }`}
                 style={{ marginRight: 10 }}
               />
-              <Text className="text-white">
-                Enviar para Dispositivos Selecionados
-              </Text>
-            </Pressable>
+              <P variant="button">Enviar para Dispositivos Selecionados</P>
+            </Button>
           </Link>
         </TourGuideZone>
       </View>

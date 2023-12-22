@@ -12,11 +12,11 @@ import {
   Pressable,
   RefreshControl,
   ScrollView,
-  Text,
   View,
 } from 'react-native'
 import { fetchDevices } from '@/libs/dispositivos'
 import Dispositivos from '@/components/Escaneamento/Dispositivos'
+import { P, Button } from '@/components/ui'
 export type EscanearDispositivosProps = {
   localDevices: {
     ID: string
@@ -120,12 +120,9 @@ export const EscanearDispositivos = () => {
             tourKey={tourKey}
             text={'Caso não esteja vendo dispositivos, escaneie novamente.'}
           >
-            <Pressable
-              className="bg-dark-200 shadow-dark-200 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl dark:shadow-dark-100"
-              onPress={() => startScan()}
-            >
-              <Text className="text-white dark:text-dark-100">Escanear</Text>
-            </Pressable>
+            <Button variant="normal" onPress={() => startScan()}>
+              <P variant="button">Escanerar</P>
+            </Button>
           </TourGuideZone>
         </Container>
       </>
@@ -181,19 +178,19 @@ export const EscanearDispositivos = () => {
           })}
           {dispositivos.length > 0 && (
             <View className="flex p-4 items-center w-full">
-              <Pressable
-                className="bg-dark-200 shadow-dark-200 dark:shadow-dark-100 dark:bg-dark-300 p-4 rounded-2xl flex flex-row items-center shadow-xl"
+              <Button
+                variant="delete"
                 disabled={scanning}
                 onPress={() => setDispositivos([])}
               >
                 <MaterialCommunityIcons
                   name="trash-can"
                   size={30}
-                  color={`${colorScheme === 'dark' ? '#f00' : '#fff'}`}
+                  color={'#fff'}
                   style={{ marginRight: 10 }}
                 />
-                <Text className="text-white">Limpar Lista</Text>
-              </Pressable>
+                <P variant="button">Limpar Lista</P>
+              </Button>
             </View>
           )}
         </ScrollView>

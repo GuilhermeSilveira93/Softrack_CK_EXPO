@@ -80,7 +80,7 @@ export default function LocalFile() {
               text={`${nomeArquivo.substring(
                 0,
                 nomeArquivo.length - 4,
-              )} Carregado`}
+              )} Carregado.`}
               deletarArquivo={deletarArquivo}
             />
           </>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Pressable, ActivityIndicator, Text, View } from 'react-native'
+import { Pressable, ActivityIndicator, View } from 'react-native'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { List } from 'react-native-paper'
 import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
@@ -10,6 +10,7 @@ import { stringData } from '@/libs/dispositivos'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+import { P } from '../ui'
 type DispositivosProps = {
   ID: string
   name: string
@@ -92,7 +93,7 @@ const Dispositivos = ({
       shape="rectangle"
       isTourGuide={index === 0}
       text={
-        'Os dispositivos salvos, são exibidos nesta tela\nNa tela "Enviar", você poderá\nselecionar os dispositivos que deseja\natualizar.'
+        'Os dispositivos salvos, são exibidos nesta tela\nNa tela "Enviar", você poderá\nselecionar os dispositivos que deseja atualizar.'
       }
     >
       <Content key={ID}>
@@ -108,17 +109,23 @@ const Dispositivos = ({
             if (!dataFormatada) {
               return (
                 <>
-                  <Text className="dark:text-white">{subtitle}</Text>
+                  <P variant="normal" className="dark:text-white">
+                    {subtitle}
+                  </P>
                 </>
               )
             }
             return (
               <>
-                <Text className="dark:text-white">
+                <P variant="normal" className="dark:text-white">
                   Ultimo Envio Deste Dispositivo:{' '}
-                </Text>
-                <Text className="dark:text-white">{dataFormatada}</Text>
-                <Text className="dark:text-white">{subtitle}</Text>
+                </P>
+                <P variant="normal" className="dark:text-white">
+                  {dataFormatada}
+                </P>
+                <P variant="normal" className="dark:text-white">
+                  {subtitle}
+                </P>
               </>
             )
           }}

@@ -58,3 +58,25 @@ keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg
 
 8 - O AAB se encontrará na pasta
 ...\android\app\build\outputs\bundle\release
+
+
+----------------------
+Samsung:
+In your project, open the file node_modules/@expo/cli/build/src/start/platforms/android/adb.js, and replace the function adbArgs with this:
+
+function adbArgs(pid, ...options) {
+    const args = [];
+    if (pid) {
+        args.push("-s", pid);
+    }
+
+    // Add the --user param whenever Expo tries to call `adb shell pm list packages`
+    options = options.map(option => {
+        if (option === "packages") {
+            return "packages --user 0";
+        }
+        return option;
+    });
+
+    return args.concat(options);
+}

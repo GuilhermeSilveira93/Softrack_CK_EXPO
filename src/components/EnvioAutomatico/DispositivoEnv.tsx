@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Pressable, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { ProgressBar, List } from 'react-native-paper'
@@ -8,6 +8,7 @@ import { DispositivoEnvProps } from '@/@types/dispositivoEnv'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+import { P } from '../ui'
 export const DispositivoEnvTeste = ({
   devices,
   strings,
@@ -57,10 +58,12 @@ export const DispositivoEnvTeste = ({
                   alignItems: 'flex-start',
                 }}
               >
-                <Text className="flex-[2] dark:text-white">
+                <P variant="normal" className="flex-[2] dark:text-white">
                   {Math.floor((progressBar * 100) / strings.length)}%
-                </Text>
-                <Text className="flex-1 dark:text-white">Status: {status}</Text>
+                </P>
+                <P variant="normal" className="flex-1 dark:text-white">
+                  Status: {status}
+                </P>
               </View>
               {progressBar > 0 && progressBar < strings.length && (
                 <TourGuideZone

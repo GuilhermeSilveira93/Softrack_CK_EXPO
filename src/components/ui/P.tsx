@@ -1,13 +1,31 @@
-import { NativeMethods, Text, TextComponent } from 'react-native'
-import { Constructor } from 'react-native/types/private/Utilities'
-type PProps = {
-  children: React.ReactNode
-  props: Constructor<NativeMethods> & typeof TextComponent
+import { Text, TextProps } from 'react-native'
+import { styled } from 'nativewind'
+type MeuParagrafoProps = TextProps & {
+  variant: 'normal' | 'button'
 }
-export const P = ({ children, ...props }: PProps) => {
+export const Paragrafo = ({ children, ...props }: MeuParagrafoProps) => {
+  switch (props.variant) {
+    case 'button':
+      return <MeuParagrafoBotoes {...props}>{children}</MeuParagrafoBotoes>
+    case 'normal':
+      return <MeuParagrafo {...props}>{children}</MeuParagrafo>
+    default:
+      break
+  }
+}
+const MeuParagrafo = ({ children, ...props }: MeuParagrafoProps) => {
   return (
-    <Text className="sm:text-sm" {...props}>
+    <Text className="text-left dark:text-dark-100" {...props}>
       {children}
     </Text>
   )
 }
+const MeuParagrafoBotoes = ({ children, ...props }: MeuParagrafoProps) => {
+  return (
+    <Text className="text-white dark:text-white text-center" {...props}>
+      {children}
+    </Text>
+  )
+}
+const P = styled(Paragrafo)
+export { P }

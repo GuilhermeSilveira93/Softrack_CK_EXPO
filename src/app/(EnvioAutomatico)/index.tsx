@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { Stack } from 'expo-router'
-import { Pressable, Text, ScrollView, RefreshControl, View } from 'react-native'
+import { Pressable, ScrollView, RefreshControl, View } from 'react-native'
+import { P } from '@/components/ui'
 import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
 import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { FetchListaDeEnvio } from '@/libs/dispositivos'
@@ -184,13 +185,11 @@ export const EnvioAutomatico = () => {
           }}
         />
         <Container>
-          <Text className="dark:text-dark-100">
+          <P>
             Para enviar o checklist, é necessario ter uma lista de dispositivos
             e um arquivo previamente carregado.
-          </Text>
-          <Text className="dark:text-dark-100">
-            Navegue para as abas anteriores e faça o processo.
-          </Text>
+          </P>
+          <P>Navegue para as abas anteriores e faça o processo.</P>
         </Container>
       </>
     )

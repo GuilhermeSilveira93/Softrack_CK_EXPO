@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { List } from 'react-native-paper'
@@ -9,6 +9,7 @@ import { stringData } from '@/libs/dispositivos'
 import { Content } from '../ui/Content'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+import { P } from '../ui'
 
 type DispositivosProps = {
   ID: string
@@ -58,17 +59,23 @@ const Dispositivos = ({
           if (!dataFormatada) {
             return (
               <>
-                <Text className="dark:text-white">{subtitle}</Text>
+                <P variant="normal" className="dark:text-white">
+                  {subtitle}
+                </P>
               </>
             )
           }
           return (
             <>
-              <Text className="dark:text-white">
+              <P variant="normal" className="dark:text-white">
                 Ultimo Envio Deste Dispositivo:{' '}
-              </Text>
-              <Text className="dark:text-white">{dataFormatada}</Text>
-              <Text className="dark:text-white">{subtitle}</Text>
+              </P>
+              <P variant="normal" className="dark:text-white">
+                {dataFormatada}
+              </P>
+              <P variant="normal" className="dark:text-white">
+                {subtitle}
+              </P>
             </>
           )
         }}

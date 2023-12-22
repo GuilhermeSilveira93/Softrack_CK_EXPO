@@ -111,7 +111,7 @@ const Dispositivos = ({
       isTourGuide={index === 0}
       tourKey={tourKey}
       text={
-        'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique em qualquer região do dispositivo desejado para Parear.'
+        'Para adicionar um dispositivo, é necessário Parear, caso isso nunca tenha sido feito.\nClique no dispositivo desejado para Parear.'
       }
     >
       <TourGuideZone
@@ -119,7 +119,7 @@ const Dispositivos = ({
         isTourGuide={index === 0}
         tourKey={tourKey}
         text={
-          'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique em qualquer lugar para alterná-lo para adicionar à lista de Dispositivos.'
+          'Caso já esteja Pareado, um "Switch" irá aparecer no lado direito.\nClique para adicionar/retirar da lista de Dispositivos.'
         }
       >
         <Content key={ID}>
