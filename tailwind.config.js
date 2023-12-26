@@ -5,6 +5,9 @@ module.exports = {
       fontFamily: {
         example: ['ExampleFontFamily'],
       },
+      animation: {
+        wiggle: 'wiggle 1s ease-in-out infinite',
+      },
       colors: {
         dark: {
           100: 'rgb(0, 255, 159)',
