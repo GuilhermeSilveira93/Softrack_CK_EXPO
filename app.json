@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Softrack_CK",
-    "slug": "Softrack_CK",
-    "scheme": "softrack-ck",
+    "name": "Atualizador Checklist",
+    "slug": "AtualizadorChecklist",
+    "scheme": "softrackch",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,7 +31,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.BLUETOOTH_ADVERTISE"
       ],
-      "package": "com.anonymous.softrack"
+      "package": "br.com.softrack.atualizadorchecklist"
     },
     "web": {
       "favicon": "./assets/favicon.png",

@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.softrack'
+    namespace 'br.com.softrack.atualizadorchecklist'
     defaultConfig {
-        applicationId 'com.anonymous.softrack'
+        applicationId 'br.com.softrack.atualizadorchecklist'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -124,7 +124,7 @@ android {
             variant -> variant.outputs.all {
                   output -> 
                   def dt = new Date().format('yyMMdd.HHmmss')
-                  output.outputFileName = new File("./","Softrack_CH.${dt}.apk")
+                  output.outputFileName = new File("./","AtualizadorChecklist.${dt}.apk")
             }
         }
 }
