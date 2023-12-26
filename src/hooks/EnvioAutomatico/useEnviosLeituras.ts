@@ -3,7 +3,7 @@ import {
   enviar,
   validaResposta,
 } from '@/libs/envioAutomatico'
-import { enviosLeiturasProps } from '@/@types/enviosLeituras'
+import { enviosLeiturasProps } from '@/types/enviosLeituras'
 import { useCallback } from 'react'
 
 export const useEnviosLeituras = ({

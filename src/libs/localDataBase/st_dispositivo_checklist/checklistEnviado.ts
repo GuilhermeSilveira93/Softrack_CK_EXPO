@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { ChecklistEnviado } from '@/@types/checklistsEnviados'
+import { ChecklistEnviado } from '@/types/checklistsEnviados'
 export const checklistEnviado = async (
   name: string,
   id: string,
