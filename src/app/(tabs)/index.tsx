@@ -1,29 +1,99 @@
-import React, { useState, useCallback, Suspense } from 'react'
-import { Pressable, ActivityIndicator } from 'react-native'
-import { useColorScheme } from 'nativewind'
+import { useFocusEffect, Link, Stack } from 'expo-router'
+import React, { useState, useCallback } from 'react'
+import { ScrollView, ActivityIndicator, Pressable, View } from 'react-native'
+import { fetchDevices } from '@/libs/dispositivos'
 import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
-import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
-import { carregarArquivo } from '@/libs/arquivoCK'
-import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import { Avatar } from 'react-native-paper'
-import { useFocusEffect, Stack } from 'expo-router'
+import { useColorScheme } from 'nativewind'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { Divider } from 'react-native-paper'
 import { Container } from '@/components/ui/Container'
-import { Banner } from '@/components/Index/Banner'
-export default function LocalFile() {
-  const [nomeArquivo, setNomeArquivo] = useState<string>('')
+import Dispositivos from '@/components/DispositivosSalvos/Dispositivos'
+import { EscanearDispositivosProps } from '../(Escaneamento)'
+import { Button, P } from '@/components/ui'
+export const DispositivosSalvos = () => {
   const { colorScheme } = useColorScheme()
-  const { canStart, start, tourKey } = useTourGuideController('arquivo')
+  const [localDevices, setLocalDevices] =
+    useState<EscanearDispositivosProps['localDevices']>()
+  const [loadingDevices, setLoadingDevices] = useState<boolean>(true)
+  const { canStart, start, tourKey } = useTourGuideController('dispositivos')
   useFocusEffect(
     useCallback(() => {
-      Promise.all([
-        fetchNomeArquivo().then((res: string) => setNomeArquivo(res)),
-      ])
+      fetchDevices().then((res) => {
+        setLocalDevices(res)
+        setLoadingDevices(false)
+      })
     }, []),
   )
-  const deletarArquivo = () => {
-    setNomeArquivo('')
+  const attLocalDevices = async (
+    novosDispositivos: EscanearDispositivosProps['localDevices'],
+  ) => {
+    setLocalDevices(novosDispositivos)
   }
-
+  if (loadingDevices) {
+    return (
+      <Container>
+        <ActivityIndicator
+          size="large"
+          color={`${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'}`}
+        />
+      </Container>
+    )
+  }
+  if (!localDevices || localDevices?.length === 0) {
+    return (
+      <>
+        <Stack.Screen
+          options={{
+            headerStyle: {
+              backgroundColor: `${colorScheme === 'dark' ? '#293541' : '#fff'}`,
+            },
+            headerTintColor: `${colorScheme === 'dark' ? '#fff' : '#293541'}`,
+            headerRight: () => (
+              <Pressable
+                onPress={() => {
+                  if (canStart) {
+                    start()
+                  }
+                }}
+              >
+                {({ pressed }) => (
+                  <MaterialCommunityIcons
+                    name="help-circle-outline"
+                    size={25}
+                    color={`${
+                      colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
+                    }`}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            ),
+          }}
+        />
+        <Container>
+          <TourGuideZone
+            zone={1}
+            tourKey={tourKey}
+            text={'Clique para escanear os dispositivos próximos.'}
+          >
+            <Link href={'/(Escaneamento)'} asChild>
+              <Button variant="normal">
+                <MaterialCommunityIcons
+                  name="forklift"
+                  size={30}
+                  color={`${
+                    colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#FFF'
+                  }`}
+                  style={{ marginRight: 10 }}
+                />
+                <P variant="button">Escanear Dispositivos</P>
+              </Button>
+            </Link>
+          </TourGuideZone>
+        </Container>
+      </>
+    )
+  }
   return (
     <>
       <Stack.Screen
@@ -41,7 +111,7 @@ export default function LocalFile() {
               }}
             >
               {({ pressed }) => (
-                <MaterialIcons
+                <MaterialCommunityIcons
                   name="help-circle-outline"
                   size={25}
                   color={`${
@@ -54,70 +124,61 @@ export default function LocalFile() {
           ),
         }}
       />
-      <Suspense
-        fallback={<ActivityIndicator size="large" color="rgb(0, 255, 159)" />}
-      >
-        {nomeArquivo.length > 0 && (
-          <>
-            <TourGuideZone
-              zone={3}
-              tourKey={tourKey}
-              text={
-                'Navegue até "Dispositivos" para escanear\ne adicionar na lista.'
-              }
-              borderRadius={5}
-              tooltipBottomOffset={20}
-              style={{
-                position: 'absolute',
-                bottom: '-9%',
-                right: '41.5%',
-                height: 55,
-                width: 65,
-              }}
-            />
-            <Banner
-              tourKey={tourKey}
-              text={`${nomeArquivo.substring(
-                0,
-                nomeArquivo.length - 4,
-              )} Carregado.`}
-              deletarArquivo={deletarArquivo}
-            />
-          </>
-        )}
-      </Suspense>
-
+      <TourGuideZone
+        zone={4}
+        tourKey={tourKey}
+        text={
+          'Com dispositivos e arquivo adicionados no Aparelho\nvocê pode seguir para a tela de "Enviar.'
+        }
+        style={{
+          position: 'absolute',
+          bottom: '-9%',
+          right: '8%',
+          height: 55,
+          width: 65,
+        }}
+      />
       <Container>
-        <TourGuideZone
-          zone={1}
-          tourKey={tourKey}
-          text={'Para carregar o arquivo, clique aqui.'}
-          shape="circle"
-        >
-          <Pressable
-            onPress={async () => {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              await carregarArquivo().then((res) => setNomeArquivo(res!))
-            }}
-          >
-            <Avatar.Icon
-              size={80}
-              color={`${colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#fff'}`}
-              style={{
-                shadowColor: `${
-                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#465DFF'
-                }`,
-                shadowOpacity: 1,
-                elevation: 10,
-                backgroundColor: `${
-                  colorScheme === 'dark' ? '#293541' : '#465DFF'
-                }`,
-              }}
-              icon="folder"
-            />
-          </Pressable>
-        </TourGuideZone>
+        <ScrollView fadingEdgeLength={1}>
+          {localDevices?.map((devices, index) => {
+            return (
+              <Dispositivos
+                tourKey={tourKey}
+                index={index}
+                name={devices.name}
+                ID={devices.ID}
+                dispositivosSalvos={localDevices}
+                key={devices.ID}
+                attLocalDevices={attLocalDevices}
+              />
+            )
+          })}
+        </ScrollView>
+        <Divider
+          style={{
+            width: '100%',
+            height: 5,
+            backgroundColor: 'rgb(200,200,200)',
+            marginVertical: 10,
+          }}
+        />
+        <View className="flex p-3 items-center w-full">
+          <Link href={'/(Escaneamento)'} asChild>
+            <Button variant="normal">
+              <MaterialCommunityIcons
+                name="forklift"
+                size={30}
+                color={`${
+                  colorScheme === 'dark' ? 'rgb(0, 255, 159)' : '#FFF'
+                }`}
+                style={{ marginRight: 10 }}
+              />
+              <P variant="button">Escanear Dispositivos</P>
+            </Button>
+          </Link>
+        </View>
       </Container>
     </>
   )
 }
+export default DispositivosSalvos

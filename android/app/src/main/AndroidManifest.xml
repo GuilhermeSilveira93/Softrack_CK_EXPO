@@ -31,7 +31,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="Atualizador Checklist"/>
+        <data android:scheme="softrackch"/>
         <data android:scheme="br.com.softrack.atualizadorchecklist"/>
         <data android:scheme="exp+atualizadorchecklist"/>
       </intent-filter>
