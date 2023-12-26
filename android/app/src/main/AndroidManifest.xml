@@ -32,8 +32,8 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="softrackch"/>
-        <data android:scheme="br.com.softrack.atualizadorchecklist"/>
-        <data android:scheme="exp+atualizadorchecklist"/>
+        <data android:scheme="br.com.softrack.atualizadorsoftrack"/>
+        <data android:scheme="exp+atualizadorsoftrack"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

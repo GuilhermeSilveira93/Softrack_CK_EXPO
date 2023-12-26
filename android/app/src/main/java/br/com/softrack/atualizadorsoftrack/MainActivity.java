@@ -1,4 +1,4 @@
-package br.com.softrack.atualizadorchecklist;
+package br.com.softrack.atualizadorsoftrack;
 
 import android.os.Build;
 import android.os.Bundle;

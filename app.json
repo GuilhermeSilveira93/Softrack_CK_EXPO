@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Atualizador Checklist",
-    "slug": "AtualizadorChecklist",
+    "name": "Atualizador Softrack",
+    "slug": "AtualizadorSoftrack",
     "scheme": "softrackch",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -31,7 +31,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.BLUETOOTH_ADVERTISE"
       ],
-      "package": "br.com.softrack.atualizadorchecklist"
+      "package": "br.com.softrack.atualizadorsoftrack"
     },
     "web": {
       "favicon": "./assets/favicon.png",

@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'br.com.softrack.atualizadorchecklist'
+    namespace 'br.com.softrack.atualizadorsoftrack'
     defaultConfig {
-        applicationId 'br.com.softrack.atualizadorchecklist'
+        applicationId 'br.com.softrack.atualizadorsoftrack'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
