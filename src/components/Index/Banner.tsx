@@ -1,10 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
-import { deleteFile } from '@/libs/arquivoCK'
 import { Avatar } from 'react-native-paper'
+
+import { Button, P } from '@/components/ui'
+
+import { deleteFile } from '@/libs/arquivoCK'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
-import { Button, P } from '@/components/ui'
+
 type BannerProps = {
   text: string
   deletarArquivo: () => void

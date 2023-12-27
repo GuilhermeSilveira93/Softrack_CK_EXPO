@@ -1,14 +1,19 @@
 import React, { useState, useCallback, Suspense } from 'react'
 import { Pressable, ActivityIndicator } from 'react-native'
+import { Avatar } from 'react-native-paper'
+
+import { Banner } from '@/components/Index/Banner'
+import { Container } from '@/components/ui/Container'
+
+import { carregarArquivo } from '@/libs/arquivoCK'
+import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
+import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useFocusEffect, Stack } from 'expo-router'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
-import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
-import { carregarArquivo } from '@/libs/arquivoCK'
-import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import { Avatar } from 'react-native-paper'
-import { useFocusEffect, Stack } from 'expo-router'
-import { Container } from '@/components/ui/Container'
-import { Banner } from '@/components/Index/Banner'
+
+
+
 export default function LocalFile() {
   const [nomeArquivo, setNomeArquivo] = useState<string>('')
   const { colorScheme } = useColorScheme()

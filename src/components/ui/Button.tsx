@@ -1,4 +1,5 @@
 import { TouchableOpacityProps, TouchableOpacity } from 'react-native'
+
 import { styled } from 'nativewind'
 type MyButtonProps = TouchableOpacityProps & {
   variant: 'normal' | 'delete'

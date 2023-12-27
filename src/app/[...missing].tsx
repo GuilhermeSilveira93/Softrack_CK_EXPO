@@ -1,5 +1,6 @@
-import { Link, Stack } from 'expo-router'
 import { StyleSheet, View, Text } from 'react-native'
+
+import { Link, Stack } from 'expo-router'
 
 export default function TelaNaoEncontrada() {
   return (

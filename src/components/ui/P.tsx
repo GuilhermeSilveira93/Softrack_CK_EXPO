@@ -1,4 +1,5 @@
 import { Text, TextProps } from 'react-native'
+
 import { styled } from 'nativewind'
 type MeuParagrafoProps = TextProps & {
   variant: 'normal' | 'button'

@@ -1,13 +1,15 @@
+import { useEffect } from 'react'
+import RNBluetoothClassic from 'react-native-bluetooth-classic'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+
+import { requestAccessFineLocationPermission } from '@/libs/bluetooth'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
-import { TourGuideProvider } from 'rn-tourguide'
-import { useColorScheme } from 'nativewind'
 import { SplashScreen, Stack } from 'expo-router'
-import { requestAccessFineLocationPermission } from '@/libs/bluetooth'
-import RNBluetoothClassic from 'react-native-bluetooth-classic'
-import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useColorScheme } from 'nativewind'
+import { TourGuideProvider } from 'rn-tourguide'
+
 
 // eslint-disable-next-line camelcase
 export const unstable_settings = {

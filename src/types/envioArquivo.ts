@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { LocalDevicesProps } from './localDevicesProps'
 export type envioArquivoProps = {
   strings: string[]

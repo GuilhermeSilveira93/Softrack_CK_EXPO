@@ -1,8 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import DocumentPicker, {
   DocumentPickerResponse,
 } from 'react-native-document-picker'
 import { readFile } from 'react-native-fs'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 export const carregarArquivo = async () => {
   try {
     await AsyncStorage.removeItem('FileName')

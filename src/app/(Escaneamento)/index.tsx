@@ -1,12 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Container } from '@/components/ui/Container'
-import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useColorScheme } from 'nativewind'
-import { Stack } from 'expo-router'
-import RNBluetoothClassic, {
-  BluetoothDevice,
-} from 'react-native-bluetooth-classic'
 import {
   ActivityIndicator,
   Pressable,
@@ -14,9 +6,19 @@ import {
   ScrollView,
   View,
 } from 'react-native'
-import { fetchDevices } from '@/libs/dispositivos'
+import RNBluetoothClassic, {
+  BluetoothDevice,
+} from 'react-native-bluetooth-classic'
+
 import Dispositivos from '@/components/Escaneamento/Dispositivos'
 import { P, Button } from '@/components/ui'
+import { Container } from '@/components/ui/Container'
+
+import { fetchDevices } from '@/libs/dispositivos'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Stack } from 'expo-router'
+import { useColorScheme } from 'nativewind'
+import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
 export type EscanearDispositivosProps = {
   localDevices: {
     ID: string

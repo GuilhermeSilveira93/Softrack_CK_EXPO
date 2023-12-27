@@ -1,15 +1,18 @@
-import { useFocusEffect, Link, Stack } from 'expo-router'
 import React, { useState, useCallback } from 'react'
 import { ScrollView, ActivityIndicator, Pressable, View } from 'react-native'
-import { fetchDevices } from '@/libs/dispositivos'
-import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
-import { useColorScheme } from 'nativewind'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { Divider } from 'react-native-paper'
-import { Container } from '@/components/ui/Container'
+
 import Dispositivos from '@/components/DispositivosSalvos/Dispositivos'
-import { EscanearDispositivosProps } from '../(Escaneamento)'
 import { Button, P } from '@/components/ui'
+import { Container } from '@/components/ui/Container'
+
+import { fetchDevices } from '@/libs/dispositivos'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useFocusEffect, Link, Stack } from 'expo-router'
+import { useColorScheme } from 'nativewind'
+import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
+
+import { EscanearDispositivosProps } from '../(Escaneamento)'
 export const DispositivosSalvos = () => {
   const { colorScheme } = useColorScheme()
   const [localDevices, setLocalDevices] =

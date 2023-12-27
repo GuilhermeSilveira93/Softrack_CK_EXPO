@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import RNBluetoothClassic from 'react-native-bluetooth-classic'
+
 import { DispositivoEnvProps } from '@/types/dispositivoEnv'
+
 import { useEnvioArquivo } from './useEnvioArquivo'
 import { useEnviosLeituras } from './useEnviosLeituras'
 export const useDispositivoEnv = ({

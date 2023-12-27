@@ -1,10 +1,11 @@
+import { useCallback } from 'react'
+
 import {
   solicitarConexao,
   enviar,
   validaResposta,
 } from '@/libs/envioAutomatico'
 import { enviosLeiturasProps } from '@/types/enviosLeituras'
-import { useCallback } from 'react'
 
 export const useEnviosLeituras = ({
   setStatus,

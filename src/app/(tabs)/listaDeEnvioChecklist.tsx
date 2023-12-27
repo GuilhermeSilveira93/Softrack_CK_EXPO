@@ -1,17 +1,20 @@
 import React, { useState, useCallback } from 'react'
-import { useRouter, Link, Stack, useFocusEffect } from 'expo-router'
 import { Pressable, ScrollView, View } from 'react-native'
-import { fetchDevices } from '@/libs/dispositivos'
 import { Divider } from 'react-native-paper'
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
-import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
+
 import Dispositivos from '@/components/ListaDeEnvioChecklist/Dispositivos'
 import { P, Button, Container } from '@/components/ui'
-import { EscanearDispositivosProps } from '../(Escaneamento)'
-import { LocalDevicesProps } from '@/types/localDevicesProps'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import { fetchDevices } from '@/libs/dispositivos'
 import { fetchNomeArquivo } from '@/libs/localDataBase/st_checklist'
+import { LocalDevicesProps } from '@/types/localDevicesProps'
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useRouter, Link, Stack, useFocusEffect } from 'expo-router'
 import { useColorScheme } from 'nativewind'
+import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
+
+import { EscanearDispositivosProps } from '../(Escaneamento)'
 export const ListaDeEnvioChecklist = () => {
   const { colorScheme } = useColorScheme()
   const router = useRouter()

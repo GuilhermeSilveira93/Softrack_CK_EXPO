@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, ActivityIndicator, View } from 'react-native'
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { List } from 'react-native-paper'
-import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
-import { ChecklistEnviado } from '@/types/checklistsEnviados'
+
 import { stringData } from '@/libs/dispositivos'
-import { Content } from '../ui/Content'
+import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
+import { dispositivosPareados } from '@/libs/localDataBase/st_dispositivo/dispositivosPareados'
+import { ChecklistEnviado } from '@/types/checklistsEnviados'
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+
 import { P } from '../ui'
+import { Content } from '../ui/Content'
 type DispositivosProps = {
   ID: string
   name: string

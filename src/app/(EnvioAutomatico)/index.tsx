@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from 'react'
-import { Stack } from 'expo-router'
 import { Pressable, ScrollView, RefreshControl, View } from 'react-native'
-import { P } from '@/components/ui'
+
 import DispositivoEnv from '@/components/EnvioAutomatico/DispositivoEnv'
-import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
-import { FetchListaDeEnvio } from '@/libs/dispositivos'
+import { P } from '@/components/ui'
 import { Container } from '@/components/ui/Container'
+
+import { FetchListaDeEnvio } from '@/libs/dispositivos'
+import { fetchArquivo } from '@/libs/localDataBase/st_checklist'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Stack } from 'expo-router'
 import { useFocusEffect } from 'expo-router/src/useFocusEffect'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone, useTourGuideController } from 'rn-tourguide'

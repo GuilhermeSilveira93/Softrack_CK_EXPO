@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import RNBluetoothClassic from 'react-native-bluetooth-classic'
+
 import { enviar, ler, validaGravado } from '@/libs/envioAutomatico'
 import { checklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
 import { envioArquivoProps } from '@/types/envioArquivo'

@@ -1,14 +1,16 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { ProgressBar, List } from 'react-native-paper'
+
 import { useDispositivoEnv } from '@/hooks/EnvioAutomatico/useDispositivoEnv'
 import { DispositivoEnvProps } from '@/types/dispositivoEnv'
-import { Content } from '../ui/Content'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+
 import { P } from '../ui'
+import { Content } from '../ui/Content'
 export const DispositivoEnvTeste = ({
   devices,
   strings,

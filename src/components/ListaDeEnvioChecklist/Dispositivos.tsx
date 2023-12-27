@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Pressable, View } from 'react-native'
-import AntDesign from '@expo/vector-icons/AntDesign'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { List } from 'react-native-paper'
+
+import { stringData } from '@/libs/dispositivos'
 import { fetchChecklistEnviado } from '@/libs/localDataBase/st_dispositivo_checklist'
 import { ChecklistEnviado } from '@/types/checklistsEnviados'
-import { stringData } from '@/libs/dispositivos'
-import { Content } from '../ui/Content'
+import AntDesign from '@expo/vector-icons/AntDesign'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useColorScheme } from 'nativewind'
 import { TourGuideZone } from 'rn-tourguide'
+
 import { P } from '../ui'
+import { Content } from '../ui/Content'
 
 type DispositivosProps = {
   ID: string
